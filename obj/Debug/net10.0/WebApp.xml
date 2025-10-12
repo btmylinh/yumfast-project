@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApp</name>
+    </assembly>
+    <members>
+        <member name="M:WebApp.Controllers.BannersController.GetBanners(System.String,System.Nullable{System.Int32},System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Get all banners with optional search, filter, pagination and sorting
+            </summary>
+            <param name="search">Search term for banner name or link</param>
+            <param name="status">Filter by status (1=active, 0=inactive)</param>
+            <param name="page">Page number for pagination</param>
+            <param name="pageSize">Number of items per page</param>
+            <param name="sortBy">Field to sort by (name, status, createdAt)</param>
+            <param name="sortDirection">Sort direction (asc, desc)</param>
+            <returns>Paginated list of banners</returns>
+        </member>
+        <member name="M:WebApp.Controllers.BannersController.GetBanner(System.Int64)">
+            <summary>
+            Get a specific banner by ID
+            </summary>
+            <param name="id">Banner ID</param>
+            <returns>Banner details</returns>
+        </member>
+        <member name="M:WebApp.Controllers.BannersController.CreateBanner(WebApp.Models.BannerCreateRequest)">
+            <summary>
+            Create a new banner
+            </summary>
+            <param name="request">Banner creation data</param>
+            <returns>Created banner</returns>
+        </member>
+        <member name="M:WebApp.Controllers.BannersController.UpdateBanner(System.Int64,WebApp.Models.BannerUpdateRequest)">
+            <summary>
+            Update an existing banner
+            </summary>
+            <param name="id">Banner ID</param>
+            <param name="request">Banner update data</param>
+            <returns>Updated banner</returns>
+        </member>
+        <member name="M:WebApp.Controllers.BannersController.DeleteBanner(System.Int64)">
+            <summary>
+            Delete a banner
+            </summary>
+            <param name="id">Banner ID</param>
+            <returns>Success message</returns>
+        </member>
+        <member name="M:WebApp.Controllers.BannersController.ToggleBannerStatus(System.Int64)">
+            <summary>
+            Toggle banner status (active/inactive)
+            </summary>
+            <param name="id">Banner ID</param>
+            <returns>Updated banner with new status</returns>
+        </member>
+        <member name="T:WebApp.Migrations.AddBannerTableFixed">
+            <inheritdoc />
+        </member>
+        <member name="M:WebApp.Migrations.AddBannerTableFixed.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebApp.Migrations.AddBannerTableFixed.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebApp.Migrations.AddBannerTableFixed.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebApp.Models.BannerListResponse">
+            <summary>
+            Response model for paginated banner list
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.BannerListResponse.Data">
+            <summary>
+            List of banners
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.BannerListResponse.TotalCount">
+            <summary>
+            Total number of banners
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.BannerListResponse.Page">
+            <summary>
+            Current page number
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.BannerListResponse.PageSize">
+            <summary>
+            Number of items per page
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.BannerListResponse.TotalPages">
+            <summary>
+            Total number of pages
+            </summary>
+        </member>
+        <member name="T:WebApp.Models.ApiResponse`1">
+            <summary>
+            Response model for API operations
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.ApiResponse`1.Success">
+            <summary>
+            Success status
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.ApiResponse`1.Message">
+            <summary>
+            Response message
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.ApiResponse`1.Data">
+            <summary>
+            Response data
+            </summary>
+        </member>
+        <member name="P:WebApp.Models.ApiResponse`1.Error">
+            <summary>
+            Error details (if any)
+            </summary>
+        </member>
+        <member name="T:WebApp.Services.IBannerService">
+            <summary>
+            Service for banner business logic and data access
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+    </members>
+</doc>

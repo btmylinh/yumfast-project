@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Thêm danh mục mới";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+    <!-- row -->
+    <div class="row mb-8">
+        <div class="col-md-12">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <!-- page header -->
+                <div>
+                    <h2>Thêm danh mục mới</h2>
+                    <!-- breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")" class="text-inherit">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("Categories", "Admin")" class="text-inherit">Danh mục</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="@Url.Action("Categories", "Admin")" class="btn btn-light">Quay lại danh sách</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-12">
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+                <!-- card body -->
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">Thông tin danh mục</h4>
+                    <form>
+                        <div class="row">
+                            <!-- input -->
+                            <div class="mb-3 col-lg-6">
+                                <label class="form-label">Tên danh mục <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Nhập tên danh mục" required>
+                            </div>
+                            <!-- input -->
+                            <div class="mb-3 col-lg-6">
+                                <label class="form-label">Slug</label>
+                                <input type="text" class="form-control" placeholder="ten-danh-muc">
+                                <small class="text-muted">URL thân thiện (tự động tạo nếu để trống)</small>
+                            </div>
+                            <!-- input -->
+                            <div class="mb-3 col-12">
+                                <label class="form-label">Mô tả</label>
+                                <textarea class="form-control" rows="4" placeholder="Nhập mô tả danh mục"></textarea>
+                            </div>
+                             <h4 class="mb-4 h5">Hiển thị</h4>
+                            <div class="row">
+                                <!-- switch -->
+                                <div class="col-lg-6 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="isActive" checked>
+                                        <label class="form-check-label" for="isActive">Kích hoạt</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+         
+            <!-- buttons -->
+            <div class="d-flex gap-2 flex-wrap">
+                <button type="button" class="btn btn-primary">Tạo danh mục</button>
+                <button type="button" class="btn btn-secondary">Lưu nháp</button>
+                <a href="@Url.Action("Categories", "Admin")" class="btn btn-light">Hủy</a>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,453 @@
+@{
+    ViewData["Title"] = ViewBag.ReportsTitle;
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<!-- row -->
+<div class="row mb-8">
+    <div class="col-md-12">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+            <!-- pageheader -->
+            <div>
+                <h2>@ViewBag.ReportsTitle</h2>
+                <!-- breacrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")" class="text-inherit">@ViewBag.Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.ReportsTitle</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reports Management with Alpine.js -->
+<div x-data="reportsManager()" x-init="init()">
+    <!-- Statistics Cards -->
+    <div class="row mb-6">
+        <div class="col-lg-3 col-md-6 col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="mb-0 text-muted">@ViewBag.TotalRevenue</h6>
+                        </div>
+                        <div class="icon-shape icon-md bg-light-success text-dark-success rounded-circle">
+                            <i class="bi bi-currency-dollar fs-5"></i>
+                        </div>
+                    </div>
+                    <div class="lh-1">
+                        <h3 class="mb-1 fw-bold fs-3" x-text="formatCurrency(totalRevenue)"></h3>
+                        <small class="text-muted">@ViewBag.Last30Days</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="mb-0 text-muted">@ViewBag.TotalOrders</h6>
+                        </div>
+                        <div class="icon-shape icon-md bg-light-warning text-dark-warning rounded-circle">
+                            <i class="bi bi-cart fs-5"></i>
+                        </div>
+                    </div>
+                    <div class="lh-1">
+                        <h3 class="mb-1 fw-bold fs-3" x-text="totalOrders"></h3>
+                        <small class="text-muted">@ViewBag.Last30Days</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="mb-0 text-muted">@ViewBag.TotalUsers</h6>
+                        </div>
+                        <div class="icon-shape icon-md bg-light-info text-dark-info rounded-circle">
+                            <i class="bi bi-people fs-5"></i>
+                        </div>
+                    </div>
+                    <div class="lh-1">
+                        <h3 class="mb-1 fw-bold fs-3" x-text="totalUsers"></h3>
+                        <small class="text-muted">@ViewBag.Last30Days</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h6 class="mb-0 text-muted">@ViewBag.AverageOrderValue</h6>
+                        </div>
+                        <div class="icon-shape icon-md bg-light-primary text-dark-primary rounded-circle">
+                            <i class="bi bi-graph-up fs-5"></i>
+                        </div>
+                    </div>
+                    <div class="lh-1">
+                        <h3 class="mb-1 fw-bold fs-3" x-text="formatCurrency(averageOrderValue)"></h3>
+                        <small class="text-muted">@ViewBag.Last30Days</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="row mb-6">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">@ViewBag.Search</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   placeholder="@ViewBag.SearchByDate" 
+                                   x-model="searchQuery"
+                                   @@input.debounce.300ms="filterReports()">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">@ViewBag.DateRange</label>
+                            <select class="form-select" x-model="dateRange" @@change="filterReports()">
+                                <option value="all">@ViewBag.AllTime</option>
+                                <option value="week">@ViewBag.ThisWeek</option>
+                                <option value="month">@ViewBag.ThisMonth</option>
+                                <option value="quarter">@ViewBag.ThisQuarter</option>
+                                <option value="year">@ViewBag.ThisYear</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">@ViewBag.FromDate</label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   x-model="startDate"
+                                   @@change="filterReports()">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">@ViewBag.ToDate</label>
+                            <input type="date" 
+                                   class="form-control" 
+                                   x-model="endDate"
+                                   @@change="filterReports()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th scope="col" class="border-0">
+                                        <a href="#" @@click="sortBy('report_date')" class="text-decoration-none">
+                                            @ViewBag.Date
+                                            <i class="bi bi-arrow-up-short" x-show="sortField === 'report_date' && sortDirection === 'asc'"></i>
+                                            <i class="bi bi-arrow-down-short" x-show="sortField === 'report_date' && sortDirection === 'desc'"></i>
+                                        </a>
+                                    </th>
+                                    <th scope="col" class="border-0">
+                                        <a href="#" @@click="sortBy('orders_count')" class="text-decoration-none">
+                                            @ViewBag.Orders
+                                            <i class="bi bi-arrow-up-short" x-show="sortField === 'orders_count' && sortDirection === 'asc'"></i>
+                                            <i class="bi bi-arrow-down-short" x-show="sortField === 'orders_count' && sortDirection === 'desc'"></i>
+                                        </a>
+                                    </th>
+                                    <th scope="col" class="border-0">
+                                        <a href="#" @@click="sortBy('revenue_total')" class="text-decoration-none">
+                                            @ViewBag.Revenue
+                                            <i class="bi bi-arrow-up-short" x-show="sortField === 'revenue_total' && sortDirection === 'asc'"></i>
+                                            <i class="bi bi-arrow-down-short" x-show="sortField === 'revenue_total' && sortDirection === 'desc'"></i>
+                                        </a>
+                                    </th>
+                                    <th scope="col" class="border-0">
+                                        <a href="#" @@click="sortBy('users_count')" class="text-decoration-none">
+                                            @ViewBag.Users
+                                            <i class="bi bi-arrow-up-short" x-show="sortField === 'users_count' && sortDirection === 'asc'"></i>
+                                            <i class="bi bi-arrow-down-short" x-show="sortField === 'users_count' && sortDirection === 'desc'"></i>
+                                        </a>
+                                    </th>
+                                    <th scope="col" class="border-0">@ViewBag.Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="report in paginatedReports" :key="report.id">
+                                    <tr>
+                                        <td x-text="formatDate(report.report_date)"></td>
+                                        <td x-text="report.orders_count"></td>
+                                        <td x-text="formatCurrency(report.revenue_total)"></td>
+                                        <td x-text="report.users_count"></td>
+                                        <td>
+                                            <span class="badge" 
+                                                  :class="report.status === 1 ? 'bg-light-success text-dark-success' : 'bg-light-danger text-dark-danger'">
+                                                <span x-show="report.status === 1">@ViewBag.Active</span>
+                                                <span x-show="report.status !== 1">@ViewBag.Inactive</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-between align-items-center p-4" x-show="totalPages > 1">
+                        <div>
+                            <span class="text-muted">
+                                @ViewBag.Showing <span x-text="(currentPage - 1) * pageSize + 1"></span> @ViewBag.To 
+                                <span x-text="Math.min(currentPage * pageSize, filteredReports.length)"></span> @ViewBag.Of 
+                                <span x-text="filteredReports.length"></span> @ViewBag.Entries
+                            </span>
+                        </div>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                    <a class="page-link" href="#" @@click="goToPage(currentPage - 1)">@ViewBag.Previous</a>
+                                </li>
+                                <template x-for="page in visiblePages" :key="page">
+                                    <li class="page-item" :class="{ 'active': page === currentPage }">
+                                        <a class="page-link" href="#" @@click="goToPage(page)" x-text="page"></a>
+                                    </li>
+                                </template>
+                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                    <a class="page-link" href="#" @@click="goToPage(currentPage + 1)">@ViewBag.Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function reportsManager() {
+    return {
+        // Data
+        reports: [],
+        filteredReports: [],
+        searchQuery: '',
+        dateRange: 'all',
+        startDate: '',
+        endDate: '',
+        
+        // Pagination
+        currentPage: 1,
+        pageSize: 10,
+        totalPages: 0,
+        
+        // Sorting
+        sortField: 'report_date',
+        sortDirection: 'desc',
+        
+        // Computed properties
+        get totalRevenue() {
+            return this.filteredReports.reduce((sum, report) => sum + report.revenue_total, 0);
+        },
+        
+        get totalOrders() {
+            return this.filteredReports.reduce((sum, report) => sum + report.orders_count, 0);
+        },
+        
+        get totalUsers() {
+            return this.filteredReports.reduce((sum, report) => sum + report.users_count, 0);
+        },
+        
+        get averageOrderValue() {
+            if (this.totalOrders === 0) return 0;
+            return this.totalRevenue / this.totalOrders;
+        },
+        
+        get paginatedReports() {
+            const start = (this.currentPage - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            return this.filteredReports.slice(start, end);
+        },
+        
+        get visiblePages() {
+            const pages = [];
+            const maxVisible = 5;
+            let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
+            let end = Math.min(this.totalPages, start + maxVisible - 1);
+            
+            if (end - start + 1 < maxVisible) {
+                start = Math.max(1, end - maxVisible + 1);
+            }
+            
+            for (let i = start; i <= end; i++) {
+                pages.push(i);
+            }
+            return pages;
+        },
+        
+        // Methods
+        init() {
+            this.loadReports();
+            this.setDefaultDateRange();
+        },
+        
+        loadReports() {
+            // Load from localStorage or create mock data
+            const stored = localStorage.getItem('reports_daily_data');
+            if (stored) {
+                this.reports = JSON.parse(stored);
+            } else {
+                this.generateMockData();
+                this.saveReports();
+            }
+            this.filterReports();
+        },
+        
+        generateMockData() {
+            const reports = [];
+            const today = new Date();
+            
+            // Generate 90 days of mock data
+            for (let i = 0; i < 90; i++) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                
+                const ordersCount = Math.floor(Math.random() * 50) + 10;
+                const revenueTotal = Math.floor(Math.random() * 2000000) + 500000;
+                const usersCount = Math.floor(Math.random() * 30) + 5;
+                
+                reports.push({
+                    id: i + 1,
+                    report_date: date.toISOString().split('T')[0],
+                    orders_count: ordersCount,
+                    revenue_total: revenueTotal,
+                    users_count: usersCount,
+                    status: Math.random() > 0.1 ? 1 : 0, // 90% active
+                    created_at: date.toISOString(),
+                    updated_at: date.toISOString()
+                });
+            }
+            
+            this.reports = reports;
+        },
+        
+        saveReports() {
+            localStorage.setItem('reports_daily_data', JSON.stringify(this.reports));
+        },
+        
+        setDefaultDateRange() {
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            
+            this.startDate = thirtyDaysAgo.toISOString().split('T')[0];
+            this.endDate = today.toISOString().split('T')[0];
+        },
+        
+        filterReports() {
+            let filtered = [...this.reports];
+            
+            // Search filter
+            if (this.searchQuery) {
+                filtered = filtered.filter(report => 
+                    report.report_date.includes(this.searchQuery)
+                );
+            }
+            
+            // Date range filter
+            if (this.startDate && this.endDate) {
+                filtered = filtered.filter(report => {
+                    const reportDate = new Date(report.report_date);
+                    const start = new Date(this.startDate);
+                    const end = new Date(this.endDate);
+                    return reportDate >= start && reportDate <= end;
+                });
+            }
+            
+            // Period filter
+            if (this.dateRange !== 'all') {
+                const today = new Date();
+                let startDate = new Date();
+                
+                switch (this.dateRange) {
+                    case 'week':
+                        startDate.setDate(today.getDate() - 7);
+                        break;
+                    case 'month':
+                        startDate.setMonth(today.getMonth() - 1);
+                        break;
+                    case 'quarter':
+                        startDate.setMonth(today.getMonth() - 3);
+                        break;
+                    case 'year':
+                        startDate.setFullYear(today.getFullYear() - 1);
+                        break;
+                }
+                
+                filtered = filtered.filter(report => {
+                    const reportDate = new Date(report.report_date);
+                    return reportDate >= startDate;
+                });
+            }
+            
+            // Sort
+            filtered.sort((a, b) => {
+                const aVal = a[this.sortField];
+                const bVal = b[this.sortField];
+                
+                if (this.sortDirection === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+            
+            this.filteredReports = filtered;
+            this.currentPage = 1;
+            this.totalPages = Math.ceil(this.filteredReports.length / this.pageSize);
+        },
+        
+        sortBy(field) {
+            if (this.sortField === field) {
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortField = field;
+                this.sortDirection = 'asc';
+            }
+            this.filterReports();
+        },
+        
+        goToPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+            }
+        },
+        
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        },
+        
+        formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+    }
+}
+</script>

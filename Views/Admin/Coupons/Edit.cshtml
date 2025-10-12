@@ -1,0 +1,353 @@
+@model CouponViewModel
+@{
+    ViewData["Title"] = ViewBag.CouponEdit;
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<!-- row -->
+<div class="row mb-8">
+    <div class="col-md-12">
+        <div class="d-md-flex justify-content-between align-items-center">
+            <!-- page header -->
+            <div>
+                <h2>@ViewBag.CouponEdit</h2>
+                <!-- breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")" class="text-inherit">@ViewBag.Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Coupons")" class="text-inherit">@ViewBag.CouponTitle</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.CouponEdit</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- button -->
+            <div>
+                <a href="@Url.Action("Index", "Coupons")" class="btn btn-light">@ViewBag.CouponBackToList</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form asp-action="Edit" method="post">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="CreatedAt" type="hidden" />
+    <input asp-for="UsedCount" type="hidden" />
+    
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-8 col-12">
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+                <!-- card body -->
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">@ViewBag.CouponBasicInfo</h4>
+                    
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="All" class="alert alert-danger d-none"></div>
+                    
+                    <div class="row">
+                        <!-- Coupon Code -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="Code" class="form-label">@ViewBag.CouponCode</label>
+                            <input asp-for="Code" class="form-control" placeholder="@ViewBag.CouponCodePlaceholder">
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        
+                        <!-- Coupon Name -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="Name" class="form-label">@ViewBag.CouponName</label>
+                            <input asp-for="Name" class="form-control" placeholder="@ViewBag.CouponNamePlaceholder">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        
+                        <!-- Type -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="Type" class="form-label">@ViewBag.CouponType</label>
+                            <select asp-for="Type" class="form-select">
+                                <option value="">@ViewBag.CouponSelectType</option>
+                                <option value="1">@ViewBag.CouponPercentage</option>
+                                <option value="2">@ViewBag.CouponFixedAmount</option>
+                            </select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                        
+                        <!-- Value -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="Value" class="form-label">@ViewBag.CouponValue</label>
+                            <div class="input-group">
+                                <input asp-for="Value" type="number" class="form-control" placeholder="@ViewBag.CouponValuePlaceholder">
+                                <span class="input-group-text" id="value-unit">@ViewBag.CouponValueUnit</span>
+                            </div>
+                            <span asp-validation-for="Value" class="text-danger"></span>
+                        </div>
+                        
+                        <!-- Start Date -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="StartAt" class="form-label">@ViewBag.CouponStartDate</label>
+                            <input asp-for="StartAt" type="datetime-local" class="form-control">
+                            <span asp-validation-for="StartAt" class="text-danger"></span>
+                        </div>
+                        
+                        <!-- End Date -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="EndAt" class="form-label">@ViewBag.CouponEndDate</label>
+                            <input asp-for="EndAt" type="datetime-local" class="form-control">
+                            <span asp-validation-for="EndAt" class="text-danger"></span>
+                        </div>
+                        
+                        <!-- Total Quantity -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="Total" class="form-label">@ViewBag.CouponTotalQuantity</label>
+                            <input asp-for="Total" type="number" class="form-control" placeholder="@ViewBag.CouponTotalPlaceholder" min="1">
+                            <span asp-validation-for="Total" class="text-danger"></span>
+                        </div>
+                        
+                        <!-- Product ID (Optional) -->
+                        <div class="mb-3 col-lg-6">
+                            <label asp-for="IdProduct" class="form-label">@ViewBag.CouponProductOptional</label>
+                            <select asp-for="IdProduct" class="form-select">
+                                <option value="">@ViewBag.CouponAllProducts</option>
+                                <option value="1">Banana - Chuối</option>
+                                <option value="2">Apple - Táo</option>
+                                <option value="3">Orange - Cam</option>
+                                <option value="4">Strawberry - Dâu tây</option>
+                            </select>
+                            <small class="form-text text-muted">@ViewBag.CouponProductNote</small>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="mb-3 col-12">
+                            <label asp-for="Description" class="form-label">@ViewBag.CouponDescription</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="@ViewBag.CouponDescriptionPlaceholder"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-12">
+            <!-- Usage Statistics Card -->
+            <div class="card mb-6 card-lg">
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">@ViewBag.CouponUsageStats</h4>
+                    
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="text-center p-3 bg-light rounded">
+                                <div class="h4 text-primary mb-1">@Model.UsedCount</div>
+                                <small class="text-muted">@ViewBag.CouponUsed</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-3 bg-light rounded">
+                                <div class="h4 text-success mb-1">@Model.RemainingCount</div>
+                                <small class="text-muted">@ViewBag.CouponRemaining</small>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-primary" role="progressbar" 
+                                     style="width: @((double)Model.UsedCount / Model.Total * 100)%"
+                                     aria-valuenow="@Model.UsedCount" aria-valuemin="0" aria-valuemax="@Model.Total"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <small class="text-muted">0</small>
+                                <small class="text-muted">@Model.Total</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <!-- Dates Info -->
+                    <div class="mb-3">
+                        <small class="text-muted d-block">@ViewBag.CouponCreatedAt</small>
+                        <span class="fw-semibold">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <small class="text-muted d-block">@ViewBag.CouponUpdatedAt</small>
+                        <span class="fw-semibold">@Model.UpdatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Card -->
+            <div class="card mb-6 card-lg">
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">@ViewBag.CouponSettings</h4>
+                    
+                    <!-- Status -->
+                    <div class="mb-4">
+                        <label asp-for="Status" class="form-label">@ViewBag.CouponStatus</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="1">@ViewBag.CouponActive</option>
+                            <option value="0">@ViewBag.CouponInactive</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Current Status Display -->
+                    <div class="mb-4 p-3 rounded border">
+                        <small class="text-muted d-block mb-2">@ViewBag.CouponCurrentStatus</small>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-light-primary text-primary">
+                                <i class="bi bi-check-circle me-1"></i>@ViewBag.CouponActive
+                            </span>
+                        }
+                        else if (Model.Status == 0)
+                        {
+                            <span class="badge bg-light-secondary text-secondary">
+                                <i class="bi bi-pause-circle me-1"></i>@ViewBag.CouponInactive
+                            </span>
+                        }
+                        else if (DateTime.Now < Model.StartAt)
+                        {
+                            <span class="badge bg-light-warning text-warning">
+                                <i class="bi bi-clock me-1"></i>@ViewBag.CouponPending
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-light-danger text-danger">
+                                <i class="bi bi-x-circle me-1"></i>@ViewBag.CouponExpired
+                            </span>
+                        }
+                    </div>
+                    
+                    <!-- Preview Card -->
+                    <div class="border rounded-3 p-4 bg-light">
+                        <h6 class="mb-3">@ViewBag.CouponPreview</h6>
+                        <div class="d-flex align-items-center justify-content-between bg-white rounded p-3 border">
+                            <div>
+                                <div class="fw-bold text-primary" id="preview-code">@Model.Code</div>
+                                <small class="text-muted" id="preview-name">@Model.Name</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-success" id="preview-value">@Model.FormattedValue</div>
+                                <small class="text-muted" id="preview-type">@Model.TypeDisplay</small>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <small class="text-muted">
+                                <span id="preview-period">@Model.StartAt.ToString("dd/MM/yyyy") - @Model.EndAt.ToString("dd/MM/yyyy")</span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle me-2"></i>@ViewBag.CouponUpdate
+                </button>
+                <a href="@Url.Action("Index", "Coupons")" class="btn btn-secondary">
+                    <i class="bi bi-x-circle me-2"></i>@ViewBag.CouponCancel
+                </a>
+                @if (Model.UsedCount == 0)
+                {
+                    <form method="post" action="@Url.Action("Delete", "Coupons")" class="d-inline" 
+                          onsubmit="return confirm('@ViewBag.CouponDeleteConfirm')">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-outline-danger w-100">
+                            <i class="bi bi-trash me-2"></i>@ViewBag.CouponDelete
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update preview when form changes
+            const form = document.querySelector('form');
+            const previewCode = document.getElementById('preview-code');
+            const previewName = document.getElementById('preview-name');
+            const previewValue = document.getElementById('preview-value');
+            const previewType = document.getElementById('preview-type');
+            const previewPeriod = document.getElementById('preview-period');
+            const valueUnit = document.getElementById('value-unit');
+            
+            function updatePreview() {
+                const code = document.getElementById('Code').value || '@ViewBag.CouponCodePreview';
+                const name = document.getElementById('Name').value || '@ViewBag.CouponNamePreview';
+                const type = document.getElementById('Type').value;
+                const value = document.getElementById('Value').value;
+                const startDate = document.getElementById('StartAt').value;
+                const endDate = document.getElementById('EndAt').value;
+                
+                previewCode.textContent = code;
+                previewName.textContent = name;
+                
+                if (type && value) {
+                    if (type === '1') {
+                        previewValue.textContent = value + '%';
+                        previewType.textContent = '@ViewBag.CouponPercentage';
+                        valueUnit.textContent = '%';
+                    } else if (type === '2') {
+                        previewValue.textContent = new Intl.NumberFormat('vi-VN').format(value) + ' VNĐ';
+                        previewType.textContent = '@ViewBag.CouponFixedAmount';
+                        valueUnit.textContent = 'VNĐ';
+                    }
+                }
+                
+                if (startDate && endDate) {
+                    const start = new Date(startDate).toLocaleDateString('vi-VN');
+                    const end = new Date(endDate).toLocaleDateString('vi-VN');
+                    previewPeriod.textContent = `${start} - ${end}`;
+                }
+            }
+            
+            // Add event listeners
+            form.addEventListener('input', updatePreview);
+            form.addEventListener('change', updatePreview);
+            
+            // Initial update
+            updatePreview();
+            
+            // Form validation
+            form.addEventListener('submit', function(e) {
+                const startDate = new Date(document.getElementById('StartAt').value);
+                const endDate = new Date(document.getElementById('EndAt').value);
+                
+                if (startDate >= endDate) {
+                    e.preventDefault();
+                    alert('@ViewBag.CouponDateError');
+                    return false;
+                }
+                
+                const value = parseInt(document.getElementById('Value').value);
+                const type = document.getElementById('Type').value;
+                
+                if (type === '1' && (value <= 0 || value > 100)) {
+                    e.preventDefault();
+                    alert('@ViewBag.CouponPercentageError');
+                    return false;
+                }
+                
+                if (type === '2' && value <= 0) {
+                    e.preventDefault();
+                    alert('@ViewBag.CouponAmountError');
+                    return false;
+                }
+                
+                // Validate total quantity vs used count
+                const total = parseInt(document.getElementById('Total').value);
+                const usedCount = @Model.UsedCount;
+                
+                if (total < usedCount) {
+                    e.preventDefault();
+                    alert(`@ViewBag.CouponTotalError ${usedCount}`);
+                    return false;
+                }
+            });
+        });
+    </script>
+    
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

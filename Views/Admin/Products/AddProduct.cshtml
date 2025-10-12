@@ -1,0 +1,154 @@
+@{
+    ViewData["Title"] = "Thêm sản phẩm mới";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+    <!-- row -->
+    <div class="row mb-8">
+        <div class="col-md-12">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <!-- page header -->
+                <div>
+                    <h2>Thêm sản phẩm mới</h2>
+                    <!-- breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")" class="text-inherit">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="@Url.Action("Products", "Admin")" class="text-inherit">Sản phẩm</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- button -->
+                <div>
+                    <a href="@Url.Action("Products", "Admin")" class="btn btn-light">Quay lại danh sách</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-8 col-12">
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+                <!-- card body -->
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">Thông tin sản phẩm</h4>
+                    <div class="row">
+                        <!-- input -->
+                        <div class="mb-3 col-lg-6">
+                            <label class="form-label">Tên sản phẩm</label>
+                            <input type="text" class="form-control" placeholder="Nhập tên sản phẩm">
+                        </div>
+                        <!-- input -->
+                        <div class="mb-3 col-lg-6">
+                            <label class="form-label">Danh mục</label>
+                            <select class="form-select">
+                                <option selected>Chọn danh mục</option>
+                                <option value="1">Trái cây</option>
+                                <option value="2">Rau củ</option>
+                                <option value="3">Đồ uống</option>
+                            </select>
+                        </div>
+                        <!-- input -->
+                        <div class="mb-3 col-lg-12">
+                            <label class="form-label">Mô tả ngắn</label>
+                            <textarea class="form-control" rows="3" placeholder="Nhập mô tả ngắn"></textarea>
+                        </div>
+                        <!-- input -->
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Mô tả chi tiết</label>
+                            <div id="editor" style="height: 300px;">
+                                <p>Nhập mô tả chi tiết sản phẩm...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+                <!-- card body -->
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">Hình ảnh sản phẩm</h4>
+                    <!-- input -->
+                    <div class="mb-4 d-lg-flex">
+                        <div>
+                            <img src="../assets/images/products/product-img-1.jpg" alt="" class="icon-shape icon-xxxl">
+                        </div>
+                        <div class="ms-lg-4">
+                            <h4 class="mb-1 h5">Hình ảnh chính</h4>
+                            <p>Format JPG, GIF hoặc PNG. Kích thước tối đa 800k</p>
+                            <input class="form-control" type="file" id="productImage">
+                        </div>
+                    </div>
+                    <!-- input -->
+                    <div class="mb-4 d-lg-flex">
+                        <div>
+                            <img src="../assets/images/products/product-img-2.jpg" alt="" class="icon-shape icon-xxxl">
+                        </div>
+                        <div class="ms-lg-4">
+                            <h4 class="mb-1 h5">Hình ảnh phụ</h4>
+                            <p>Format JPG, GIF hoặc PNG. Kích thước tối đa 800k</p>
+                            <input class="form-control" type="file" id="productImages" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-12">
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+                <!-- card body -->
+                <div class="card-body p-6">
+                    <!-- input -->
+                    <div class="form-check form-switch mb-4">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchStock" checked>
+                        <label class="form-check-label" for="flexSwitchStock">Còn hàng</label>
+                    </div>
+                    <!-- input -->
+                    <div>
+                        <label class="form-label">Số lượng trong kho</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                </div>
+            </div>
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+                <!-- card body -->
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">Giá sản phẩm</h4>
+                    <!-- input -->
+                    <div class="mb-3">
+                        <label class="form-label">Giá gốc (VNĐ)</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                    <!-- input -->
+                    <div class="mb-3">
+                        <label class="form-label">Giá khuyến mãi (VNĐ)</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                </div>
+            </div>
+            <!-- card -->
+            <div class="card mb-6 card-lg">
+                <!-- card body -->
+                <div class="card-body p-6">
+                    <h4 class="mb-4 h5">Meta Data</h4>
+                    <!-- input -->
+                    <div class="mb-3">
+                        <label class="form-label">Meta Title</label>
+                        <input type="text" class="form-control" placeholder="Title">
+                    </div>
+                    <!-- input -->
+                    <div class="mb-3">
+                        <label class="form-label">Meta Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Meta Description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- button -->
+            <div class="d-grid">
+                <button type="button" class="btn btn-primary">Tạo sản phẩm</button>
+            </div>
+        </div>
+    </div>

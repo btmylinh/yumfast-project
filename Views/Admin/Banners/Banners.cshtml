@@ -1,0 +1,757 @@
+@{
+    ViewData["Title"] = ViewBag.BannerTitle;
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<!-- Alpine.js Banner Management Component -->
+<div x-data="bannerManager()" x-init="initializeBanners()" class="banner-management">
+
+<div class="row mb-8">
+    <div class="col-md-12">
+        <!-- page header -->
+        <div class="d-md-flex justify-content-between align-items-center">
+            <div>
+                <h2>@ViewBag.BannerTitle</h2>
+                <!-- breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")" class="text-inherit">@ViewBag.Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@ViewBag.BannerTitle</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- button -->
+            <div>
+                <button type="button" class="btn btn-primary" x-on:click="openCreateModal()" data-bs-toggle="modal" data-bs-target="#bannerModal">
+                    <i class="feather-icon icon-plus me-2"></i>@ViewBag.BannerAddBanner
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- row -->
+<div class="row">
+    <div class="col-xl-12 col-12 mb-5">
+        <!-- card -->
+        <div class="card h-100 card-lg">
+            <div class="px-6 py-6">
+                <div class="row justify-content-between">
+                    <!-- search form -->
+                    <div class="col-12 col-md-8 col-lg-6 mb-2 mb-lg-0">
+                        <form class="d-flex" role="search" x-on:submit.prevent>
+                            <div class="input-group">
+                                <input class="form-control" type="search" :placeholder="'@ViewBag.Search ' + '@ViewBag.Banners...'" 
+                                       x-model="searchQuery" 
+                                       x-on:input.debounce.300ms="updateSearch()"
+                                       aria-label="Search" />
+                                <button class="btn btn-outline-secondary" type="button" x-on:click="clearSearch()">
+                                    <i class="feather-icon" :class="searchQuery ? 'icon-x' : 'icon-search'"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- status filter -->
+                    <div class="col-12 col-md-4 col-lg-3">
+                        <select class="form-select" x-model="statusFilter" x-on:change="updateFilters()">
+                            <option value="">@ViewBag.ProductStatus</option>
+                            <option value="1">@ViewBag.BannerActive</option>
+                            <option value="0">@ViewBag.BannerInactive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- card body -->
+            <div class="card-body p-0">
+                <!-- Loading overlay -->
+                <div x-show="isLoading" class="position-relative">
+                    <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Đang tải dữ liệu...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- table responsive -->
+                <div class="table-responsive" x-show="!isLoading">
+                    <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" 
+                                               x-on:change="toggleSelectAll()" 
+                                               :checked="selectedBanners.length === paginatedBanners.length && paginatedBanners.length > 0"
+                                               id="checkAll" />
+                                        <label class="form-check-label" for="checkAll"></label>
+                                    </div>
+                                </th>
+                                <th>@ViewBag.BannerImage</th>
+                                <th class="sortable-header" x-on:click="sortBy('name')">
+                                    <div class="d-flex align-items-center">
+                                        <span>@ViewBag.BannerName</span>
+                                        <i class="feather-icon ms-1" 
+                                           :class="getSortIcon('name')" 
+                                           style="font-size: 14px;"></i>
+                                    </div>
+                                </th>
+                                <th class="sortable-header" x-on:click="sortBy('status')">
+                                    <div class="d-flex align-items-center">
+                                        <span>@ViewBag.BannerStatus</span>
+                                        <i class="feather-icon ms-1" 
+                                           :class="getSortIcon('status')" 
+                                           style="font-size: 14px;"></i>
+                                    </div>
+                                </th>
+                                <th class="sortable-header" x-on:click="sortBy('createdAt')">
+                                    <div class="d-flex align-items-center">
+                                        <span>Ngày tạo</span>
+                                        <i class="feather-icon ms-1" 
+                                           :class="getSortIcon('createdAt')" 
+                                           style="font-size: 14px;"></i>
+                                    </div>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Alpine.js template for banner rows -->
+                            <template x-for="banner in paginatedBanners" :key="banner.id">
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" :id="'banner' + banner.id" 
+                                                   :value="banner.id" x-model="selectedBanners" />
+                                            <label class="form-check-label" :for="'banner' + banner.id"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#!">
+                                            <img :src="banner.image" :alt="banner.name" 
+                                                 class="icon-shape icon-md rounded" 
+                                                 style="width: 60px; height: 40px; object-fit: cover;"
+                                                 onerror="this.src='~/assets/images/banner/default-banner.jpg'" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="text-reset fw-semibold" x-text="banner.name"></a>
+                                        <p class="text-muted mb-0 small" x-text="banner.link || 'Không có link'"></p>
+                                    </td>
+                                    <td>
+                                        <span class="badge" 
+                                              :class="getStatusBadgeClass(banner.status)" 
+                                              x-text="getStatusText(banner.status)"></span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-semibold" x-text="formatDate(banner.createdAt)"></span>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="feather-icon icon-more-vertical fs-5"></i>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="#" x-on:click="editBanner(banner)">
+                                                        <i class="bi bi-pencil-square me-3"></i>
+                                                        @ViewBag.Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" x-on:click="toggleBannerStatus(banner.id)">
+                                                        <i class="bi bi-toggle-on me-3"></i>
+                                                        <span x-text="banner.status ? 'Tắt' : 'Bật'"></span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger" href="#" x-on:click="deleteBanner(banner.id)">
+                                                        <i class="bi bi-trash me-3"></i>
+                                                        @ViewBag.Delete
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            
+                            <!-- Empty state -->
+                            <tr x-show="banners.length === 0">
+                                <td colspan="6" class="text-center py-5">
+                                    <div class="empty-state">
+                                        <i class="feather-icon icon-image text-muted mb-3" style="font-size: 48px;"></i>
+                                        <h6 class="text-muted">Không tìm thấy banner nào</h6>
+                                        <p class="text-muted mb-0">Thử thay đổi bộ lọc hoặc tạo banner mới</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- pagination -->
+            <div class="border-top d-md-flex justify-content-between align-items-center px-6 py-6" x-show="!isLoading && banners.length > 0">
+                <span x-text="getPaginationText()"></span>
+                <nav aria-label="Pagination navigation" x-show="totalPages > 1">
+                    <ul class="pagination">
+                        <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                            <a class="page-link" href="#" x-on:click.prevent="currentPage > 1 && setPage(currentPage - 1)">Trước</a>
+                        </li>
+                        <template x-for="page in paginationRange" :key="page">
+                            <li class="page-item" :class="{ 'active': page === currentPage }">
+                                <a class="page-link" href="#" x-on:click.prevent="setPage(page)" x-text="page"></a>
+                            </li>
+                        </template>
+                        <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                            <a class="page-link" href="#" x-on:click.prevent="currentPage < totalPages && setPage(currentPage + 1)">Sau</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Banner Modal -->
+<div class="modal fade" id="bannerModal" tabindex="-1" aria-labelledby="bannerModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" x-text="isEditMode ? '@ViewBag.BannerEdit' : '@ViewBag.BannerCreate'"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" x-on:click="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form x-on:submit.prevent="saveBanner()" class="needs-validation" :class="{ 'was-validated': showValidation }">
+                    <div class="row">
+                        <!-- Banner Name -->
+                        <div class="col-12 mb-3">
+                            <label for="bannerName" class="form-label">@ViewBag.BannerName <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" x-model="formData.name" 
+                                   :class="{ 'is-invalid': showValidation && !formData.name }" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập tên banner.
+                            </div>
+                        </div>
+
+                        <!-- Banner Status -->
+                        <div class="col-12 col-md-6 mb-3">
+                            <label for="bannerStatus" class="form-label">@ViewBag.BannerStatus</label>
+                            <select class="form-select" x-model="formData.status">
+                                <option value="1">@ViewBag.BannerActive</option>
+                                <option value="0">@ViewBag.BannerInactive</option>
+                            </select>
+                        </div>
+
+                        <!-- Banner Image URL -->
+                        <div class="col-12 mb-3">
+                            <label for="bannerImage" class="form-label">@ViewBag.BannerImage <span class="text-danger">*</span></label>
+                            <input type="url" class="form-control" x-model="formData.image" 
+                                   :class="{ 'is-invalid': showValidation && !isValidImageUrl(formData.image) }" 
+                                   placeholder="https://example.com/banner.jpg" required>
+                            <div class="invalid-feedback">
+                                Vui lòng nhập URL hình ảnh hợp lệ.
+                            </div>
+                            <div class="form-text">Định dạng: JPG, PNG, GIF. Kích thước khuyến nghị: 1920x600px</div>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div class="col-12 mb-3" x-show="formData.image && isValidImageUrl(formData.image)">
+                            <label class="form-label">Xem trước hình ảnh</label>
+                            <div class="border rounded p-3">
+                                <img :src="formData.image" alt="Banner Preview" class="img-fluid rounded" 
+                                     style="max-height: 200px;" x-on:error="imageLoadError = true">
+                            </div>
+                        </div>
+
+                        <!-- Banner Link -->
+                        <div class="col-12 mb-3">
+                            <label for="bannerLink" class="form-label">@ViewBag.BannerLink</label>
+                            <input type="url" class="form-control" x-model="formData.link" 
+                                   placeholder="https://example.com">
+                            <div class="form-text">URL trang sẽ chuyển đến khi click vào banner</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" x-on:click="closeModal()">@ViewBag.Cancel</button>
+                <button type="button" class="btn btn-primary" x-on:click="saveBanner()" :disabled="isSaving">
+                    <span x-show="!isSaving" x-text="isEditMode ? '@ViewBag.BannerUpdate' : '@ViewBag.BannerSave'"></span>
+                    <span x-show="isSaving">
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        <span x-text="isEditMode ? '@ViewBag.BannerUpdating' : '@ViewBag.BannerSaving'"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class="feather-icon icon-trash-2 text-danger mb-3" style="font-size: 48px;"></i>
+                    <h6>Bạn có chắc chắn muốn xóa banner này?</h6>
+                    <p class="text-muted mb-0">Hành động này không thể hoàn tác.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" x-on:click="confirmDelete()" :disabled="isDeleting">
+                    <span x-show="!isDeleting">Xóa</span>
+                    <span x-show="isDeleting">
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        Đang xóa...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div> <!-- End Alpine.js Banner Management Component -->
+
+<!-- Alpine.js Banner Management Logic -->
+<script>
+function bannerManager() {
+    return {
+        // Data properties
+        banners: [],
+        searchQuery: '',
+        statusFilter: '',
+        selectedBanners: [],
+        currentPage: 1,
+        itemsPerPage: 5,
+        totalCount: 0,
+        totalPages: 1,
+        sortColumn: 'createdAt',
+        sortDirection: 'desc',
+        isEditMode: false,
+        isSaving: false,
+        isDeleting: false,
+        isLoading: false,
+        showValidation: false,
+        imageLoadError: false,
+        currentBannerId: null,
+        
+        // Form data
+        formData: {
+            id: null,
+            name: '',
+            image: '',
+            link: '',
+            status: 1
+        },
+
+        // Initialize component
+        async initializeBanners() {
+            this.loadFromURL(); // Load state from URL first
+            await this.loadBannersFromAPI();
+        },
+
+        // API Integration Methods
+        async loadBannersFromAPI() {
+            try {
+                this.isLoading = true;
+                const params = new URLSearchParams();
+                if (this.searchQuery) params.set('search', this.searchQuery);
+                if (this.statusFilter) params.set('status', this.statusFilter);
+                params.set('page', this.currentPage);
+                params.set('pageSize', this.itemsPerPage);
+                params.set('sortBy', this.sortColumn);
+                params.set('sortDirection', this.sortDirection);
+
+                const response = await fetch(`/api/banners?${params.toString()}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                this.banners = result.data || [];
+                this.totalCount = result.totalCount || 0;
+                this.totalPages = result.totalPages || 1;
+            } catch (error) {
+                console.error('Error loading banners:', error);
+                this.showNotification('Lỗi khi tải danh sách banner: ' + error.message, 'error');
+                this.banners = [];
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+        // Computed properties
+        get paginatedBanners() {
+            return this.banners; // API already handles pagination
+        },
+
+        get paginationRange() {
+            const range = [];
+            const totalPages = this.totalPages;
+            const current = this.currentPage;
+            
+            let start = Math.max(1, current - 2);
+            let end = Math.min(totalPages, current + 2);
+            
+            for (let i = start; i <= end; i++) {
+                range.push(i);
+            }
+            return range;
+        },
+
+        // CRUD Methods
+        async saveBanner() {
+            this.showValidation = true;
+            
+            if (!this.validateForm()) {
+                return;
+            }
+            
+            this.isSaving = true;
+            
+            try {
+                const url = this.isEditMode ? `/api/banners/${this.formData.id}` : '/api/banners';
+                const method = this.isEditMode ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(this.formData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Request failed');
+                }
+
+                const result = await response.json();
+                this.closeModal();
+                await this.loadBannersFromAPI(); // Reload data from API
+                this.showNotification(this.isEditMode ? 'Banner đã được cập nhật!' : 'Banner đã được tạo!', 'success');
+            } catch (error) {
+                console.error('Error saving banner:', error);
+                this.showNotification('Lỗi khi lưu banner: ' + error.message, 'error');
+            } finally {
+                this.isSaving = false;
+            }
+        },
+
+        editBanner(banner) {
+            this.isEditMode = true;
+            this.formData = { 
+                id: banner.id,
+                name: banner.name,
+                image: banner.image,
+                link: banner.link || '',
+                status: banner.status
+            };
+            this.showValidation = false;
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('bannerModal'));
+            modal.show();
+        },
+
+        deleteBanner(id) {
+            this.currentBannerId = id;
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        },
+
+        async confirmDelete() {
+            this.isDeleting = true;
+            
+            try {
+                const response = await fetch(`/api/banners/${this.currentBannerId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Delete failed');
+                }
+                
+                // Hide modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+                modal.hide();
+                
+                await this.loadBannersFromAPI(); // Reload data from API
+                this.showNotification('Banner đã được xóa!', 'success');
+            } catch (error) {
+                console.error('Error deleting banner:', error);
+                this.showNotification('Lỗi khi xóa banner: ' + error.message, 'error');
+            } finally {
+                this.isDeleting = false;
+            }
+        },
+
+        async toggleBannerStatus(id) {
+            try {
+                const response = await fetch(`/api/banners/${id}/status`, {
+                    method: 'PATCH'
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Status update failed');
+                }
+
+                const result = await response.json();
+                await this.loadBannersFromAPI(); // Reload data from API
+                this.showNotification(`Banner đã được ${result.data.status ? 'kích hoạt' : 'tắt'}!`, 'info');
+            } catch (error) {
+                console.error('Error toggling banner status:', error);
+                this.showNotification('Lỗi khi thay đổi trạng thái banner: ' + error.message, 'error');
+            }
+        },
+
+        // Interactive Features Methods
+        async updateSearch() {
+            this.currentPage = 1; // Reset to first page when searching
+            this.updateURL();
+            await this.loadBannersFromAPI();
+        },
+
+        async updateFilters() {
+            this.currentPage = 1; // Reset to first page when filtering
+            this.updateURL();
+            await this.loadBannersFromAPI();
+        },
+
+        async clearSearch() {
+            this.searchQuery = '';
+            await this.updateSearch();
+        },
+
+        async sortBy(column) {
+            if (this.sortColumn === column) {
+                // Toggle direction if same column
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                // New column, default to ascending
+                this.sortColumn = column;
+                this.sortDirection = 'asc';
+            }
+            this.currentPage = 1; // Reset to first page when sorting
+            this.updateURL();
+            await this.loadBannersFromAPI();
+        },
+
+        getSortIcon(column) {
+            if (this.sortColumn !== column) {
+                return 'icon-chevrons-up-down text-muted';
+            }
+            return this.sortDirection === 'asc' ? 'icon-chevron-up text-primary' : 'icon-chevron-down text-primary';
+        },
+
+        toggleSelectAll() {
+            if (this.selectedBanners.length === this.paginatedBanners.length && this.paginatedBanners.length > 0) {
+                this.selectedBanners = [];
+            } else {
+                this.selectedBanners = this.paginatedBanners.map(banner => banner.id);
+            }
+        },
+
+        // URL State Management
+        updateURL() {
+            const params = new URLSearchParams();
+            if (this.searchQuery) params.set('search', this.searchQuery);
+            if (this.statusFilter) params.set('status', this.statusFilter);
+            if (this.currentPage > 1) params.set('page', this.currentPage);
+            if (this.sortColumn) params.set('sort', this.sortColumn);
+            if (this.sortDirection !== 'desc') params.set('direction', this.sortDirection);
+            
+            const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+            window.history.replaceState({}, '', newURL);
+        },
+
+        loadFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            this.searchQuery = params.get('search') || '';
+            this.statusFilter = params.get('status') || '';
+            this.currentPage = parseInt(params.get('page')) || 1;
+            this.sortColumn = params.get('sort') || 'created_at';
+            this.sortDirection = params.get('direction') || 'desc';
+        },
+
+        // Modal methods
+        openCreateModal() {
+            this.isEditMode = false;
+            this.resetForm();
+            this.showValidation = false;
+        },
+
+        closeModal() {
+            this.resetForm();
+            this.showValidation = false;
+        },
+
+        resetForm() {
+            this.formData = {
+                id: null,
+                name: '',
+                image: '',
+                link: '',
+                status: 1
+            };
+        },
+
+        // Validation methods
+        validateForm() {
+            return this.formData.name && 
+                   this.isValidImageUrl(this.formData.image);
+        },
+
+        isValidImageUrl(url) {
+            if (!url) return false;
+            const imageUrlPattern = /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i;
+            return imageUrlPattern.test(url) || url.includes('unsplash.com');
+        },
+
+        // Pagination methods
+        async setPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page;
+                this.updateURL();
+                await this.loadBannersFromAPI();
+            }
+        },
+
+        getPaginationText() {
+            const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+            const end = Math.min(this.currentPage * this.itemsPerPage, this.totalCount);
+            const total = this.totalCount;
+            return `Hiển thị ${start} đến ${end} trong ${total} kết quả`;
+        },
+
+        // Helper methods
+        getStatusText(status) {
+            return status ? 'Đang hoạt động' : 'Không hoạt động';
+        },
+
+        getStatusBadgeClass(status) {
+            return status ? 'bg-light-primary text-dark-primary' : 'bg-light-secondary text-dark-secondary';
+        },
+
+        getPositionText(position) {
+            const positions = {
+                'homepage': 'Trang chủ',
+                'shop': 'Cửa hàng', 
+                'category': 'Danh mục',
+                'product': 'Chi tiết sản phẩm'
+            };
+            return positions[position] || position;
+        },
+
+        getPositionBadgeClass(position) {
+            const classes = {
+                'homepage': 'bg-light-info text-dark-info',
+                'shop': 'bg-light-warning text-dark-warning',
+                'category': 'bg-light-success text-dark-success',
+                'product': 'bg-light-danger text-dark-danger'
+            };
+            return classes[position] || 'bg-light-secondary text-dark-secondary';
+        },
+
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        },
+
+        // LocalStorage methods (kept for URL state management)
+        saveToLocalStorage() {
+            // No longer needed for data storage, but kept for compatibility
+        },
+
+        loadFromLocalStorage() {
+            // No longer needed for data loading, but kept for compatibility
+        },
+
+        // Notification method
+        showNotification(message, type = 'info') {
+            // Create toast notification
+            const toastContainer = document.getElementById('toast-container') || this.createToastContainer();
+            const toast = this.createToast(message, type);
+            toastContainer.appendChild(toast);
+            
+            // Show toast
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            
+            // Remove toast after it's hidden
+            toast.addEventListener('hidden.bs.toast', () => {
+                toast.remove();
+            });
+        },
+
+        createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'toast-container position-fixed top-0 end-0 p-3';
+            container.style.zIndex = '9999';
+            document.body.appendChild(container);
+            return container;
+        },
+
+        createToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            
+            const bgClass = type === 'error' ? 'bg-danger' : 
+                           type === 'success' ? 'bg-success' : 
+                           type === 'warning' ? 'bg-warning' : 'bg-info';
+            
+            toast.innerHTML = `
+                <div class="toast-header ${bgClass} text-white">
+                    <i class="feather-icon ${this.getToastIcon(type)} me-2"></i>
+                    <strong class="me-auto">${this.getToastTitle(type)}</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            `;
+            
+            return toast;
+        },
+
+        getToastIcon(type) {
+            return type === 'error' ? 'icon-alert-circle' :
+                   type === 'success' ? 'icon-check-circle' :
+                   type === 'warning' ? 'icon-alert-triangle' : 'icon-info';
+        },
+
+        getToastTitle(type) {
+            return type === 'error' ? 'Lỗi' :
+                   type === 'success' ? 'Thành công' :
+                   type === 'warning' ? 'Cảnh báo' : 'Thông báo';
+        }
+    }
+}
+</script>
+</script>

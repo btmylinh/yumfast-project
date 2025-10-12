@@ -1,0 +1,805 @@
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\appsettings.Development.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\appsettings.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.staticwebassets.runtime.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.staticwebassets.endpoints.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.exe
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.deps.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.runtimeconfig.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.dll
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.pdb
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.AssemblyInfoInputs.cache
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.AssemblyInfo.cs
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.csproj.CoreCompileInputs.cache
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.RazorAssemblyInfo.cache
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.RazorAssemblyInfo.cs
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\rjimswa.dswa.cache.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\bundle\WebApp.styles.css
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\projectbundle\WebApp.bundle.scp.css
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\nrt9wfei13-{0}-qsajz3ps4l-qsajz3ps4l.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\lcaz16i7pu-{0}-qsajz3ps4l-qsajz3ps4l.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.json.cache
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.development.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\swae.build.ex.cache
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.dll
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\refint\WebApp.dll
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.pdb
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.genruntimeconfig.cache
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\ref\WebApp.dll
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\8dlv3h58w4-{0}-2ybb8osm5v-2ybb8osm5v.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fgac3icjhi-{0}-ltsz57io2z-ltsz57io2z.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\04brar7xtb-{0}-il24ei8bjg-il24ei8bjg.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ggbpqrjf4a-{0}-oxebvw5iey-oxebvw5iey.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\psde5dzhrf-{0}-qrw2m2em0p-qrw2m2em0p.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ggo2u14xbi-{0}-9hf6fnz1c7-9hf6fnz1c7.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fhh56dcvzi-{0}-ewcgauml4d-ewcgauml4d.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5cx8vz9eev-{0}-fwep7kjlh9-fwep7kjlh9.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\m5sdhlpizd-{0}-qmpv1av2vz-qmpv1av2vz.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4ytq79m537-{0}-erf5pzzmnl-erf5pzzmnl.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\mej3qhhrug-{0}-a79ayrwgrv-a79ayrwgrv.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\i3qzi2gpf2-{0}-2oq8tzfui7-2oq8tzfui7.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ia77vi1dcf-{0}-peig6du0r8-peig6du0r8.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4nrcwpz1gq-{0}-tqe9sy9nkw-tqe9sy9nkw.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fj1jlsegvy-{0}-7obhdebetg-7obhdebetg.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\mc0y9yco2c-{0}-jgyq5rqbzb-jgyq5rqbzb.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\w0g8o8y2ev-{0}-r6d3t2bi2p-r6d3t2bi2p.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4paujiacb3-{0}-rj1bn9rhn3-rj1bn9rhn3.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3mn75w2cqd-{0}-0u88c2o76m-0u88c2o76m.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\sovy0gmd4j-{0}-k0xggfi1zx-k0xggfi1zx.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9xinkn705r-{0}-0olkwnuibu-0olkwnuibu.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\j6krdkhrri-{0}-r6293fsmvu-r6293fsmvu.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\iza4678qv1-{0}-6d5lskz88q-6d5lskz88q.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\n6p5mckp2o-{0}-hgabp7o6pd-hgabp7o6pd.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\252hy0ttnf-{0}-m20eo1qjya-m20eo1qjya.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9rpxnaeru6-{0}-f4gb9614ok-f4gb9614ok.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ymbj5nbpr3-{0}-j7nkf9xeiw-j7nkf9xeiw.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\zyvhht81zo-{0}-ns6kefvwfq-ns6kefvwfq.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\adcsdd942v-{0}-mfgzdazvxw-mfgzdazvxw.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\kq7zg9ls16-{0}-ryar6xfg5i-ryar6xfg5i.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ows8jnudyy-{0}-sq0dzoeaie-sq0dzoeaie.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\6gkkmfuouk-{0}-tp8xzaijqp-tp8xzaijqp.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5llxgu95c5-{0}-szm9skbydo-szm9skbydo.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\f1mdz1pkzp-{0}-y5d5ssuly3-y5d5ssuly3.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\q4xsmj2l04-{0}-9h7lgp8wcl-9h7lgp8wcl.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\rgwayz5g5s-{0}-y5d5ssuly3-y5d5ssuly3.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jyglol1oi7-{0}-xh0c5qitvv-xh0c5qitvv.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\nmdybi6ii1-{0}-66yrysauu1-66yrysauu1.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\db7jw0dcei-{0}-xz8ll9lfq3-xz8ll9lfq3.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\wc9rwyyzx7-{0}-3mrzshwlie-3mrzshwlie.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\i1vhfijf6x-{0}-t2fe0pff0t-t2fe0pff0t.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\52es44tr0k-{0}-51wojgnxwy-51wojgnxwy.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\rc1vcw18io-{0}-jyowgx9kb1-jyowgx9kb1.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\y9r70faujq-{0}-sorny5cwbh-sorny5cwbh.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\7c8yc32owf-{0}-c4nzi3e9kg-c4nzi3e9kg.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\t8246jedqv-{0}-rcw7ub5nvb-rcw7ub5nvb.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\v9r0rketvs-{0}-ffbro6gi2p-ffbro6gi2p.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\6mmywkky5u-{0}-g0raby1b9t-g0raby1b9t.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\lwkbj5yc53-{0}-wummhaaio8-wummhaaio8.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ypnogp2afh-{0}-481gj72piv-481gj72piv.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\1iuenxujh2-{0}-xh47e2kyfd-xh47e2kyfd.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\x0fucfyf3b-{0}-66j9eiv2tp-66j9eiv2tp.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3uiuotg283-{0}-4j5qz0esjg-4j5qz0esjg.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jrd8fofap2-{0}-t3mhd0mu5r-t3mhd0mu5r.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\e43i0rde85-{0}-plhvvus5tu-plhvvus5tu.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\zvrwi1md65-{0}-esjl8tk33p-esjl8tk33p.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\vuarrq7nmu-{0}-5olcqiehue-5olcqiehue.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\09956o7exe-{0}-bns1lwo371-bns1lwo371.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\cp88dotq4d-{0}-y2cbapjgvh-y2cbapjgvh.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\bk16h48izx-{0}-aurr3mbf7x-aurr3mbf7x.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\odmm0cr3kf-{0}-r4e3bc4fe6-r4e3bc4fe6.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\74gzqkub3h-{0}-or3wj8ygta-or3wj8ygta.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\qerj9rmnyn-{0}-d3jje28wlh-d3jje28wlh.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\airliyokv5-{0}-e4crc7eelz-e4crc7eelz.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\51wk9bs12w-{0}-w181am11zi-w181am11zi.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\qry5slm2mt-{0}-bvh3ud1akv-bvh3ud1akv.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\435g977mhr-{0}-kyvaq4a259-kyvaq4a259.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ryt53lozc8-{0}-7v34noli80-7v34noli80.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\phx01ndla0-{0}-493y06b0oq-493y06b0oq.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\cuy5uokwmu-{0}-tnxq9a4kaq-tnxq9a4kaq.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ym1e9ea22r-{0}-rpo6apucdd-rpo6apucdd.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\v6bdz0ahww-{0}-g2vsoxxg9l-g2vsoxxg9l.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\h7z46fi2n7-{0}-mtj4ucr9u1-mtj4ucr9u1.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\51q9xwmm87-{0}-i8fj6rnb82-i8fj6rnb82.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ufw991ldhu-{0}-dpf0vpy9nq-dpf0vpy9nq.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5sgnkf5jr4-{0}-vtnjnc1s9e-vtnjnc1s9e.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\vucfhcmy8h-{0}-va62yd68q2-va62yd68q2.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\agv9h8mpr3-{0}-40hg4bh1ao-40hg4bh1ao.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jvrym8qw8a-{0}-psiezlrivr-psiezlrivr.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9eftsej0kf-{0}-lwmxqcbati-lwmxqcbati.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3bjid9aaed-{0}-r8l7q294zv-r8l7q294zv.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\06pcb111d2-{0}-n2bjvlsbrg-n2bjvlsbrg.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ugryru1rlo-{0}-ab77ls38la-ab77ls38la.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ij3yehihww-{0}-pi5idtricg-pi5idtricg.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\j25n69bm3v-{0}-i08yjg5gu3-i08yjg5gu3.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\n2ao7pyx9r-{0}-ub329mjpvv-ub329mjpvv.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\dytbf21kn4-{0}-7cwm89dvxd-7cwm89dvxd.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\y753jyjn20-{0}-m6wwoyv29g-m6wwoyv29g.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\dzyaqwebng-{0}-5bpcbb0j21-5bpcbb0j21.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4ywusa3lvh-{0}-mmzakapvcy-mmzakapvcy.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ipru6ki46u-{0}-8vxybdbzmv-8vxybdbzmv.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\pp970ondku-{0}-4mj4hmzzw6-4mj4hmzzw6.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\wyttc0mi6o-{0}-qbyuntrwxy-qbyuntrwxy.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\18lqadxmqx-{0}-bzqej5mlae-bzqej5mlae.gz
+D:\University\Y4k1 TMDT\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\x7060jpbgn-{0}-myzke08crx-myzke08crx.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\appsettings.Development.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\appsettings.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\Resources\Localization\en.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\Resources\Localization\vi.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.staticwebassets.runtime.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.staticwebassets.endpoints.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.exe
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.deps.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.runtimeconfig.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.dll
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.pdb
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.AssemblyInfoInputs.cache
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.AssemblyInfo.cs
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.csproj.CoreCompileInputs.cache
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.RazorAssemblyInfo.cache
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.RazorAssemblyInfo.cs
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\rjimswa.dswa.cache.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\bundle\WebApp.styles.css
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\projectbundle\WebApp.bundle.scp.css
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\bieksj6vfy-{0}-5ipweew5fc-5ipweew5fc.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\8dlv3h58w4-{0}-2ybb8osm5v-2ybb8osm5v.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fgac3icjhi-{0}-ltsz57io2z-ltsz57io2z.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\04brar7xtb-{0}-il24ei8bjg-il24ei8bjg.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ggbpqrjf4a-{0}-oxebvw5iey-oxebvw5iey.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\psde5dzhrf-{0}-qrw2m2em0p-qrw2m2em0p.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ggo2u14xbi-{0}-9hf6fnz1c7-9hf6fnz1c7.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fhh56dcvzi-{0}-ewcgauml4d-ewcgauml4d.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5cx8vz9eev-{0}-fwep7kjlh9-fwep7kjlh9.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\m5sdhlpizd-{0}-qmpv1av2vz-qmpv1av2vz.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4ytq79m537-{0}-erf5pzzmnl-erf5pzzmnl.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\mej3qhhrug-{0}-a79ayrwgrv-a79ayrwgrv.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\i3qzi2gpf2-{0}-2oq8tzfui7-2oq8tzfui7.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ia77vi1dcf-{0}-peig6du0r8-peig6du0r8.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4nrcwpz1gq-{0}-tqe9sy9nkw-tqe9sy9nkw.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fj1jlsegvy-{0}-7obhdebetg-7obhdebetg.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\mc0y9yco2c-{0}-jgyq5rqbzb-jgyq5rqbzb.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\w0g8o8y2ev-{0}-r6d3t2bi2p-r6d3t2bi2p.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4paujiacb3-{0}-rj1bn9rhn3-rj1bn9rhn3.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3mn75w2cqd-{0}-0u88c2o76m-0u88c2o76m.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\sovy0gmd4j-{0}-k0xggfi1zx-k0xggfi1zx.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9xinkn705r-{0}-0olkwnuibu-0olkwnuibu.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\j6krdkhrri-{0}-01gsh6sa5l-01gsh6sa5l.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\iza4678qv1-{0}-6d5lskz88q-6d5lskz88q.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\n6p5mckp2o-{0}-hgabp7o6pd-hgabp7o6pd.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\252hy0ttnf-{0}-m20eo1qjya-m20eo1qjya.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9rpxnaeru6-{0}-f4gb9614ok-f4gb9614ok.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ymbj5nbpr3-{0}-j7nkf9xeiw-j7nkf9xeiw.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\zyvhht81zo-{0}-ns6kefvwfq-ns6kefvwfq.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\adcsdd942v-{0}-mfgzdazvxw-mfgzdazvxw.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\kq7zg9ls16-{0}-ryar6xfg5i-ryar6xfg5i.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ows8jnudyy-{0}-sq0dzoeaie-sq0dzoeaie.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\6gkkmfuouk-{0}-tp8xzaijqp-tp8xzaijqp.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5llxgu95c5-{0}-szm9skbydo-szm9skbydo.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\f1mdz1pkzp-{0}-y5d5ssuly3-y5d5ssuly3.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\q4xsmj2l04-{0}-9h7lgp8wcl-9h7lgp8wcl.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\rgwayz5g5s-{0}-y5d5ssuly3-y5d5ssuly3.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jyglol1oi7-{0}-xh0c5qitvv-xh0c5qitvv.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\nmdybi6ii1-{0}-66yrysauu1-66yrysauu1.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\db7jw0dcei-{0}-xz8ll9lfq3-xz8ll9lfq3.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\wc9rwyyzx7-{0}-3mrzshwlie-3mrzshwlie.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\i1vhfijf6x-{0}-t2fe0pff0t-t2fe0pff0t.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\52es44tr0k-{0}-51wojgnxwy-51wojgnxwy.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\rc1vcw18io-{0}-jyowgx9kb1-jyowgx9kb1.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\y9r70faujq-{0}-sorny5cwbh-sorny5cwbh.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\7c8yc32owf-{0}-c4nzi3e9kg-c4nzi3e9kg.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\t8246jedqv-{0}-rcw7ub5nvb-rcw7ub5nvb.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\v9r0rketvs-{0}-ffbro6gi2p-ffbro6gi2p.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\6mmywkky5u-{0}-g0raby1b9t-g0raby1b9t.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\lwkbj5yc53-{0}-wummhaaio8-wummhaaio8.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ypnogp2afh-{0}-481gj72piv-481gj72piv.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\1iuenxujh2-{0}-xh47e2kyfd-xh47e2kyfd.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\x0fucfyf3b-{0}-66j9eiv2tp-66j9eiv2tp.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3uiuotg283-{0}-4j5qz0esjg-4j5qz0esjg.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jrd8fofap2-{0}-t3mhd0mu5r-t3mhd0mu5r.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\e43i0rde85-{0}-plhvvus5tu-plhvvus5tu.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\zvrwi1md65-{0}-esjl8tk33p-esjl8tk33p.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\vuarrq7nmu-{0}-5olcqiehue-5olcqiehue.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\09956o7exe-{0}-bns1lwo371-bns1lwo371.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\cp88dotq4d-{0}-y2cbapjgvh-y2cbapjgvh.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\bk16h48izx-{0}-aurr3mbf7x-aurr3mbf7x.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\odmm0cr3kf-{0}-r4e3bc4fe6-r4e3bc4fe6.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\74gzqkub3h-{0}-or3wj8ygta-or3wj8ygta.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\qerj9rmnyn-{0}-d3jje28wlh-d3jje28wlh.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\airliyokv5-{0}-e4crc7eelz-e4crc7eelz.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\51wk9bs12w-{0}-w181am11zi-w181am11zi.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\qry5slm2mt-{0}-bvh3ud1akv-bvh3ud1akv.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\435g977mhr-{0}-kyvaq4a259-kyvaq4a259.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ryt53lozc8-{0}-7v34noli80-7v34noli80.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\phx01ndla0-{0}-493y06b0oq-493y06b0oq.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\cuy5uokwmu-{0}-tnxq9a4kaq-tnxq9a4kaq.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ym1e9ea22r-{0}-rpo6apucdd-rpo6apucdd.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\v6bdz0ahww-{0}-g2vsoxxg9l-g2vsoxxg9l.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\h7z46fi2n7-{0}-mtj4ucr9u1-mtj4ucr9u1.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\51q9xwmm87-{0}-i8fj6rnb82-i8fj6rnb82.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ufw991ldhu-{0}-dpf0vpy9nq-dpf0vpy9nq.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5sgnkf5jr4-{0}-vtnjnc1s9e-vtnjnc1s9e.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\vucfhcmy8h-{0}-va62yd68q2-va62yd68q2.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\agv9h8mpr3-{0}-40hg4bh1ao-40hg4bh1ao.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jvrym8qw8a-{0}-psiezlrivr-psiezlrivr.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9eftsej0kf-{0}-lwmxqcbati-lwmxqcbati.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3bjid9aaed-{0}-r8l7q294zv-r8l7q294zv.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\06pcb111d2-{0}-n2bjvlsbrg-n2bjvlsbrg.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ugryru1rlo-{0}-ab77ls38la-ab77ls38la.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ij3yehihww-{0}-pi5idtricg-pi5idtricg.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\j25n69bm3v-{0}-i08yjg5gu3-i08yjg5gu3.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\n2ao7pyx9r-{0}-ub329mjpvv-ub329mjpvv.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\dytbf21kn4-{0}-7cwm89dvxd-7cwm89dvxd.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\y753jyjn20-{0}-m6wwoyv29g-m6wwoyv29g.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\dzyaqwebng-{0}-5bpcbb0j21-5bpcbb0j21.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4ywusa3lvh-{0}-mmzakapvcy-mmzakapvcy.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ipru6ki46u-{0}-8vxybdbzmv-8vxybdbzmv.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\pp970ondku-{0}-4mj4hmzzw6-4mj4hmzzw6.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\wyttc0mi6o-{0}-qbyuntrwxy-qbyuntrwxy.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\18lqadxmqx-{0}-bzqej5mlae-bzqej5mlae.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\x7060jpbgn-{0}-myzke08crx-myzke08crx.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\nrt9wfei13-{0}-qsajz3ps4l-qsajz3ps4l.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\lcaz16i7pu-{0}-qsajz3ps4l-qsajz3ps4l.gz
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.json.cache
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.development.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\swae.build.ex.cache
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.dll
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\refint\WebApp.dll
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.pdb
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.genruntimeconfig.cache
+D:\University\Y4k1 TMDT\Đồ án\web-app-fruitable\WebApp\obj\Debug\net10.0\ref\WebApp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\appsettings.Development.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.staticwebassets.endpoints.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\appsettings.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Resources\Localization\en.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Resources\Localization\vi.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\MvcTestingAppManifest.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.staticwebassets.runtime.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.exe
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.deps.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.runtimeconfig.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.pdb
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\WebApp.xml
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Antiforgery.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authentication.BearerToken.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authentication.Cookies.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authentication.Core.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authentication.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authentication.OAuth.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authorization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Authorization.Policy.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Components.Authorization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Components.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Components.Endpoints.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Components.Forms.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Components.Server.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Components.Web.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Connections.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.CookiePolicy.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Cors.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.DataProtection.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.DataProtection.Extensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Diagnostics.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Diagnostics.HealthChecks.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.HostFiltering.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Hosting.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Hosting.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Html.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Http.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Http.Connections.Common.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Http.Connections.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Http.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Http.Extensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Http.Features.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Http.Results.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.HttpLogging.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.HttpOverrides.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.HttpsPolicy.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Identity.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Localization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Localization.Routing.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Metadata.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.ApiExplorer.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.Core.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.Cors.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.Formatters.Xml.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.Localization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.Razor.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.RazorPages.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.TagHelpers.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.OutputCaching.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.RateLimiting.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Razor.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Razor.Runtime.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.RequestDecompression.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.ResponseCaching.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.ResponseCompression.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Rewrite.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Routing.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Routing.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.HttpSys.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.IIS.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.IISIntegration.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.Kestrel.Core.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.Kestrel.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.Quic.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.Session.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.SignalR.Common.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.SignalR.Core.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.SignalR.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.StaticAssets.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.StaticFiles.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.WebSockets.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.AspNetCore.WebUtilities.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.CSharp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Caching.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Caching.Memory.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.Binder.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.CommandLine.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.Ini.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.Json.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.KeyPerFile.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.UserSecrets.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Configuration.Xml.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.DependencyInjection.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Diagnostics.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Diagnostics.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Features.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.FileProviders.Composite.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.FileProviders.Physical.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.FileSystemGlobbing.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Hosting.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Hosting.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Http.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Identity.Core.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Identity.Stores.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Localization.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Localization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.Configuration.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.Console.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.Debug.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.EventLog.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.EventSource.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Logging.TraceSource.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.ObjectPool.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Options.DataAnnotations.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Options.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.Validation.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Extensions.WebEncoders.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.JSInterop.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Net.Http.Headers.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.VisualBasic.Core.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.VisualBasic.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Win32.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\Microsoft.Win32.Registry.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\mscorlib.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\netstandard.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.AppContext.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Buffers.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Collections.Concurrent.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Collections.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Collections.Immutable.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Collections.NonGeneric.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Collections.Specialized.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ComponentModel.Annotations.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ComponentModel.DataAnnotations.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ComponentModel.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ComponentModel.EventBasedAsync.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ComponentModel.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ComponentModel.TypeConverter.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Configuration.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Console.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Core.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Data.Common.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Data.DataSetExtensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Data.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.Contracts.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.Debug.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.DiagnosticSource.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.EventLog.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.FileVersionInfo.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.Process.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.StackTrace.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.TextWriterTraceListener.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.Tools.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.TraceSource.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Diagnostics.Tracing.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Drawing.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Drawing.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Dynamic.Runtime.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Formats.Asn1.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Formats.Cbor.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Formats.Tar.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Globalization.Calendars.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Globalization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Globalization.Extensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.Compression.Brotli.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.Compression.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.Compression.FileSystem.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.Compression.ZipFile.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.FileSystem.AccessControl.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.FileSystem.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.FileSystem.DriveInfo.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.FileSystem.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.FileSystem.Watcher.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.IsolatedStorage.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.MemoryMappedFiles.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.Pipelines.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.Pipes.AccessControl.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.Pipes.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.IO.UnmanagedMemoryStream.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Linq.AsyncEnumerable.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Linq.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Linq.Expressions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Linq.Parallel.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Linq.Queryable.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Memory.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Http.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Http.Json.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.HttpListener.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Mail.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.NameResolution.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.NetworkInformation.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Ping.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Quic.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Requests.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Security.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.ServerSentEvents.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.ServicePoint.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.Sockets.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.WebClient.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.WebHeaderCollection.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.WebProxy.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.WebSockets.Client.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Net.WebSockets.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Numerics.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Numerics.Vectors.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ObjectModel.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.DispatchProxy.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.Emit.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.Emit.ILGeneration.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.Emit.Lightweight.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.Extensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.Metadata.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Reflection.TypeExtensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Resources.Reader.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Resources.ResourceManager.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Resources.Writer.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.CompilerServices.Unsafe.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.CompilerServices.VisualC.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Extensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Handles.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.InteropServices.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.InteropServices.JavaScript.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Intrinsics.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Loader.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Numerics.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Serialization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Serialization.Formatters.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Serialization.Json.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Serialization.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Runtime.Serialization.Xml.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.AccessControl.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Claims.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.Algorithms.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.Cng.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.Csp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.Encoding.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.OpenSsl.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.Primitives.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.X509Certificates.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Cryptography.Xml.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Principal.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.Principal.Windows.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Security.SecureString.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ServiceModel.Web.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ServiceProcess.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Text.Encoding.CodePages.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Text.Encoding.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Text.Encoding.Extensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Text.Encodings.Web.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Text.Json.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Text.RegularExpressions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.AccessControl.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Channels.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Overlapped.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.RateLimiting.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Tasks.Dataflow.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Tasks.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Tasks.Extensions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Tasks.Parallel.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Thread.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.ThreadPool.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Threading.Timer.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Transactions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Transactions.Local.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.ValueTuple.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Web.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Web.HttpUtility.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Windows.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.Linq.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.ReaderWriter.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.Serialization.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.XDocument.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.XmlDocument.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.XmlSerializer.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.XPath.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\System.Xml.XPath.XDocument.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\refs\WindowsBase.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.AspNetCore.Mvc.Testing.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.AspNetCore.TestHost.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.InMemory.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.Extensions.DependencyModel.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.OpenApi.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Npgsql.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.csproj.AssemblyReference.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\MvcTestingAppManifest.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.AssemblyInfoInputs.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.AssemblyInfo.cs
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.csproj.CoreCompileInputs.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.MvcApplicationPartsAssemblyInfo.cs
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.MvcApplicationPartsAssemblyInfo.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.RazorAssemblyInfo.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.RazorAssemblyInfo.cs
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\rjimswa.dswa.cache.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\bundle\WebApp.styles.css
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\scopedcss\projectbundle\WebApp.bundle.scp.css
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\bieksj6vfy-{0}-5ipweew5fc-5ipweew5fc.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\8dlv3h58w4-{0}-2ybb8osm5v-2ybb8osm5v.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fgac3icjhi-{0}-ltsz57io2z-ltsz57io2z.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\04brar7xtb-{0}-il24ei8bjg-il24ei8bjg.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ggbpqrjf4a-{0}-oxebvw5iey-oxebvw5iey.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\psde5dzhrf-{0}-qrw2m2em0p-qrw2m2em0p.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ggo2u14xbi-{0}-9hf6fnz1c7-9hf6fnz1c7.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fhh56dcvzi-{0}-ewcgauml4d-ewcgauml4d.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5cx8vz9eev-{0}-fwep7kjlh9-fwep7kjlh9.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\m5sdhlpizd-{0}-qmpv1av2vz-qmpv1av2vz.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4ytq79m537-{0}-erf5pzzmnl-erf5pzzmnl.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\mej3qhhrug-{0}-a79ayrwgrv-a79ayrwgrv.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\i3qzi2gpf2-{0}-2oq8tzfui7-2oq8tzfui7.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ia77vi1dcf-{0}-peig6du0r8-peig6du0r8.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4nrcwpz1gq-{0}-tqe9sy9nkw-tqe9sy9nkw.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\fj1jlsegvy-{0}-7obhdebetg-7obhdebetg.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\mc0y9yco2c-{0}-jgyq5rqbzb-jgyq5rqbzb.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\w0g8o8y2ev-{0}-r6d3t2bi2p-r6d3t2bi2p.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4paujiacb3-{0}-rj1bn9rhn3-rj1bn9rhn3.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3mn75w2cqd-{0}-0u88c2o76m-0u88c2o76m.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\sovy0gmd4j-{0}-k0xggfi1zx-k0xggfi1zx.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9xinkn705r-{0}-0olkwnuibu-0olkwnuibu.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\j6krdkhrri-{0}-01gsh6sa5l-01gsh6sa5l.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\iza4678qv1-{0}-6d5lskz88q-6d5lskz88q.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\n6p5mckp2o-{0}-hgabp7o6pd-hgabp7o6pd.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\252hy0ttnf-{0}-m20eo1qjya-m20eo1qjya.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9rpxnaeru6-{0}-f4gb9614ok-f4gb9614ok.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ymbj5nbpr3-{0}-j7nkf9xeiw-j7nkf9xeiw.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\zyvhht81zo-{0}-ns6kefvwfq-ns6kefvwfq.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\adcsdd942v-{0}-mfgzdazvxw-mfgzdazvxw.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\kq7zg9ls16-{0}-ryar6xfg5i-ryar6xfg5i.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ows8jnudyy-{0}-sq0dzoeaie-sq0dzoeaie.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\6gkkmfuouk-{0}-tp8xzaijqp-tp8xzaijqp.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5llxgu95c5-{0}-szm9skbydo-szm9skbydo.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\f1mdz1pkzp-{0}-y5d5ssuly3-y5d5ssuly3.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\q4xsmj2l04-{0}-9h7lgp8wcl-9h7lgp8wcl.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\rgwayz5g5s-{0}-y5d5ssuly3-y5d5ssuly3.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jyglol1oi7-{0}-xh0c5qitvv-xh0c5qitvv.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\nmdybi6ii1-{0}-66yrysauu1-66yrysauu1.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\db7jw0dcei-{0}-xz8ll9lfq3-xz8ll9lfq3.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\wc9rwyyzx7-{0}-3mrzshwlie-3mrzshwlie.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\i1vhfijf6x-{0}-t2fe0pff0t-t2fe0pff0t.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\52es44tr0k-{0}-51wojgnxwy-51wojgnxwy.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\rc1vcw18io-{0}-jyowgx9kb1-jyowgx9kb1.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\y9r70faujq-{0}-sorny5cwbh-sorny5cwbh.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\7c8yc32owf-{0}-c4nzi3e9kg-c4nzi3e9kg.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\t8246jedqv-{0}-rcw7ub5nvb-rcw7ub5nvb.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\v9r0rketvs-{0}-ffbro6gi2p-ffbro6gi2p.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\6mmywkky5u-{0}-g0raby1b9t-g0raby1b9t.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\lwkbj5yc53-{0}-wummhaaio8-wummhaaio8.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ypnogp2afh-{0}-481gj72piv-481gj72piv.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\1iuenxujh2-{0}-xh47e2kyfd-xh47e2kyfd.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\x0fucfyf3b-{0}-66j9eiv2tp-66j9eiv2tp.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3uiuotg283-{0}-4j5qz0esjg-4j5qz0esjg.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jrd8fofap2-{0}-t3mhd0mu5r-t3mhd0mu5r.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\e43i0rde85-{0}-plhvvus5tu-plhvvus5tu.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\zvrwi1md65-{0}-esjl8tk33p-esjl8tk33p.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\vuarrq7nmu-{0}-5olcqiehue-5olcqiehue.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\09956o7exe-{0}-bns1lwo371-bns1lwo371.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\cp88dotq4d-{0}-y2cbapjgvh-y2cbapjgvh.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\bk16h48izx-{0}-aurr3mbf7x-aurr3mbf7x.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\odmm0cr3kf-{0}-r4e3bc4fe6-r4e3bc4fe6.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\74gzqkub3h-{0}-or3wj8ygta-or3wj8ygta.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\qerj9rmnyn-{0}-d3jje28wlh-d3jje28wlh.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\airliyokv5-{0}-e4crc7eelz-e4crc7eelz.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\51wk9bs12w-{0}-w181am11zi-w181am11zi.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\qry5slm2mt-{0}-bvh3ud1akv-bvh3ud1akv.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\435g977mhr-{0}-kyvaq4a259-kyvaq4a259.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ryt53lozc8-{0}-7v34noli80-7v34noli80.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\phx01ndla0-{0}-493y06b0oq-493y06b0oq.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\cuy5uokwmu-{0}-tnxq9a4kaq-tnxq9a4kaq.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ym1e9ea22r-{0}-rpo6apucdd-rpo6apucdd.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\v6bdz0ahww-{0}-g2vsoxxg9l-g2vsoxxg9l.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\h7z46fi2n7-{0}-mtj4ucr9u1-mtj4ucr9u1.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\51q9xwmm87-{0}-i8fj6rnb82-i8fj6rnb82.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ufw991ldhu-{0}-dpf0vpy9nq-dpf0vpy9nq.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\5sgnkf5jr4-{0}-vtnjnc1s9e-vtnjnc1s9e.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\vucfhcmy8h-{0}-va62yd68q2-va62yd68q2.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\agv9h8mpr3-{0}-40hg4bh1ao-40hg4bh1ao.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\jvrym8qw8a-{0}-psiezlrivr-psiezlrivr.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\9eftsej0kf-{0}-lwmxqcbati-lwmxqcbati.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\3bjid9aaed-{0}-r8l7q294zv-r8l7q294zv.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\06pcb111d2-{0}-n2bjvlsbrg-n2bjvlsbrg.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ugryru1rlo-{0}-ab77ls38la-ab77ls38la.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ij3yehihww-{0}-pi5idtricg-pi5idtricg.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\j25n69bm3v-{0}-i08yjg5gu3-i08yjg5gu3.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\n2ao7pyx9r-{0}-ub329mjpvv-ub329mjpvv.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\dytbf21kn4-{0}-7cwm89dvxd-7cwm89dvxd.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\y753jyjn20-{0}-m6wwoyv29g-m6wwoyv29g.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\dzyaqwebng-{0}-5bpcbb0j21-5bpcbb0j21.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\4ywusa3lvh-{0}-mmzakapvcy-mmzakapvcy.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\ipru6ki46u-{0}-8vxybdbzmv-8vxybdbzmv.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\pp970ondku-{0}-4mj4hmzzw6-4mj4hmzzw6.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\wyttc0mi6o-{0}-qbyuntrwxy-qbyuntrwxy.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\18lqadxmqx-{0}-bzqej5mlae-bzqej5mlae.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\x7060jpbgn-{0}-myzke08crx-myzke08crx.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\nrt9wfei13-{0}-qsajz3ps4l-qsajz3ps4l.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\compressed\lcaz16i7pu-{0}-qsajz3ps4l-qsajz3ps4l.gz
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.json.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.development.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\swae.build.ex.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.csproj.Up2Date
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\refint\WebApp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.xml
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.pdb
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\WebApp.genruntimeconfig.cache
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\obj\Debug\net10.0\ref\WebApp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Humanizer.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.Build.Locator.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.CodeAnalysis.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\Mono.TextTemplating.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\System.CodeDom.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\System.Composition.AttributedModel.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\System.Composition.Convention.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\System.Composition.Hosting.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\System.Composition.Runtime.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\System.Composition.TypedParts.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\University\Y4k1 TMDT\DOAN\web-app-fruitable\WebApp\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
