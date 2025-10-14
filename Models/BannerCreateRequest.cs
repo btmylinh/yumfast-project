@@ -6,7 +6,7 @@ namespace WebApp.Models
     {
         [Required(ErrorMessage = "Banner name is required")]
         [StringLength(120, MinimumLength = 2, ErrorMessage = "Banner name must be between 2 and 120 characters")]
-        [RegularExpression(@"^[a-zA-Z0-9\s\-_.,!?()]+$", ErrorMessage = "Banner name contains invalid characters")]
+        [RegularExpression(@"^[a-zA-Z0-9\s\-_.,!?()àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]+$", ErrorMessage = "Banner name contains invalid characters")]
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Banner image is required")]
