@@ -1,3 +1,4 @@
+@model List<WebApp.Models.Banner>
 @{
     ViewData["Title"] = "Trang chủ";
       Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,41 +8,46 @@
    <section class="mt-8">
       <div class="container">
          <div class="hero-slider">
-            <div style="background: url(../assets/images/slider/hero-img-slider-1.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
-               <div class="ps-lg-12 py-lg-16 col-xxl-5 col-lg-7 col-md-8 py-14 px-8 text-xs-center">
-                  <h1 class="text-white display-5 fw-bold mt-4">YumFast - Đồ Ăn Nhanh Ngon Nhất</h1>
-                  <p class="lead text-white">Giao hàng đồ ăn nhanh nóng hổi trong 30 phút với chất lượng tuyệt vời.</p>
-                  <a href="#!" class="btn btn-dark mt-3">
-                     Shop Now
-                     <i class="feather-icon icon-arrow-right ms-1"></i>
-                  </a>
-               </div>
-            </div>
-            <div style="background: url(../assets/images/slider/hero-img-slider-2.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
-               <div class="ps-lg-12 py-lg-16 col-xxl-5 col-lg-7 col-md-8 py-14 px-8 text-xs-center">
-                  <h1 class="text-dark display-5 fw-bold mt-4">
-                     Khuyến Mãi Khai Trương
-                     <br />
-                     Giảm giá lên đến
-                     <span class="text-primary display-6">50%</span>
-                  </h1>
-                  <p class="lead">Thưởng thức những món ăn nhanh ngon nhất với giá siêu hấp dẫn!</p>
-                  <a href="#!" class="btn btn-dark mt-3">
-                     @ViewBag.ShopNow
-                     <i class="feather-icon icon-arrow-right ms-1"></i>
-                  </a>
-               </div>
-            </div>
-            <div style="background: url(../assets/images/slider/hero-img-slider-3.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
-               <div class="ps-lg-12 py-lg-16 col-xxl-5 col-lg-7 col-md-8 py-14 px-8 text-xs-center">
-                  <h1 class="text-dark display-5 fw-bold mt-4">Combo Đêm Khuya</h1>
-                  <p class="lead">Thưởng thức combo đồ ăn nhanh ngon miệng cho những đêm muộn!</p>
-                  <a href="#!" class="btn btn-dark mt-3">
-                     @ViewBag.ShopNow
-                     <i class="feather-icon icon-arrow-right ms-1"></i>
-                  </a>
-               </div>
-            </div>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var banner in Model)
+                {
+                    <div style="background: url(@banner.Image) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
+                        <div class="ps-lg-12 py-lg-16 col-xxl-5 col-lg-7 col-md-8 py-14 px-8 text-xs-center">
+                            <h1 class="text-white display-5 fw-bold mt-4">@banner.Name</h1>
+                            <p class="lead text-white">Khám phá những món ăn ngon nhất với YumFast!</p>
+                            @if (!string.IsNullOrEmpty(banner.Link))
+                            {
+                                <a href="@banner.Link" class="btn btn-dark mt-3">
+                                    Shop Now
+                                    <i class="feather-icon icon-arrow-right ms-1"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#!" class="btn btn-dark mt-3">
+                                    Shop Now
+                                    <i class="feather-icon icon-arrow-right ms-1"></i>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <!-- Fallback banner nếu không có banner nào trong database -->
+                <div style="background: url(../assets/images/slider/hero-img-slider-1.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
+                    <div class="ps-lg-12 py-lg-16 col-xxl-5 col-lg-7 col-md-8 py-14 px-8 text-xs-center">
+                        <h1 class="text-white display-5 fw-bold mt-4">YumFast - Đồ Ăn Nhanh Ngon Nhất</h1>
+                        <p class="lead text-white">Giao hàng đồ ăn nhanh nóng hổi trong 30 phút với chất lượng tuyệt vời.</p>
+                        <a href="#!" class="btn btn-dark mt-3">
+                            Shop Now
+                            <i class="feather-icon icon-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            }
          </div>
       </div>
    </section>

@@ -12,37 +12,37 @@ public class AdminController : BaseController
     // GET: Admin/Products
     public IActionResult Products()
     {
-        return View();
+        return View("~/Views/Admin/Products/Products.cshtml");
     }
 
     // GET: Admin/Categories
     public IActionResult Categories()
     {
-        return View();
+        return View("~/Views/Admin/Categories/Categories.cshtml");
     }
 
     // GET: Admin/Orders
     public IActionResult Orders()
     {
-        return View();
+        return View("~/Views/Admin/Orders/Orders.cshtml");
     }
 
-    // GET: Admin/Customers
-    public IActionResult Customers()
+    // GET: Admin/Users
+    public IActionResult Users()
     {
-        return View();
+        return View("~/Views/Admin/Users/Users.cshtml");
     }
 
     // GET: Admin/Reports
     public IActionResult Reports()
     {
-        return View();
+        return View("~/Views/Admin/Reports/Reports.cshtml");
     }
 
     // GET: Admin/Reviews
     public IActionResult Reviews()
     {
-        return View();
+        return View("~/Views/Admin/Reviews.cshtml");
     }
 
     // GET: Admin/AddProduct
@@ -60,13 +60,13 @@ public class AdminController : BaseController
     // GET: Admin/CreateUser
     public IActionResult CreateUser()
     {
-        return View("~/Views/Admin/Customers/CreateCustomer.cshtml");
+        return View("~/Views/Admin/Users/CreateUser.cshtml");
     }
 
     // GET: Admin/EditUser
     public IActionResult EditUser()
     {
-        return View("~/Views/Admin/Customers/EditCustomer.cshtml");
+        return View("~/Views/Admin/Users/EditUser.cshtml");
     }
 
     // GET: Admin/OrderDetail
