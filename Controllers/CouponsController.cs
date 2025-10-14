@@ -16,7 +16,7 @@ namespace WebApp.Controllers
             SetCouponViewBagValues();
             
             var coupons = GetMockCoupons();
-            return View(coupons);
+            return View("~/Views/Admin/Coupons/Index.cshtml", coupons);
         }
 
         public IActionResult Create()
@@ -25,7 +25,7 @@ namespace WebApp.Controllers
             SetCouponViewBagValues();
             
             var model = new CouponViewModel();
-            return View(model);
+            return View("~/Views/Admin/Coupons/Create.cshtml", model);
         }
 
         [HttpPost]
@@ -40,7 +40,7 @@ namespace WebApp.Controllers
             
             // Set coupon-specific ViewBag values for re-display
             SetCouponViewBagValues();
-            return View(model);
+            return View("~/Views/Admin/Coupons/Create.cshtml", model);
         }
 
         public IActionResult Edit(int id)
@@ -53,7 +53,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            return View(coupon);
+            return View("~/Views/Admin/Coupons/Edit.cshtml", coupon);
         }
 
         [HttpPost]
@@ -68,7 +68,7 @@ namespace WebApp.Controllers
             
             // Set coupon-specific ViewBag values for re-display
             SetCouponViewBagValues();
-            return View(model);
+            return View("~/Views/Admin/Coupons/Edit.cshtml", model);
         }
 
         [HttpPost]

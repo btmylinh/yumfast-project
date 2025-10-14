@@ -1,19 +1,31 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 using WebApp.Services;
+using WebApp.Data;
 
 namespace WebApp.Controllers;
 
 public class HomeController : BaseController
 {
-    public HomeController(IJsonLocalizationService localizationService) : base(localizationService)
+    private readonly ApplicationDbContext _context;
+
+    public HomeController(IJsonLocalizationService localizationService, ApplicationDbContext context) : base(localizationService)
     {
+        _context = context;
     }
-    public IActionResult Index()
+    
+    public async Task<IActionResult> Index()
     {
-        return View();
+        // Lấy danh sách banner đang hoạt động từ database
+        var banners = await _context.Banners
+            .Where(b => b.Status == 1) // Chỉ lấy banner đang hoạt động
+            .OrderBy(b => b.CreatedAt)
+            .ToListAsync();
+
+        return View(banners);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
