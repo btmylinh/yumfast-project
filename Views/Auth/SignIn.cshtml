@@ -35,7 +35,7 @@
                         <label class="form-check-label" for="flexCheckDefault">@ViewBag.AuthRememberMe</label>
                      </div>
                      <div>
-                        <a href="/auth/forgot-password">@ViewBag.AuthForgotPassword</a>
+                        <a href="@Url.Action("ForgotPassword","AuthView")">@ViewBag.AuthForgotPassword</a>
                      </div>
                   </div>
                   <div class="col-12 d-grid">
@@ -43,7 +43,7 @@
                   </div>
                   <div>
                      @ViewBag.AuthNoAccount
-                     <a href="@Url.Action("SignUp", "Auth")">@ViewBag.AuthSignUpLink</a>
+                     <a href="@Url.Action("SignUp", "AuthView")">@ViewBag.AuthSignUpLink</a>
                   </div>
                </div>
             </form>
@@ -60,7 +60,7 @@ document.querySelector("#loginForm").addEventListener("submit", async (e) => {
     password: document.querySelector("[name='password']").value
   };
 
-  const res = await fetch("/api/auth/login", {
+   const res = await fetch('@Url.Action("Login","Auth")', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)

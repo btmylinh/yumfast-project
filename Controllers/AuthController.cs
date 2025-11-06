@@ -10,7 +10,8 @@ using WebApp.Services;
 
 namespace WebApp.Controllers
 {
-    [Route("api/[controller]")]
+    // API Controller cho các endpoint auth
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -29,7 +30,7 @@ namespace WebApp.Controllers
         }
 
     // ĐĂNG KÝ + GỬI OTP QUA EMAIL
-        [HttpPost("register")]
+    [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             try
@@ -110,7 +111,7 @@ namespace WebApp.Controllers
         }
 
     // XÁC MINH OTP
-        [HttpPost("verify-otp")]
+    [HttpPost]
         public IActionResult VerifyOtp([FromBody] VerifyOtpRequest req)
         {
             try
@@ -144,7 +145,7 @@ namespace WebApp.Controllers
         }
 
     // GỬI LẠI OTP
-        [HttpPost("resend-otp")]
+    [HttpPost]
         public async Task<IActionResult> ResendOtp([FromBody] ResendOtpRequest req)
         {
             var otp = new Random().Next(100000, 999999).ToString();
@@ -159,7 +160,7 @@ namespace WebApp.Controllers
         }
 
     // QUÊN MẬT KHẨU - GỬI OTP
-        [HttpPost("forgot-password")]
+    [HttpPost]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest req)
         {
             try
@@ -205,7 +206,7 @@ namespace WebApp.Controllers
         }
 
     // ĐẶT LẠI MẬT KHẨU
-        [HttpPost("reset-password")]
+    [HttpPost]
         public IActionResult ResetPassword([FromBody] ResetPasswordRequest req)
         {
             try
@@ -244,7 +245,7 @@ namespace WebApp.Controllers
         }
 
     // ĐĂNG NHẬP 
-        [HttpPost("login")]
+    [HttpPost]
         public IActionResult Login([FromBody] LoginRequest request)
         {
             using var conn = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
@@ -335,5 +336,42 @@ namespace WebApp.Controllers
         public string Email { get; set; } = null!;
         public string Otp { get; set; } = null!;
         public string NewPassword { get; set; } = null!;
+    }
+
+    // View Controller cho các trang auth
+    [Route("auth/[action]")]
+    public class AuthViewController : BaseController
+    {
+        public AuthViewController(IJsonLocalizationService localizationService) : base(localizationService) {}
+
+    [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View("~/Views/Auth/SignUp.cshtml");
+        }
+
+    [HttpGet]
+        public IActionResult SignIn()
+        {
+            return View("~/Views/Auth/SignIn.cshtml");
+        }
+
+    [HttpGet]
+        public IActionResult Verify()
+        {
+            return View("~/Views/Auth/Verify.cshtml");
+        }
+
+    [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View("~/Views/Auth/ForgotPassword.cshtml");
+        }
+
+    [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            return View("~/Views/Auth/ResetPassword.cshtml");
+        }
     }
 }

@@ -317,5 +317,7 @@
   "otp_placeholder": "Nhập mã gồm 6 chữ số",
   "verify_button": "Xác minh",
   "resend_otp_button": "Gửi lại mã OTP",
-  "verify_title": "Xác minh Email"
+  "verify_title": "Xác minh Email",
+  "verify_success": "Xác minh thành công!",
+  "forgot_otp_sent": "Đã gửi mã OTP đến email của bạn. Vui lòng kiểm tra hộp thư."
 }

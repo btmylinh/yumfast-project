@@ -37,7 +37,7 @@
                         </div>
 
             <p class="mt-2 mb-0">
-              @ViewBag.AuthHaveAccount <a href="/auth/signin">@ViewBag.AuthSignInLink</a>
+              @ViewBag.AuthHaveAccount <a href="@Url.Action("SignIn","AuthView")">@ViewBag.AuthSignInLink</a>
             </p>
                     </div>
                 </form>
@@ -65,7 +65,7 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
     return;
   }
   try {
-    const res = await fetch("/api/auth/register", {
+    const res = await fetch('@Url.Action("Register","Auth")', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
@@ -73,8 +73,8 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
     const json = await res.json();
     if (res.ok) {
   alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignUpSuccessEnterOtp)');
-      localStorage.setItem("pendingEmail", data.email);
-      window.location.href = "/auth/verify";
+  localStorage.setItem("pendingEmail", data.email);
+  window.location.href = '@Url.Action("Verify","AuthView")';
     } else {
   alert(" " + (json.message || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignUpFailed)'));
     }

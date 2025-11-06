@@ -318,5 +318,7 @@
 "otp_placeholder": "Enter the 6-digit code",
 "verify_button": "Verify",
 "resend_otp_button": "Resend OTP",
-"verify_title": "Verify Email"
+"verify_title": "Verify Email",
+"verify_success": "Verification successful!",
+"forgot_otp_sent": "OTP has been sent to your email. Please check your inbox."
 }

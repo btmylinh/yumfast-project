@@ -263,12 +263,14 @@ namespace WebApp.Controllers
             ViewBag.VerifyEmailNotFound = _localizationService.GetLocalizedString("verify_email_not_found");
             ViewBag.ResendEnterEmailFirst = _localizationService.GetLocalizedString("resend_enter_email_first");
             ViewBag.ResetEmailNotFound = _localizationService.GetLocalizedString("reset_email_not_found");
+            ViewBag.ForgotOtpSent = _localizationService.GetLocalizedString("forgot_otp_sent");
             ViewBag.ResetSuccess = _localizationService.GetLocalizedString("reset_success");
             ViewBag.ResetFailed = _localizationService.GetLocalizedString("reset_failed");
             ViewBag.GenericError = _localizationService.GetLocalizedString("generic_error");
             ViewBag.SignInSuccess = _localizationService.GetLocalizedString("signin_success");
             ViewBag.SignInFailed = _localizationService.GetLocalizedString("signin_failed");
             // verify strings
+            ViewBag.VerifySuccess = _localizationService.GetLocalizedString("verify_success");
             ViewBag.VerifyTitle = _localizationService.GetLocalizedString("verify_title");
             ViewBag.VerifySubtitle = _localizationService.GetLocalizedString("verify_subtitle");
             ViewBag.OtpLabel = _localizationService.GetLocalizedString("otp_label");

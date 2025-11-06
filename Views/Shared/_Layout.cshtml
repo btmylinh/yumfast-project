@@ -1332,7 +1332,7 @@
                   logoutBtn.addEventListener('click', function(e) {
                      e.preventDefault();
                      localStorage.removeItem('token');
-                     window.location.href = '/auth/signin';
+                     window.location.href = '@Url.Action("SignIn","AuthView")';
                   });
                }
             });
