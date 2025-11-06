@@ -255,6 +255,26 @@ namespace WebApp.Controllers
             ViewBag.ValidationEnterPassword = _localizationService.GetLocalizedString("validation_enter_password");
             ViewBag.AuthSignInPasswordLabel = _localizationService.GetLocalizedString("auth_signin_password_label");
             ViewBag.AuthSignInPasswordError = _localizationService.GetLocalizedString("auth_signin_password_error");
+            // common validation / messages used in JS alerts
+            ViewBag.ValidationFillAll = _localizationService.GetLocalizedString("validation_fill_all");
+            ViewBag.SignUpSuccessEnterOtp = _localizationService.GetLocalizedString("signup_success_enter_otp");
+            ViewBag.SignUpFailed = _localizationService.GetLocalizedString("signup_failed");
+            ViewBag.ServerConnectionError = _localizationService.GetLocalizedString("server_connection_error");
+            ViewBag.VerifyEmailNotFound = _localizationService.GetLocalizedString("verify_email_not_found");
+            ViewBag.ResendEnterEmailFirst = _localizationService.GetLocalizedString("resend_enter_email_first");
+            ViewBag.ResetEmailNotFound = _localizationService.GetLocalizedString("reset_email_not_found");
+            ViewBag.ResetSuccess = _localizationService.GetLocalizedString("reset_success");
+            ViewBag.ResetFailed = _localizationService.GetLocalizedString("reset_failed");
+            ViewBag.GenericError = _localizationService.GetLocalizedString("generic_error");
+            ViewBag.SignInSuccess = _localizationService.GetLocalizedString("signin_success");
+            ViewBag.SignInFailed = _localizationService.GetLocalizedString("signin_failed");
+            // verify strings
+            ViewBag.VerifyTitle = _localizationService.GetLocalizedString("verify_title");
+            ViewBag.VerifySubtitle = _localizationService.GetLocalizedString("verify_subtitle");
+            ViewBag.OtpLabel = _localizationService.GetLocalizedString("otp_label");
+ViewBag.OtpPlaceholder = _localizationService.GetLocalizedString("otp_placeholder");
+ViewBag.VerifyButton = _localizationService.GetLocalizedString("verify_button");
+ViewBag.ResendOtpButton = _localizationService.GetLocalizedString("resend_otp_button");
              // sign up strings
             ViewBag.AuthSignUpTitle = _localizationService.GetLocalizedString("auth_signup_title");
             ViewBag.AuthSignUpSubtitle = _localizationService.GetLocalizedString("auth_signup_subtitle");
@@ -274,6 +294,7 @@ namespace WebApp.Controllers
             ViewBag.ValidationEnterEmail = _localizationService.GetLocalizedString("validation_enter_email");
             ViewBag.ValidationEnterPassword = _localizationService.GetLocalizedString("validation_enter_password");
             ViewBag.AuthForgotPasswordLink = _localizationService.GetLocalizedString("auth_forgot_password_link");
+            ViewBag.AuthPhonePlaceholder = _localizationService.GetLocalizedString("auth_phone_placeholder");
             // Forgot Password strings
             ViewBag.AuthForgotPasswordTitle = _localizationService.GetLocalizedString("auth_forgot_password_title");
             ViewBag.AuthForgotPasswordSubtitle = _localizationService.GetLocalizedString("auth_forgot_password_subtitle");

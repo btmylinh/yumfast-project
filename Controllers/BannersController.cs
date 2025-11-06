@@ -97,7 +97,7 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { code = "internal_server_error", error = ex.Message });
             }
         }
 
@@ -119,14 +119,14 @@ namespace WebApp.Controllers
 
                 if (banner == null)
                 {
-                    return NotFound(new { message = "Banner not found" });
+                    return NotFound(new { code = "banner_not_found" });
                 }
 
                 return Ok(banner);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { code = "internal_server_error", error = ex.Message });
             }
         }
 
@@ -144,7 +144,7 @@ namespace WebApp.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(new { 
-                        message = "Validation failed", 
+                        code = "validation_failed", 
                         errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) 
                     });
                 }
@@ -166,7 +166,7 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { code = "internal_server_error", error = ex.Message });
             }
         }
 
@@ -185,7 +185,7 @@ namespace WebApp.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(new { 
-                        message = "Validation failed", 
+                        code = "validation_failed", 
                         errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) 
                     });
                 }
@@ -193,7 +193,7 @@ namespace WebApp.Controllers
                 var existingBanner = await _context.Banners.FindAsync(id);
                 if (existingBanner == null)
                 {
-                    return NotFound(new { message = "Banner not found" });
+                    return NotFound(new { code = "banner_not_found" });
                 }
 
                 existingBanner.Name = request.Name;
@@ -205,13 +205,13 @@ namespace WebApp.Controllers
                 _context.Entry(existingBanner).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return Ok(new { message = "Banner updated successfully", data = existingBanner });
+                return Ok(new { code = "banner_updated", data = existingBanner });
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!BannerExists(id))
                 {
-                    return NotFound(new { message = "Banner not found" });
+                    return NotFound(new { code = "banner_not_found" });
                 }
                 else
                 {
@@ -220,7 +220,7 @@ namespace WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { code = "internal_server_error", error = ex.Message });
             }
         }
 
@@ -238,17 +238,17 @@ namespace WebApp.Controllers
                 var banner = await _context.Banners.FindAsync(id);
                 if (banner == null)
                 {
-                    return NotFound(new { message = "Banner not found" });
+                    return NotFound(new { code = "banner_not_found" });
                 }
 
                 _context.Banners.Remove(banner);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { message = "Banner deleted successfully" });
+                return Ok(new { code = "banner_deleted" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { code = "internal_server_error", error = ex.Message });
             }
         }
 
@@ -266,7 +266,7 @@ namespace WebApp.Controllers
                 var banner = await _context.Banners.FindAsync(id);
                 if (banner == null)
                 {
-                    return NotFound(new { message = "Banner not found" });
+                    return NotFound(new { code = "banner_not_found" });
                 }
 
                 banner.Status = banner.Status == 1 ? (short)0 : (short)1;
@@ -276,13 +276,13 @@ namespace WebApp.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok(new { 
-                    message = $"Banner {(banner.Status == 1 ? "activated" : "deactivated")} successfully", 
+                    code = banner.Status == 1 ? "banner_activated" : "banner_deactivated", 
                     data = banner 
                 });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+                return StatusCode(500, new { code = "internal_server_error", error = ex.Message });
             }
         }
 

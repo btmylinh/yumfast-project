@@ -1,77 +1,86 @@
 @{
-    ViewData["Title"] = ViewBag.AuthSignUpTitle;
-    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+  ViewData["Title"] = ViewBag.AuthSignUpTitle;
+  Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
+
 <section class="my-lg-14 my-8">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row justify-content-center align-items-center">
             <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
-                <!-- img -->
-                <img src="../assets/images/svg-graphics/signup-g.svg" alt="" class="img-fluid" />
+                <img src="~/assets/images/svg-graphics/signup-g.svg" alt="Sign up" class="img-fluid" />
             </div>
-            <!-- col -->
-            <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
-                <div class="mb-lg-9 mb-5">
-                    <h1 class="mb-1 h2 fw-bold">@ViewBag.AuthSignUpTitle</h1>
-                    <p>@ViewBag.AuthSignUpSubtitle</p>
-                </div>
-                <!-- form -->
-                <form class="needs-validation" novalidate>
-                    <div class="row g-3">
-                        <!-- col -->
-                        <div class="col">
-                            <!-- input -->
-                            <label for="formSignupfname" class="form-label visually-hidden">@ViewBag.AuthFirstName</label>
-                            <input type="text" class="form-control" id="formSignupfname" placeholder="@ViewBag.AuthFirstName"
-                                required />
-                            <div class="invalid-feedback">@ViewBag.ValidationEnterFirstName</div>
-                        </div>
-                        <div class="col">
-                            <!-- input -->
-                            <label for="formSignuplname" class="form-label visually-hidden">@ViewBag.AuthLastName</label>
-                            <input type="text" class="form-control" id="formSignuplname" placeholder="@ViewBag.AuthLastName"
-                                required />
-                            <div class="invalid-feedback">@ViewBag.ValidationEnterLastName</div>
-                        </div>
-                        <div class="col-12">
-                            <!-- input -->
-                            <label for="formSignupEmail" class="form-label visually-hidden">@ViewBag.AuthEmailAddress</label>
-                            <input type="email" class="form-control" id="formSignupEmail" placeholder="@ViewBag.AuthEmail"
-                                required />
-                            <div class="invalid-feedback">@ViewBag.ValidationEnterEmail</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="password-field position-relative">
-                                <label for="formSignupPassword" class="form-label visually-hidden">@ViewBag.AuthPassword</label>
-                                <div class="password-field position-relative">
-                                    <input type="password" class="form-control fakePassword" id="formSignupPassword"
-                                        placeholder="*****" required />
-                                    <span><i class="bi bi-eye-slash passwordToggler"></i></span>
-                                    <div class="invalid-feedback">@ViewBag.ValidationEnterPassword</div>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- link -->
-                           <div>
-                                @ViewBag.AuthHaveAccount <a href="@Url.Action( "SignIn", "Auth")">@ViewBag.AuthSignInLink</a>
-                           </div>
-                        <!-- btn -->
-                        <div class="col-12 d-grid"><button type="submit" class="btn btn-primary">@ViewBag.AuthRegisterButton</button></div>
 
-                        <!-- text -->
-                        <p>
-                            <small>
-                                @ViewBag.AuthTermsText
-                                <a href="#!">@ViewBag.AuthTermsLink</a>
-                                &
-                                <a href="#!">@ViewBag.AuthPrivacyLink</a>
-                            </small>
-                        </p>
+            <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
+        <div class="mb-lg-9 mb-5">
+          <h1 class="mb-1 h2 fw-bold">@ViewBag.AuthSignUpTitle</h1>
+          <p>@ViewBag.AuthSignUpSubtitle</p>
+        </div>
+
+                <!-- Form đăng ký -->
+                <form id="signupForm" novalidate>
+                    <div class="row g-3">
+            <div class="col">
+              <input type="text" class="form-control" name="name" placeholder="@ViewBag.AuthFirstName" required />
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" name="phone" placeholder="@ViewBag.AuthPhonePlaceholder" required/>
+            </div>
+            <div class="col-12">
+              <input type="email" class="form-control" name="email" placeholder="@ViewBag.AuthEmailAddress" required />
+            </div>
+            <div class="col-12">
+              <input type="password" class="form-control" name="password" placeholder="@ViewBag.AuthPassword" required />
+            </div>
+
+                        <div class="col-12 d-grid mt-3">
+              <button type="submit" class="btn btn-primary">@ViewBag.AuthRegisterButton</button>
+                        </div>
+
+            <p class="mt-2 mb-0">
+              @ViewBag.AuthHaveAccount <a href="/auth/signin">@ViewBag.AuthSignInLink</a>
+            </p>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+ <!-- Scripts -->
+<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/assets/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/js/theme.min.js"></script>
+
+<script>
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = {
+    name: document.querySelector("[name='name']").value.trim(),
+    email: document.querySelector("[name='email']").value.trim(),
+    phone: document.querySelector("[name='phone']").value.trim(),
+    password: document.querySelector("[name='password']").value.trim()
+  };
+  if (!data.name || !data.email || !data.password) {
+  alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)');
+    return;
+  }
+  try {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if (res.ok) {
+  alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignUpSuccessEnterOtp)');
+      localStorage.setItem("pendingEmail", data.email);
+      window.location.href = "/auth/verify";
+    } else {
+  alert(" " + (json.message || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignUpFailed)'));
+    }
+  } catch (err) {
+  alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ServerConnectionError)');
+    console.error(err);
+  }
+});
+</script>

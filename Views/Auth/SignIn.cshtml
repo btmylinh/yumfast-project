@@ -1,62 +1,49 @@
 @{
-    ViewData["Title"] = @ViewBag.AuthSignInTitle;
+   ViewData["Title"] = ViewBag.AuthSignInTitle;
    Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
-<!-- section -->
 <section class="my-lg-14 my-8">
    <div class="container">
-      <!-- row -->
       <div class="row justify-content-center align-items-center">
          <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
-            <!-- img -->
-            <img src="../assets/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
+            <img src="~/assets/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
          </div>
-         <!-- col -->
          <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
             <div class="mb-lg-9 mb-5">
-               <h1 class="mb-1 h2 fw-bold">@ViewBag.AuthSignInHeading</h1>
-               <p>@ViewBag.AuthSignInSubheading</p>
+               <h1 class="mb-1 h2 fw-bold">@ViewBag.AuthSignInTitle</h1>
+               <p>@ViewBag.AuthSignInSubtitle</p>
             </div>
 
-            <form class="needs-validation" novalidate>
+            <form id="loginForm" class="needs-validation" novalidate>
                <div class="row g-3">
-                  <!-- row -->
-
                   <div class="col-12">
-                     <!-- input -->
                      <label for="formSigninEmail" class="form-label visually-hidden">@ViewBag.AuthEmail</label>
-                     <input type="email" class="form-control" id="formSigninEmail" placeholder="@ViewBag.AuthSignInEmailPlaceholder" required />
-                     <div class="invalid-feedback">@ViewBag.AuthSignInEmailError</div>
+                     <input type="email" class="form-control" name="email" id="formSigninEmail" placeholder="@ViewBag.AuthSignInEmailPlaceholder" required />
+                     <div class="invalid-feedback">@ViewBag.ValidationEnterEmail</div>
                   </div>
                   <div class="col-12">
-                     <!-- input -->
                      <div class="password-field position-relative">
                         <label for="formSigninPassword" class="form-label visually-hidden">@ViewBag.AuthSignInPasswordLabel</label>
-                        <div class="password-field position-relative">
-                           <input type="password" class="form-control fakePassword" id="formSigninPassword" placeholder="*****" required />
-                           <span><i class="bi bi-eye-slash passwordToggler"></i></span>
-                           <div class="invalid-feedback">@ViewBag.AuthSignInPasswordError</div>
-                        </div>
+                        <input type="password" class="form-control" name="password" id="formSigninPassword" placeholder="*****" required />
+                        <span><i class="bi bi-eye-slash passwordToggler"></i></span>
+                        <div class="invalid-feedback">@ViewBag.ValidationEnterPassword</div>
                      </div>
                   </div>
                   <div class="d-flex justify-content-between">
-                     <!-- form check -->
                      <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                        <!-- label -->
-                        <label class="form-check-label" for="flexCheckDefault">Remember me</label>
+                        <label class="form-check-label" for="flexCheckDefault">@ViewBag.AuthRememberMe</label>
                      </div>
                      <div>
-                        @ViewBag.AuthForgotPassword
-                        <a href="@Url.Action("ForgotPassword", "Auth")">@ViewBag.AuthForgotPasswordLink</a>
+                        <a href="/auth/forgot-password">@ViewBag.AuthForgotPassword</a>
                      </div>
                   </div>
-                  <!-- btn -->
-                  <div class="col-12 d-grid"><button type="submit" class="btn btn-primary">@ViewBag.AuthSignInButton</button></div>
-                  <!-- link -->
+                  <div class="col-12 d-grid">
+                     <button type="submit" class="btn btn-primary">@ViewBag.AuthSignInButton</button>
+                  </div>
                   <div>
                      @ViewBag.AuthNoAccount
-                     <a href="signup.html">@ViewBag.AuthSignUpLink</a>
+                     <a href="@Url.Action("SignUp", "Auth")">@ViewBag.AuthSignUpLink</a>
                   </div>
                </div>
             </form>
@@ -64,3 +51,28 @@
       </div>
    </div>
 </section>
+
+<script>
+document.querySelector("#loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = {
+    email: document.querySelector("[name='email']").value,
+    password: document.querySelector("[name='password']").value
+  };
+
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const json = await res.json();
+  if (res.ok) {
+    localStorage.setItem("token", json.token);
+   alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignInSuccess)');
+    window.location.href = "/";
+  } else {
+   alert(json.message || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignInFailed)');
+  }
+});
+</script>
