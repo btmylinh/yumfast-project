@@ -19,14 +19,14 @@
                             @if (!string.IsNullOrEmpty(banner.Link))
                             {
                                 <a href="@banner.Link" class="btn btn-dark mt-3">
-                                    Shop Now
+                                    @ViewBag.ShopNow
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>
                             }
                             else
                             {
                                 <a href="#!" class="btn btn-dark mt-3">
-                                    Shop Now
+                                    @ViewBag.ShopNow
                                     <i class="feather-icon icon-arrow-right ms-1"></i>
                                 </a>
                             }
@@ -49,8 +49,70 @@
                 </div>
             }
          </div>
-      </div>
+     </div>
+  </section>
+  <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const ul = document.getElementById('categoryCollapseMenu');
+    if (!ul) return;
+    try {
+      const res = await fetch('/api/categories?status=1');
+      const json = await res.json();
+      const data = json.data || [];
+      ul.innerHTML = '';
+      for (const c of data) {
+        const li = document.createElement('li');
+        li.className = 'nav-item border-bottom w-100';
+        const a = document.createElement('a');
+        a.href = '/shop/category?category=' + encodeURIComponent(c.name);
+        a.className = 'nav-link';
+        a.textContent = c.name;
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+    } catch (e) { console.error('Load categories failed', e); }
+  });
+  </script>
+
+   <section class="mt-8">
+     <div class="container">
+       <div class="d-flex justify-content-between align-items-center mb-4">
+         <h3 class="h4 mb-0">@ViewBag.Products</h3>
+         <a href="/shop" class="btn btn-outline-primary">@ViewBag.ShopNow</a>
+       </div>
+       <div class="row g-3" id="homeProductList"></div>
+     </div>
    </section>
+   <script>
+   document.addEventListener('DOMContentLoaded', async () => {
+     const wrap = document.getElementById('homeProductList');
+     if (!wrap) return;
+     try {
+       const u = new URL('/api/products', window.location.origin);
+       const r = await fetch(u);
+       const j = await r.json();
+       const data = j.data || [];
+       wrap.innerHTML = '';
+       const fmt = (n) => '₫' + Number(n || 0).toLocaleString('vi-VN');
+       data.slice(0, 12).forEach(it => {
+         const col = document.createElement('div');
+         col.className = 'col-6 col-md-4 col-lg-3';
+         col.innerHTML = `
+           <div class="card">
+             <img src="${it.image}" class="card-img-top" alt="${it.name}" />
+             <div class="card-body">
+               <div class="d-flex justify-content-between align-items-center">
+                 <span>${it.name}</span>
+                 <span class="fw-semibold">${fmt(it.price)}</span>
+               </div>
+               <a class="btn btn-sm btn-primary mt-2" href="/product/${it.id}">@ViewBag.AddToCart</a>
+             </div>
+           </div>`;
+         wrap.appendChild(col);
+       });
+     } catch (e) { console.error('Load products failed', e); }
+   });
+   </script>
 
    <div class="mt-lg-12 mb-lg-14 mb-8">
       <!-- container -->
@@ -59,7 +121,7 @@
          <div class="row">
             <!-- col -->
             <aside class="col-xl-3 col-lg-4 col-md-4 mb-6 mb-md-0">
-               <div id="sidebar">
+               <div id="homeSidebar">
                   <div class="sidebar__inner">
                      <div class="offcanvas offcanvas-start offcanvas-collapse" tabindex="-1" id="offcanvasCategory" aria-labelledby="offcanvasCategoryLabel">
                         <div class="offcanvas-header d-lg-none">

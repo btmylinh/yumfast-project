@@ -25,164 +25,112 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div x-data="categoriesManager()" x-init="initialize()">
+      <div class="row">
         <div class="col-xl-12 col-12 mb-5">
-            <!-- card -->
-            <div class="card h-100 card-lg">
-                <div class="px-6 py-6">
-                    <div class="row justify-content-between">
-                        <div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
-                            <!-- form -->
-                            <form class="d-flex" role="search">
-                                <input class="form-control" type="search" placeholder=@ViewBag.CategorySearch aria-label="Search" />
-                            </form>
-                        </div>
-                        <!-- select option -->
-                        <div class="col-xl-2 col-md-4 col-12">
-                            <select class="form-select">
-                                <option selected>@ViewBag.CategoryStatus</option>
-                                <option value="Published">@ViewBag.CategoryPublished</option>
-                                <option value="Unpublished">@ViewBag.CategoryUnpublished</option>
-                            </select>
-                        </div>
-                    </div>
+          <div class="card h-100 card-lg">
+            <div class="px-6 py-6">
+              <div class="row justify-content-between">
+                <div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
+                  <form class="d-flex" x-on:submit.prevent>
+                    <input class="form-control" type="search" :placeholder="'@ViewBag.CategorySearch'" x-model="search" x-on:input.debounce.300ms="reload()" />
+                  </form>
                 </div>
-                <!-- card body -->
-                <div class="card-body p-0">
-                    <!-- table -->
-                    <div class="table-responsive">
-                        <table class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="checkAll" />
-                                            <label class="form-check-label" for="checkAll"></label>
-                                        </div>
-                                    </th>
-                                    <th>@ViewBag.TableHeaderIcon</th>
-                                    <th>@ViewBag.CategoryName</th>
-                                    <th>@ViewBag.CategoryProduct</th>
-                                    <th>@ViewBag.CategoryStatus</th>
-                                    <th>@ViewBag.TableHeaderActions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="categoryOne" />
-                                            <label class="form-check-label" for="categoryOne"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a href="#!"><img src="~/assets/images/icons/snacks.svg" alt="" class="icon-shape icon-sm" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">Snack & Munchies</a></td>
-                                    <td>12</td>
-                                    <td>
-                                        <span class="badge bg-light-primary text-dark-primary">@ViewBag.StatusPublished</span>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="feather-icon icon-more-vertical fs-5"></i>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="bi bi-trash me-3"></i>
-                                                        @ViewBag.ActionDelete
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="bi bi-pencil-square me-3"></i>
-                                                        @ViewBag.ActionEdit
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="categoryTwo" />
-                                            <label class="form-check-label" for="categoryTwo"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a href="#!"><img src="~/assets/images/icons/bakery.svg" alt="" class="icon-shape icon-sm" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">Bakery & Biscuits</a></td>
-                                    <td>8</td>
-                                    <td>
-                                        <span class="badge bg-light-primary text-dark-primary">@ViewBag.StatusPublished</span>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="feather-icon icon-more-vertical fs-5"></i>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="bi bi-trash me-3"></i>
-                                                        @ViewBag.ActionDelete
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="bi bi-pencil-square me-3"></i>
-                                                        @ViewBag.ActionEdit
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="categoryThree" />
-                                            <label class="form-check-label" for="categoryThree"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a href="#!"><img src="~/assets/images/icons/dairy.svg" alt="" class="icon-shape icon-sm" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">Dairy, Bread & Eggs</a></td>
-                                    <td>15</td>
-                                    <td>
-                                        <span class="badge bg-light-primary text-dark-primary">@ViewBag.StatusPublished</span>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="feather-icon icon-more-vertical fs-5"></i>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="bi bi-trash me-3"></i>
-                                                        Delete
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="bi bi-pencil-square me-3"></i>
-                                                        Edit
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="col-xl-2 col-md-4 col-12">
+                  <select class="form-select" x-model="status" x-on:change="reload()">
+                    <option value="">@ViewBag.CategoryStatus</option>
+                    <option value="1">@ViewBag.CategoryPublished</option>
+                    <option value="0">@ViewBag.CategoryUnpublished</option>
+                  </select>
                 </div>
+              </div>
             </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">
+                  <thead class="bg-light">
+                    <tr>
+                      <th></th>
+                      <th>@ViewBag.CategoryName</th>
+                      <th>@ViewBag.CategoryStatus</th>
+                      <th>@ViewBag.TableHeaderActions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <template x-for="c in items" :key="c.id">
+                      <tr>
+                        <td></td>
+                        <td><a href="#" class="text-reset" x-text="c.name"></a><div class="small text-muted" x-text="c.slug"></div></td>
+                        <td><span class="badge" :class="c.status===1 ? 'bg-light-primary text-dark-primary' : 'bg-light-secondary text-dark-secondary'" x-text="c.status===1 ? '@ViewBag.StatusPublished' : '@ViewBag.StatusUnpublished'"></span></td>
+                        <td>
+                          <div class="dropdown">
+                            <a href="#" class="text-reset" data-bs-toggle="dropdown"><i class="feather-icon icon-more-vertical fs-5"></i></a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#" x-on:click.prevent="openEdit(c)"><i class="bi bi-pencil-square me-3"></i>@ViewBag.ActionEdit</a></li>
+                              <li><a class="dropdown-item" href="#" x-on:click.prevent="toggleStatus(c.id)"><i class="bi bi-toggle-on me-3"></i>@ViewBag.Status</a></li>
+                              <li><a class="dropdown-item text-danger" href="#" x-on:click.prevent="remove(c.id)"><i class="bi bi-trash me-3"></i>@ViewBag.ActionDelete</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </template>
+                    <tr x-show="items.length===0"><td colspan="4" class="text-center py-5">Không có dữ liệu</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              
+            </div>
+            <div class="border-top px-6 py-6 d-flex justify-content-between align-items-center" x-show="totalPages>1">
+              <div>Trang <span x-text="page"></span>/<span x-text="totalPages"></span></div>
+              <div>
+                <button class="btn btn-outline-secondary btn-sm" x-on:click="page>1 && setPage(page-1)">Trước</button>
+                <button class="btn btn-outline-secondary btn-sm" x-on:click="page<totalPages && setPage(page+1)">Sau</button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div class="modal fade" id="catModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">@ViewBag.CategoryAddNew</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+              <div class="mb-3"><label class="form-label">@ViewBag.CategoryName</label><input type="text" class="form-control" x-model="form.name"></div>
+              <div class="mb-3"><label class="form-label">Slug</label><input type="text" class="form-control" x-model="form.slug"></div>
+              <div class="mb-3"><label class="form-label">@ViewBag.CategoryDescription</label><textarea class="form-control" x-model="form.description"></textarea></div>
+              <div class="mb-3"><label class="form-label">@ViewBag.CategoryStatus</label><select class="form-select" x-model="form.status"><option value="1">@ViewBag.CategoryPublished</option><option value="0">@ViewBag.CategoryUnpublished</option></select></div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">@ViewBag.Cancel</button><button class="btn btn-primary" x-on:click="save()">@ViewBag.Save</button></div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <script>
+    function categoriesManager(){
+      return {
+        items:[], search:'', status:'', page:1, pageSize:10, totalPages:1, loading:false, form:{id:null,name:'',slug:'',description:'',status:1},
+        initialize(){ this.reload(); },
+        async reload(){
+          this.loading=true;
+          const params=new URLSearchParams();
+          if(this.search) params.set('search',this.search);
+          if(this.status!=='') params.set('status',this.status);
+          params.set('page',this.page); params.set('pageSize',this.pageSize);
+          const res=await fetch('/api/categories?'+params.toString());
+          const json=await res.json();
+          this.items=json.data||[]; this.totalPages=json.totalPages||1; this.loading=false;
+        },
+        setPage(p){ this.page=p; this.reload(); },
+        openEdit(c){ this.form={id:c.id,name:c.name,slug:c.slug,description:c.description,status:c.status}; new bootstrap.Modal(document.getElementById('catModal')).show(); },
+        async save(){
+          const isEdit=!!this.form.id; const url=isEdit?('/api/categories/'+this.form.id):'/api/categories'; const method=isEdit?'PUT':'POST';
+          const res=await fetch(url,{method,headers:{'Content-Type':'application/json'},body:JSON.stringify(this.form)});
+          if(res.ok){ this.reload(); bootstrap.Modal.getInstance(document.getElementById('catModal')).hide(); }
+        },
+        async toggleStatus(id){ await fetch('/api/categories/'+id+'/status',{method:'PATCH'}); this.reload(); },
+        async remove(id){ await fetch('/api/categories/'+id,{method:'DELETE'}); this.reload(); }
+      }
+    }
+    </script>

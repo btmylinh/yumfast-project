@@ -49,7 +49,10 @@
                         <!-- Coupon Code -->
                         <div class="mb-3 col-lg-6">
                             <label asp-for="Code" class="form-label">@ViewBag.CouponCode</label>
-                            <input asp-for="Code" class="form-control" placeholder="@ViewBag.CouponCodePlaceholder">
+                            <div class="input-group">
+                                <input asp-for="Code" class="form-control" placeholder="@ViewBag.CouponCodePlaceholder">
+                                <button type="button" class="btn btn-outline-secondary" id="btn-gen-code">@ViewBag.Create</button>
+                            </div>
                             <span asp-validation-for="Code" class="text-danger"></span>
                         </div>
                         
@@ -107,10 +110,6 @@
                             <label asp-for="IdProduct" class="form-label">@ViewBag.CouponProductOptional</label>
                             <select asp-for="IdProduct" class="form-select">
                                 <option value="">@ViewBag.CouponAllProducts</option>
-                                <option value="1">Banana - Chuối</option>
-                                <option value="2">Apple - Táo</option>
-                                <option value="3">Orange - Cam</option>
-                                <option value="4">Strawberry - Dâu tây</option>
                             </select>
                             <small class="form-text text-muted">@ViewBag.CouponProductNote</small>
                         </div>
@@ -303,14 +302,11 @@
                 }
             }
             
-            // Add event listeners
             form.addEventListener('input', updatePreview);
             form.addEventListener('change', updatePreview);
             
-            // Initial update
             updatePreview();
             
-            // Form validation
             form.addEventListener('submit', function(e) {
                 const startDate = new Date(document.getElementById('StartAt').value);
                 const endDate = new Date(document.getElementById('EndAt').value);
@@ -346,6 +342,31 @@
                     return false;
                 }
             });
+            function genRandomCode(len){ const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s=''; for(let i=0;i<len;i++){ s+=chars[Math.floor(Math.random()*chars.length)]; } return s; }
+            const btnGen = document.getElementById('btn-gen-code'); if(btnGen){ btnGen.addEventListener('click', function(){ const inp=document.getElementById('Code'); if(inp){ inp.value=genRandomCode(8); updatePreview(); } }); }
+
+            (async function loadProducts(){
+                try{
+                    const sel = document.getElementById('IdProduct');
+                    if(!sel) return;
+                    const r = await fetch('/api/products/manage?status=1&pageSize=500');
+                    const j = await r.json();
+                    const list = j.data || [];
+                    const current = '@Model.IdProduct';
+                    sel.innerHTML = '';
+                    const optAll = document.createElement('option');
+                    optAll.value = '';
+                    optAll.textContent = '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CouponAllProducts)';
+                    sel.appendChild(optAll);
+                    for(const p of list){
+                        const opt = document.createElement('option');
+                        opt.value = String(p.id);
+                        opt.textContent = p.name;
+                        sel.appendChild(opt);
+                    }
+                    if(current) sel.value = current;
+                }catch(e){}
+            })();
         });
     </script>
     

@@ -301,14 +301,23 @@ function reportsManager() {
             this.setDefaultDateRange();
         },
         
-        loadReports() {
-            // Load from localStorage or create mock data
-            const stored = localStorage.getItem('reports_daily_data');
-            if (stored) {
-                this.reports = JSON.parse(stored);
-            } else {
+        async loadReports() {
+            try {
+                const now = new Date();
+                const ym = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+                const r = await fetch(`/api/reports/daily?month=${ym}`);
+                const j = await r.json();
+                const data = j.data || [];
+                this.reports = data.map((x, i) => ({
+                    id: i+1,
+                    report_date: new Date(x.reportDate).toISOString().split('T')[0],
+                    orders_count: Number(x.ordersCount||0),
+                    revenue_total: Number(x.revenueTotal||0),
+                    users_count: Number(x.usersCount||0),
+                    status: Number(x.status||1)
+                }));
+            } catch(e) {
                 this.generateMockData();
-                this.saveReports();
             }
             this.filterReports();
         },

@@ -602,11 +602,35 @@
                                     </svg>
                                     Add
                                 </a>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const ul = document.getElementById('categoryCollapseMenu');
+  if (!ul) return;
+  try {
+    const res = await fetch('/api/categories?status=1');
+    const json = await res.json();
+    const data = json.data || [];
+    ul.innerHTML = '';
+    for (const c of data) {
+      const li = document.createElement('li');
+      li.className = 'nav-item border-bottom w-100';
+      const a = document.createElement('a');
+      a.href = '/shop/category?category=' + encodeURIComponent(c.name);
+      a.className = 'nav-link';
+      a.textContent = c.name;
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+  } catch (e) {
+    console.error('Load categories failed', e);
+  }
+});
+</script>
                 <!-- col -->
                 <div class="col">
                     <!-- card -->

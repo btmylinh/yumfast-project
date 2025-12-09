@@ -1,16 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Services;
+using WebApp.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApp.Controllers;
 
 public class ShopController : BaseController
 {
-    public ShopController(IJsonLocalizationService localizationService) : base(localizationService)
+    private readonly IProductCatalogService _catalog;
+
+    [ActivatorUtilitiesConstructor]
+    public ShopController(IJsonLocalizationService localizationService, IProductCatalogService catalog) : base(localizationService)
     {
+        _catalog = catalog;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string? category, decimal? min, decimal? max, string? sort)
     {
-        return View();
+        return RedirectToAction("Category", new { category, min, max, sort });
+    }
+
+    // GET: /shop/category
+    public IActionResult Category(string? category, decimal? min, decimal? max, string? sort)
+    {
+        var products = _catalog.Filter(category, min, max, sort);
+        var vm = new ShopCategoryViewModel
+        {
+            Products = products,
+            Categories = _catalog.GetCategories(),
+            SelectedCategory = category,
+            MinPrice = min,
+            MaxPrice = max,
+            Sort = sort
+        };
+        return View(vm);
     }
 }

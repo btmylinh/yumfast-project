@@ -35,29 +35,36 @@ namespace WebApp.Controllers
         {
             try
             {
+                // Validate input trước
                 if (string.IsNullOrWhiteSpace(request.Name) ||
                     string.IsNullOrWhiteSpace(request.Email) ||
                     string.IsNullOrWhiteSpace(request.Password))
                 {
-                    return BadRequest(new { code = "validation_fill_all" });
+                    return BadRequest(new { error = "validation_fill_all" });
+                }
+
+                // Kiểm tra độ mạnh mật khẩu phía server
+                if (!IsStrongPassword(request.Password))
+                {
+                    return BadRequest(new { error = "weak_password" });
                 }
 
                 using var conn = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
                 conn.Open();
 
-                // Kiểm tra email trùng
+                // Kiểm tra email trùng trước khi INSERT
                 using (var checkCmd = new NpgsqlCommand("SELECT COUNT(*) FROM users WHERE email=@e", conn))
                 {
                     checkCmd.Parameters.AddWithValue("@e", request.Email);
                     var count = (long)checkCmd.ExecuteScalar();
                     if (count > 0)
-                        return BadRequest(new { code = "email_exists" });
+                        return StatusCode(409, new { error = "email_exists" });
                 }
 
                 // Băm mật khẩu
                 var hashed = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-                // Tạo user unverified (status = 0 là chưa còn 1 là đã xác minh)
+                // Tạo user unverified chỉ khi hợp lệ (status = 0 là chưa xác minh, 1 là đã xác minh)
                 long userId;
                 using (var cmd = new NpgsqlCommand(@"
                     INSERT INTO users (name, email, phone, password, avatar, role, status)
@@ -92,22 +99,29 @@ namespace WebApp.Controllers
                     Console.WriteLine($"[EMAIL ERROR] {mailEx}");
                 }
 
-                // Luôn trả về thành công để frontend redirect
-                return Ok(new
-                {
-                    code = "signup_success_enter_otp"
-                });
+                // Trả về thành công
+                return Ok(new { success = true });
             }
             catch (PostgresException ex)
             {
                 Console.WriteLine($"[Postgres ERROR] {ex.MessageText}");
-                return StatusCode(500, new { message = "Lỗi cơ sở dữ liệu!", error = ex.MessageText });
+                return StatusCode(500, new { error = "internal_server_error" });
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"[SERVER ERROR] {ex}");
-                return StatusCode(500, new { message = "Lỗi máy chủ!", error = ex.Message });
+                return StatusCode(500, new { error = "internal_server_error" });
             }
+        }
+
+        private static bool IsStrongPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password) || password.Length < 8) return false;
+            var hasLower = password.Any(char.IsLower);
+            var hasUpper = password.Any(char.IsUpper);
+            var hasDigit = password.Any(char.IsDigit);
+            var hasSpecial = password.Any(c => !char.IsLetterOrDigit(c));
+            return hasLower && hasUpper && hasDigit && hasSpecial;
         }
 
     // XÁC MINH OTP

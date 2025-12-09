@@ -27,9 +27,11 @@
             </div>
             <div class="col-12">
               <input type="email" class="form-control" name="email" placeholder="@ViewBag.AuthEmailAddress" required />
+              <div class="invalid-feedback" id="emailError"></div>
             </div>
             <div class="col-12">
               <input type="password" class="form-control" name="password" placeholder="@ViewBag.AuthPassword" required />
+              <div class="invalid-feedback" id="passwordError"></div>
             </div>
 
                         <div class="col-12 d-grid mt-3">
@@ -52,34 +54,109 @@
 <script src="~/assets/js/theme.min.js"></script>
 
 <script>
+// I18n mapping object - lấy localized text từ ViewBag
+const i18n = {
+  t: function(key) {
+    const map = {
+      'weak_password': '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)(ViewBag.WeakPassword ?? "Mật khẩu quá yếu. Tối thiểu 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt."))',
+      'email_exists': '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)(ViewBag.EmailExists ?? ""))',
+      'validation_fill_all': '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)(ViewBag.ValidationFillAll ?? ""))',
+      'register_failed': '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)(ViewBag.RegisterFailed ?? ""))',
+      'internal_server_error': '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)(ViewBag.InternalServerError ?? ""))',
+      'signup_success_enter_otp': '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)(ViewBag.SignUpSuccessEnterOtp ?? ""))',
+      'server_connection_error': '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)(ViewBag.ServerConnectionError ?? ""))'
+    };
+    return map[key] || key;
+  }
+};
+
 document.getElementById("signupForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  
   const data = {
     name: document.querySelector("[name='name']").value.trim(),
     email: document.querySelector("[name='email']").value.trim(),
     phone: document.querySelector("[name='phone']").value.trim(),
     password: document.querySelector("[name='password']").value.trim()
   };
+  
+  // Clear previous email error
+  const emailInput = document.querySelector("[name='email']");
+  const emailError = document.getElementById('emailError');
+  const passwordInput = document.querySelector("[name='password']");
+  const passwordError = document.getElementById('passwordError');
+  emailInput.classList.remove('is-invalid');
+  if (emailError) emailError.textContent = '';
+  passwordInput.classList.remove('is-invalid');
+  if (passwordError) passwordError.textContent = '';
+
+  // Validate input
   if (!data.name || !data.email || !data.password) {
-  alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)');
+    if (!data.email) {
+      emailInput.classList.add('is-invalid');
+      if (emailError) emailError.textContent = i18n.t('validation_fill_all');
+      emailInput.focus();
+    }
+    if (!data.password) {
+      passwordInput.classList.add('is-invalid');
+      if (passwordError) passwordError.textContent = i18n.t('validation_fill_all');
+    }
     return;
   }
+
+  // Client-side password strength check
+  function isStrong(p){
+    if (!p || p.length < 8) return false;
+    const hasLower = /[a-z]/.test(p);
+    const hasUpper = /[A-Z]/.test(p);
+    const hasDigit = /\d/.test(p);
+    const hasSpecial = /[^A-Za-z0-9]/.test(p);
+    return hasLower && hasUpper && hasDigit && hasSpecial;
+  }
+  if (!isStrong(data.password)){
+    passwordInput.classList.add('is-invalid');
+    if (passwordError) passwordError.textContent = i18n.t('weak_password');
+    passwordInput.focus();
+    return;
+  }
+  
   try {
     const res = await fetch('@Url.Action("Register","Auth")', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
+    
     const json = await res.json();
+    
     if (res.ok) {
-  alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignUpSuccessEnterOtp)');
-  localStorage.setItem("pendingEmail", data.email);
-  window.location.href = '@Url.Action("Verify","AuthView")';
+      // Thành công - chuyển đến trang verify
+      emailInput.classList.remove('is-invalid');
+      if (emailError) emailError.textContent = '';
+      passwordInput.classList.remove('is-invalid');
+      if (passwordError) passwordError.textContent = '';
+      localStorage.setItem("pendingEmail", data.email);
+      window.location.href = '@Url.Action("Verify","AuthView")';
     } else {
-  alert(" " + (json.message || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignUpFailed)'));
+      // Có lỗi - sử dụng error key từ backend để hiển thị bằng i18n
+      const errorKey = json.error || 'register_failed';
+      if (errorKey === 'email_exists') {
+        emailInput.classList.add('is-invalid');
+        if (emailError) emailError.textContent = i18n.t('email_exists');
+        emailInput.focus();
+        return;
+      }
+      if (errorKey === 'weak_password') {
+        passwordInput.classList.add('is-invalid');
+        if (passwordError) passwordError.textContent = i18n.t('weak_password');
+        passwordInput.focus();
+        return;
+      }
+      alert(i18n.t(errorKey));
     }
   } catch (err) {
-  alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ServerConnectionError)');
+    // Lỗi network/connection
+    alert(i18n.t('server_connection_error'));
     console.error(err);
   }
 });

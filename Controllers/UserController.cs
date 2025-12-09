@@ -18,7 +18,8 @@ public class UserController : BaseController
         //     return RedirectToAction("SignIn", "Auth");
         // }
         
-        return View();
+        // Render existing profile settings view
+        return View("~/Views/User/Profile/Settings.cshtml");
     }
 
     // GET: User/Orders

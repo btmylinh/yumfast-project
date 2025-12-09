@@ -27,67 +27,18 @@
                <div class="row">
                   <div class="col-md-5 col-xl-6">
                      <!-- img slide -->
-                     <div class="product" id="product">
-                        <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-1.jpg)">
-                           <!-- img -->
-                           <!-- img -->
-                           <img src="../assets/images/products/product-single-img-1.jpg" alt="" />
-                        </div>
-                        <div>
-                           <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-2.jpg)">
-                              <!-- img -->
-                              <img src="../assets/images/products/product-single-img-2.jpg" alt="" />
-                           </div>
-                        </div>
-                        <div>
-                           <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-3.jpg)">
-                              <!-- img -->
-                              <img src="../assets/images/products/product-single-img-3.jpg" alt="" />
-                           </div>
-                        </div>
-                        <div>
-                           <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-4.jpg)">
-                              <!-- img -->
-                              <img src="../assets/images/products/product-single-img-4.jpg" alt="" />
-                           </div>
-                        </div>
-                     </div>
+                     <div id="productGallery" class="product"></div>
                      <!-- product tools -->
                      <div class="product-tools">
-                        <div class="thumbnails row g-3" id="productThumbnails">
-                           <div class="col-3">
-                              <div class="thumbnails-img">
-                                 <!-- img -->
-                                 <img src="../assets/images/products/product-single-img-1.jpg" alt="" />
-                              </div>
-                           </div>
-                           <div class="col-3">
-                              <div class="thumbnails-img">
-                                 <!-- img -->
-                                 <img src="../assets/images/products/product-single-img-2.jpg" alt="" />
-                              </div>
-                           </div>
-                           <div class="col-3">
-                              <div class="thumbnails-img">
-                                 <!-- img -->
-                                 <img src="../assets/images/products/product-single-img-3.jpg" alt="" />
-                              </div>
-                           </div>
-                           <div class="col-3">
-                              <div class="thumbnails-img">
-                                 <!-- img -->
-                                 <img src="../assets/images/products/product-single-img-4.jpg" alt="" />
-                              </div>
-                           </div>
-                        </div>
+                        <div class="thumbnails row g-3" id="productThumbnails"></div>
                      </div>
                   </div>
                   <div class="col-md-7 col-xl-6">
                      <div class="ps-lg-10 mt-6 mt-md-0">
                         <!-- content -->
-                        <a href="#!" class="mb-4 d-block">Bakery Biscuits</a>
+                        <a id="productCategory" href="#" class="mb-4 d-block"></a>
                         <!-- heading -->
-                        <h1 class="mb-1">Napolitanke Ljesnjak</h1>
+                        <h1 id="productName" class="mb-1"></h1>
                         <div class="mb-4">
                            <!-- rating -->
                            <!-- rating -->
@@ -100,21 +51,10 @@
                            </small>
                            <a href="#" class="ms-2">(30 reviews)</a>
                         </div>
-                        <div class="fs-4">
-                           <!-- price -->
-                           <span class="fw-bold text-dark">$32</span>
-                           <span class="text-decoration-line-through text-muted">$35</span>
-                           <span><small class="fs-6 ms-2 text-danger">26% Off</small></span>
-                        </div>
+                        <div class="fs-4"><span id="productPrice" class="fw-bold text-dark"></span></div>
                         <!-- hr -->
                         <hr class="my-6" />
-                        <div class="mb-5">
-                           <button type="button" class="btn btn-outline-secondary">250g</button>
-                           <!-- btn -->
-                           <button type="button" class="btn btn-outline-secondary">500g</button>
-                           <!-- btn -->
-                           <button type="button" class="btn btn-outline-secondary">1kg</button>
-                        </div>
+                        <div id="productOptions" class="mb-5"></div>
                         <div>
                            <!-- input -->
                            <div class="input-group input-spinner">
@@ -127,9 +67,9 @@
                            <div class="col-xxl-4 col-lg-4 col-md-5 col-5 d-grid">
                               <!-- button -->
                               <!-- btn -->
-                              <button type="button" class="btn btn-primary">
+                              <button type="button" class="btn btn-primary" id="btnAddToCart">
                                  <i class="feather-icon icon-shopping-bag me-2"></i>
-                                 Add to cart
+                                 @ViewBag.AddToCart
                               </button>
                            </div>
                            <div class="col-md-4 col-4">
@@ -140,33 +80,12 @@
                         </div>
                         <!-- hr -->
                         <hr class="my-6" />
-                        <div>
-                           <!-- table -->
-                           <table class="table table-borderless mb-0">
-                              <tbody>
-                                 <tr>
-                                    <td>Product Code:</td>
-                                    <td>FBB00255</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Availability:</td>
-                                    <td>In Stock</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Type:</td>
-                                    <td>Fruits</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Shipping:</td>
-                                    <td>
-                                       <small>
-                                          01 day shipping.
-                                          <span class="text-muted">( Free pickup today)</span>
-                                       </small>
-                                    </td>
-                                 </tr>
-                              </tbody>
-                           </table>
+                        <p id="productDesc" class="mt-3"></p>
+                        <div class="mt-2">
+                           <button type="button" class="btn btn-outline-primary" id="btnViewReviews">
+                              <i class="bi bi-chat-dots me-1"></i>
+                              @ViewBag.Reviews
+                           </button>
                         </div>
                         <div class="mt-8">
                            <!-- dropdown -->
@@ -199,8 +118,42 @@
                   </div>
                </div>
             </div>
-         </section>
-         <section class="mt-lg-14 mt-8">
+        </section>
+<script src="~/assets/js/product-detail.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('btnAddToCart');
+  if (!btn) return;
+  btn.addEventListener('click', async () => {
+    const m = location.pathname.match(/product\/(\d+)/i);
+    const id = m ? parseInt(m[1]) : null;
+    if (!id) return;
+    const qtyInput = document.querySelector('input[name="quantity"]');
+    const qty = Math.max(1, parseInt((qtyInput && qtyInput.value) || '1'));
+    const opt = document.getElementById('productOptions');
+    const options = {};
+    if (opt) {
+      Array.from(opt.querySelectorAll('button.active')).forEach(b => {
+        const t = b.dataset.type || 'Options';
+        const n = b.dataset.name || (b.textContent || '').trim();
+        options[t] = n;
+      });
+    }
+    const res = await fetch('/api/cart/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId: id, quantity: qty, options }) });
+    if (res.ok) { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.AddedToCartSuccess)'); window.dispatchEvent(new Event('cart:changed')); } else { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); }
+  });
+  const viewBtn = document.getElementById('btnViewReviews');
+  if (viewBtn) {
+    viewBtn.addEventListener('click', () => {
+      const tabBtn = document.getElementById('reviews-tab');
+      if (tabBtn) tabBtn.click();
+      const target = document.getElementById('reviews-tab-pane');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+});
+</script>
+        <section class="mt-lg-14 mt-8">
             <div class="container">
                <div class="row">
                   <div class="col-md-12">
@@ -1145,7 +1098,7 @@
                                  <!-- btn -->
                                  <button type="button" class="btn btn-primary">
                                     <i class="feather-icon icon-shopping-bag me-2"></i>
-                                    Add to cart
+                                    @ViewBag.AddToCart
                                  </button>
                               </div>
                               <div class="col-md-4 col-5">

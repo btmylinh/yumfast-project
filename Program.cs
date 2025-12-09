@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WebApp.Data;
 using WebApp.Services;
+using WebApp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 // Localization service
 
 builder.Services.AddSingleton<IJsonLocalizationService, JsonLocalizationService>();
+
+// Product catalog (demo in-memory)
+builder.Services.AddSingleton<IProductCatalogService, ProductCatalogService>();
 
 
 //  Database 
@@ -103,6 +107,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
+builder.Services.AddHostedService<WebApp.Services.UnverifiedUserCleanupService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -234,15 +240,24 @@ app.MapControllerRoute(
     defaults: new { controller = "Auth" });
 
 app.MapControllerRoute(
+    name: "coupons_public",
+    pattern: "coupons",
+    defaults: new { controller = "CouponView", action = "Index" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+app.MapHub<ChatHub>("/chatHub");
 
 // Seed Database
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await BannerSeeder.SeedBannersAsync(context);
+    var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    await ProductSeeder.SeedProductsAsync(context, config);
 }
 
 app.Run();

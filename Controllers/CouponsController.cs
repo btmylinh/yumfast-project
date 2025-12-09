@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 using WebApp.Models;
 using WebApp.Services;
 
@@ -12,10 +14,8 @@ namespace WebApp.Controllers
 
         public IActionResult Index()
         {
-            // Set coupon-specific ViewBag values
             SetCouponViewBagValues();
-            
-            var coupons = GetMockCoupons();
+            var coupons = GetCouponsFromDb();
             return View("~/Views/Admin/Coupons/Index.cshtml", coupons);
         }
 
@@ -33,7 +33,52 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Mock create logic - trong thực tế sẽ lưu vào database
+                var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+                using var conn = new NpgsqlConnection(config.GetConnectionString("DefaultConnection"));
+                conn.Open();
+                using(var dup = new NpgsqlCommand("SELECT COUNT(1) FROM coupons WHERE LOWER(code)=LOWER(@code)", conn))
+                {
+                    dup.Parameters.AddWithValue("@code", model.Code);
+                    var exists = (long)dup.ExecuteScalar();
+                    if (exists > 0)
+                    {
+                        ModelState.AddModelError("Code", "Mã giảm giá đã tồn tại");
+                        SetCouponViewBagValues();
+                        return View("~/Views/Admin/Coupons/Create.cshtml", model);
+                    }
+                }
+                if (model.StartAt >= model.EndAt)
+                {
+                    ModelState.AddModelError("EndAt", "Ngày kết thúc phải sau ngày bắt đầu");
+                    SetCouponViewBagValues();
+                    return View("~/Views/Admin/Coupons/Create.cshtml", model);
+                }
+                if (model.Type == 1 && (model.Value <= 0 || model.Value > 100))
+                {
+                    ModelState.AddModelError("Value", "Phần trăm phải trong khoảng 1-100");
+                    SetCouponViewBagValues();
+                    return View("~/Views/Admin/Coupons/Create.cshtml", model);
+                }
+                if (model.Type == 2 && model.Value <= 0)
+                {
+                    ModelState.AddModelError("Value", "Giá trị phải lớn hơn 0");
+                    SetCouponViewBagValues();
+                    return View("~/Views/Admin/Coupons/Create.cshtml", model);
+                }
+                using var cmd = new NpgsqlCommand(@"INSERT INTO coupons (product_id, code, name, type, value, start_at, end_at, description, total, used_count, status)
+                                                    VALUES (@pid, @code, @name, @type, @value, @start, @end, @desc, @total, 0, @status)", conn);
+                cmd.Parameters.AddWithValue("@pid", (object?)model.IdProduct ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@code", model.Code);
+                cmd.Parameters.AddWithValue("@name", model.Name);
+                cmd.Parameters.AddWithValue("@type", (short)model.Type);
+                cmd.Parameters.AddWithValue("@value", model.Value);
+                cmd.Parameters.AddWithValue("@start", model.StartAt);
+                cmd.Parameters.AddWithValue("@end", model.EndAt);
+                cmd.Parameters.AddWithValue("@desc", (object?)model.Description ?? string.Empty);
+                cmd.Parameters.AddWithValue("@total", model.Total);
+                cmd.Parameters.AddWithValue("@status", (short)model.Status);
+                cmd.ExecuteNonQuery();
+
                 TempData["Success"] = "Tạo mã giảm giá thành công!";
                 return RedirectToAction(nameof(Index));
             }
@@ -45,10 +90,8 @@ namespace WebApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            // Set coupon-specific ViewBag values
             SetCouponViewBagValues();
-            
-            var coupon = GetMockCoupons().FirstOrDefault(c => c.Id == id);
+            var coupon = GetCouponByIdFromDb(id);
             if (coupon == null)
             {
                 return NotFound();
@@ -61,7 +104,79 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Mock edit logic - trong thực tế sẽ cập nhật database
+                var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+                using var conn = new NpgsqlConnection(config.GetConnectionString("DefaultConnection"));
+                conn.Open();
+                using(var dup = new NpgsqlCommand("SELECT COUNT(1) FROM coupons WHERE LOWER(code)=LOWER(@code) AND id<>@id", conn))
+                {
+                    dup.Parameters.AddWithValue("@code", model.Code);
+                    dup.Parameters.AddWithValue("@id", model.Id);
+                    var exists = (long)dup.ExecuteScalar();
+                    if (exists > 0)
+                    {
+                        ModelState.AddModelError("Code", "Mã giảm giá đã tồn tại");
+                        SetCouponViewBagValues();
+                        return View("~/Views/Admin/Coupons/Edit.cshtml", model);
+                    }
+                }
+                if (model.StartAt >= model.EndAt)
+                {
+                    ModelState.AddModelError("EndAt", "Ngày kết thúc phải sau ngày bắt đầu");
+                    SetCouponViewBagValues();
+                    return View("~/Views/Admin/Coupons/Edit.cshtml", model);
+                }
+                if (model.Type == 1 && (model.Value <= 0 || model.Value > 100))
+                {
+                    ModelState.AddModelError("Value", "Phần trăm phải trong khoảng 1-100");
+                    SetCouponViewBagValues();
+                    return View("~/Views/Admin/Coupons/Edit.cshtml", model);
+                }
+                if (model.Type == 2 && model.Value <= 0)
+                {
+                    ModelState.AddModelError("Value", "Giá trị phải lớn hơn 0");
+                    SetCouponViewBagValues();
+                    return View("~/Views/Admin/Coupons/Edit.cshtml", model);
+                }
+                using(var getUsed = new NpgsqlCommand("SELECT used_count FROM coupons WHERE id=@id", conn))
+                {
+                    getUsed.Parameters.AddWithValue("@id", model.Id);
+                    var used = (int)(long)(getUsed.ExecuteScalar() ?? 0L);
+                    if (model.Total < used)
+                    {
+                        ModelState.AddModelError("Total", "Tổng số lượng phải >= số đã dùng");
+                        SetCouponViewBagValues();
+                        return View("~/Views/Admin/Coupons/Edit.cshtml", model);
+                    }
+                }
+                using var cmd = new NpgsqlCommand(@"UPDATE coupons SET
+                                                    product_id=@pid,
+                                                    code=@code,
+                                                    name=@name,
+                                                    type=@type,
+                                                    value=@value,
+                                                    start_at=@start,
+                                                    end_at=@end,
+                                                    description=@desc,
+                                                    total=@total,
+                                                    status=@status
+                                                    WHERE id=@id", conn);
+                cmd.Parameters.AddWithValue("@pid", (object?)model.IdProduct ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@code", model.Code);
+                cmd.Parameters.AddWithValue("@name", model.Name);
+                cmd.Parameters.AddWithValue("@type", (short)model.Type);
+                cmd.Parameters.AddWithValue("@value", model.Value);
+                cmd.Parameters.AddWithValue("@start", model.StartAt);
+                cmd.Parameters.AddWithValue("@end", model.EndAt);
+                cmd.Parameters.AddWithValue("@desc", (object?)model.Description ?? string.Empty);
+                cmd.Parameters.AddWithValue("@total", model.Total);
+                cmd.Parameters.AddWithValue("@status", (short)model.Status);
+                cmd.Parameters.AddWithValue("@id", model.Id);
+                var rows = cmd.ExecuteNonQuery();
+                if (rows == 0)
+                {
+                    return NotFound();
+                }
+
                 TempData["Success"] = "Cập nhật mã giảm giá thành công!";
                 return RedirectToAction(nameof(Index));
             }
@@ -74,185 +189,97 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            // Mock delete logic - trong thực tế sẽ xóa khỏi database
-            TempData["Success"] = "Xóa mã giảm giá thành công!";
+            var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            using var conn = new NpgsqlConnection(config.GetConnectionString("DefaultConnection"));
+            conn.Open();
+            using var cmd = new NpgsqlCommand("DELETE FROM coupons WHERE id=@id AND used_count=0", conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            var rows = cmd.ExecuteNonQuery();
+            if (rows == 0)
+            {
+                TempData["Error"] = "Không thể xóa mã giảm giá đã được sử dụng";
+            }
+            else
+            {
+                TempData["Success"] = "Xóa mã giảm giá thành công!";
+            }
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
         public IActionResult ToggleStatus(int id)
         {
-            // Mock toggle status logic
+            var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            using var conn = new NpgsqlConnection(config.GetConnectionString("DefaultConnection"));
+            conn.Open();
+            using var cmd = new NpgsqlCommand(@"UPDATE coupons SET status = CASE WHEN status=1 THEN 0 ELSE 1 END WHERE id=@id", conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
             TempData["Success"] = "Thay đổi trạng thái thành công!";
             return RedirectToAction(nameof(Index));
         }
 
-        private void SetCouponViewBagValues()
+        private void SetCouponViewBagValues() { }
+
+        private List<CouponViewModel> GetCouponsFromDb()
         {
-            // Coupon page titles and labels
-            ViewBag.CouponTitle = _localizationService.GetLocalizedString("couponTitle");
-            ViewBag.CouponAddNew = _localizationService.GetLocalizedString("couponAddNew");
-            ViewBag.CouponEdit = _localizationService.GetLocalizedString("couponEdit");
-            ViewBag.CouponBackToList = _localizationService.GetLocalizedString("couponBackToList");
-            ViewBag.CouponSearch = _localizationService.GetLocalizedString("couponSearch");
-            
-            // Table headers
-            ViewBag.CouponCode = _localizationService.GetLocalizedString("couponCode");
-            ViewBag.CouponName = _localizationService.GetLocalizedString("couponName");
-            ViewBag.CouponType = _localizationService.GetLocalizedString("couponType");
-            ViewBag.CouponValue = _localizationService.GetLocalizedString("couponValue");
-            ViewBag.CouponPeriod = _localizationService.GetLocalizedString("couponPeriod");
-            ViewBag.CouponUsage = _localizationService.GetLocalizedString("couponUsage");
-            ViewBag.CouponStatus = _localizationService.GetLocalizedString("couponStatus");
-            
-            // Status values
-            ViewBag.CouponStart = _localizationService.GetLocalizedString("couponStart");
-            ViewBag.CouponEnd = _localizationService.GetLocalizedString("couponEnd");
-            ViewBag.CouponRemaining = _localizationService.GetLocalizedString("couponRemaining");
-            ViewBag.CouponActive = _localizationService.GetLocalizedString("couponActive");
-            ViewBag.CouponInactive = _localizationService.GetLocalizedString("couponInactive");
-            ViewBag.CouponPending = _localizationService.GetLocalizedString("couponPending");
-            ViewBag.CouponExpired = _localizationService.GetLocalizedString("couponExpired");
-            
-            // Actions
-            ViewBag.CouponActivate = _localizationService.GetLocalizedString("couponActivate");
-            ViewBag.CouponDeactivate = _localizationService.GetLocalizedString("couponDeactivate");
-            ViewBag.CouponDelete = _localizationService.GetLocalizedString("couponDelete");
-            ViewBag.CouponDeleteConfirm = _localizationService.GetLocalizedString("couponDeleteConfirm");
-            ViewBag.CouponNoData = _localizationService.GetLocalizedString("couponNoData");
-            
-            // Form fields
-            ViewBag.CouponBasicInfo = _localizationService.GetLocalizedString("couponBasicInfo");
-            ViewBag.CouponSettings = _localizationService.GetLocalizedString("couponSettings");
-            ViewBag.CouponPreview = _localizationService.GetLocalizedString("couponPreview");
-            ViewBag.CouponCodePlaceholder = _localizationService.GetLocalizedString("couponCodePlaceholder");
-            ViewBag.CouponNamePlaceholder = _localizationService.GetLocalizedString("couponNamePlaceholder");
-            ViewBag.CouponSelectType = _localizationService.GetLocalizedString("couponSelectType");
-            ViewBag.CouponPercentage = _localizationService.GetLocalizedString("couponPercentage");
-            ViewBag.CouponFixedAmount = _localizationService.GetLocalizedString("couponFixedAmount");
-            ViewBag.CouponValuePlaceholder = _localizationService.GetLocalizedString("couponValuePlaceholder");
-            ViewBag.CouponValueUnit = _localizationService.GetLocalizedString("couponValueUnit");
-            ViewBag.CouponStartDate = _localizationService.GetLocalizedString("couponStartDate");
-            ViewBag.CouponEndDate = _localizationService.GetLocalizedString("couponEndDate");
-            ViewBag.CouponTotalQuantity = _localizationService.GetLocalizedString("couponTotalQuantity");
-            ViewBag.CouponTotalPlaceholder = _localizationService.GetLocalizedString("couponTotalPlaceholder");
-            ViewBag.CouponProductOptional = _localizationService.GetLocalizedString("couponProductOptional");
-            ViewBag.CouponAllProducts = _localizationService.GetLocalizedString("couponAllProducts");
-            ViewBag.CouponProductNote = _localizationService.GetLocalizedString("couponProductNote");
-            ViewBag.CouponDescription = _localizationService.GetLocalizedString("couponDescription");
-            ViewBag.CouponDescriptionPlaceholder = _localizationService.GetLocalizedString("couponDescriptionPlaceholder");
-            
-            // Buttons
-            ViewBag.CouponSave = _localizationService.GetLocalizedString("couponSave");
-            ViewBag.CouponUpdate = _localizationService.GetLocalizedString("couponUpdate");
-            ViewBag.CouponCancel = _localizationService.GetLocalizedString("couponCancel");
-            
-            // Preview labels
-            ViewBag.CouponCodePreview = _localizationService.GetLocalizedString("couponCodePreview");
-            ViewBag.CouponNamePreview = _localizationService.GetLocalizedString("couponNamePreview");
-            ViewBag.CouponValuePreview = _localizationService.GetLocalizedString("couponValuePreview");
-            ViewBag.CouponTypePreview = _localizationService.GetLocalizedString("couponTypePreview");
-            ViewBag.CouponPeriodPreview = _localizationService.GetLocalizedString("couponPeriodPreview");
-            
-            // Statistics
-            ViewBag.CouponUsageStats = _localizationService.GetLocalizedString("couponUsageStats");
-            ViewBag.CouponUsed = _localizationService.GetLocalizedString("couponUsed");
-            ViewBag.CouponCreatedAt = _localizationService.GetLocalizedString("couponCreatedAt");
-            ViewBag.CouponUpdatedAt = _localizationService.GetLocalizedString("couponUpdatedAt");
-            ViewBag.CouponCurrentStatus = _localizationService.GetLocalizedString("couponCurrentStatus");
-            
-            // Validation messages
-            ViewBag.CouponDateError = _localizationService.GetLocalizedString("couponDateError");
-            ViewBag.CouponPercentageError = _localizationService.GetLocalizedString("couponPercentageError");
-            ViewBag.CouponAmountError = _localizationService.GetLocalizedString("couponAmountError");
-            ViewBag.CouponTotalError = _localizationService.GetLocalizedString("couponTotalError");
+            var list = new List<CouponViewModel>();
+            var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            using var conn = new NpgsqlConnection(config.GetConnectionString("DefaultConnection"));
+            conn.Open();
+            using var cmd = new NpgsqlCommand(@"SELECT id, product_id, code, name, type, value, start_at, end_at, description, total, used_count, status, created_at, updated_at
+                                               FROM coupons
+                                               ORDER BY id ASC", conn);
+            using var r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                list.Add(new CouponViewModel
+                {
+                    Id = (int)r.GetInt64(0),
+                    IdProduct = r.IsDBNull(1) ? null : (int?)r.GetInt64(1),
+                    Code = r.GetString(2),
+                    Name = r.GetString(3),
+                    Type = r.GetInt16(4),
+                    Value = r.GetInt32(5),
+                    StartAt = r.GetDateTime(6),
+                    EndAt = r.GetDateTime(7),
+                    Description = r.IsDBNull(8) ? string.Empty : r.GetString(8),
+                    Total = r.GetInt32(9),
+                    UsedCount = r.GetInt32(10),
+                    Status = r.GetInt16(11),
+                    CreatedAt = r.GetDateTime(12),
+                    UpdatedAt = r.GetDateTime(13)
+                });
+            }
+            return list;
         }
 
-        private List<CouponViewModel> GetMockCoupons()
+        private CouponViewModel? GetCouponByIdFromDb(int id)
         {
-            return new List<CouponViewModel>
+            var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            using var conn = new NpgsqlConnection(config.GetConnectionString("DefaultConnection"));
+            conn.Open();
+            using var cmd = new NpgsqlCommand(@"SELECT id, product_id, code, name, type, value, start_at, end_at, description, total, used_count, status, created_at, updated_at
+                                               FROM coupons WHERE id=@id", conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            using var r = cmd.ExecuteReader();
+            if (!r.Read()) return null;
+            return new CouponViewModel
             {
-                new CouponViewModel
-                {
-                    Id = 1,
-                    Code = "SUMMER2024",
-                    Name = "Giảm giá mùa hè 2024",
-                    Type = 1, // %
-                    Value = 15,
-                    StartAt = DateTime.Now.AddDays(-10),
-                    EndAt = DateTime.Now.AddDays(20),
-                    Description = "Áp dụng cho tất cả sản phẩm trái cây tươi",
-                    Total = 100,
-                    UsedCount = 25,
-                    Status = 1,
-                    CreatedAt = DateTime.Now.AddDays(-15),
-                    UpdatedAt = DateTime.Now.AddDays(-1)
-                },
-                new CouponViewModel
-                {
-                    Id = 2,
-                    Code = "NEWUSER50",
-                    Name = "Ưu đãi khách hàng mới",
-                    Type = 2, // tiền cứng
-                    Value = 50000,
-                    StartAt = DateTime.Now.AddDays(-5),
-                    EndAt = DateTime.Now.AddDays(30),
-                    Description = "Dành cho khách hàng đăng ký lần đầu",
-                    Total = 500,
-                    UsedCount = 127,
-                    Status = 1,
-                    CreatedAt = DateTime.Now.AddDays(-7),
-                    UpdatedAt = DateTime.Now.AddDays(-2)
-                },
-                new CouponViewModel
-                {
-                    Id = 3,
-                    Code = "FRUIT20",
-                    Name = "Giảm 20% trái cây",
-                    Type = 1, // %
-                    Value = 20,
-                    StartAt = DateTime.Now.AddDays(-30),
-                    EndAt = DateTime.Now.AddDays(-5),
-                    Description = "Chuyên dụng cho danh mục trái cây",
-                    Total = 200,
-                    UsedCount = 198,
-                    Status = 0, // Đã hết hạn
-                    IdProduct = 1,
-                    CreatedAt = DateTime.Now.AddDays(-35),
-                    UpdatedAt = DateTime.Now.AddDays(-5)
-                },
-                new CouponViewModel
-                {
-                    Id = 4,
-                    Code = "WEEKEND100",
-                    Name = "Cuối tuần giảm 100k",
-                    Type = 2, // tiền cứng
-                    Value = 100000,
-                    StartAt = DateTime.Now.AddDays(5),
-                    EndAt = DateTime.Now.AddDays(15),
-                    Description = "Áp dụng cho đơn hàng từ 500k trở lên",
-                    Total = 50,
-                    UsedCount = 0,
-                    Status = 1,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
-                },
-                new CouponViewModel
-                {
-                    Id = 5,
-                    Code = "ORGANIC30",
-                    Name = "Giảm 30% thực phẩm hữu cơ",
-                    Type = 1, // %
-                    Value = 30,
-                    StartAt = DateTime.Now.AddDays(-2),
-                    EndAt = DateTime.Now.AddDays(25),
-                    Description = "Dành riêng cho sản phẩm hữu cơ",
-                    Total = 75,
-                    UsedCount = 12,
-                    Status = 1,
-                    CreatedAt = DateTime.Now.AddDays(-3),
-                    UpdatedAt = DateTime.Now
-                }
+                Id = (int)r.GetInt64(0),
+                IdProduct = r.IsDBNull(1) ? null : (int?)r.GetInt64(1),
+                Code = r.GetString(2),
+                Name = r.GetString(3),
+                Type = r.GetInt16(4),
+                Value = r.GetInt32(5),
+                StartAt = r.GetDateTime(6),
+                EndAt = r.GetDateTime(7),
+                Description = r.IsDBNull(8) ? string.Empty : r.GetString(8),
+                Total = r.GetInt32(9),
+                UsedCount = r.GetInt32(10),
+                Status = r.GetInt16(11),
+                CreatedAt = r.GetDateTime(12),
+                UpdatedAt = r.GetDateTime(13)
             };
         }
     }

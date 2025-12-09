@@ -74,6 +74,11 @@ namespace WebApp.Controllers
             ViewBag.List = _localizationService.GetLocalizedString("list");
             ViewBag.AddNew = _localizationService.GetLocalizedString("addNew");
 
+            ViewBag.CouponRemaining = _localizationService.GetLocalizedString("couponRemaining");
+            ViewBag.CouponNoData = _localizationService.GetLocalizedString("couponNoData");
+            ViewBag.Copy = _localizationService.GetLocalizedString("copy");
+            ViewBag.Copied = _localizationService.GetLocalizedString("copied");
+
             // Shop/Product strings
             ViewBag.ShopNow = _localizationService.GetLocalizedString("shopNow");
             ViewBag.AddToCart = _localizationService.GetLocalizedString("addToCart");
@@ -93,6 +98,7 @@ namespace WebApp.Controllers
             // Additional UI strings
             ViewBag.ShopCart = _localizationService.GetLocalizedString("shopCart");
             ViewBag.ContinueShopping = _localizationService.GetLocalizedString("continueShopping");
+            ViewBag.UpdateCart = _localizationService.GetLocalizedString("updateCart");
             ViewBag.ShopCheckout = _localizationService.GetLocalizedString("shopCheckout");
             ViewBag.BecomeAShopper = _localizationService.GetLocalizedString("becomeAShopper");
             ViewBag.ShopperOpportunities = _localizationService.GetLocalizedString("shopperOpportunities");
@@ -259,7 +265,11 @@ namespace WebApp.Controllers
             ViewBag.ValidationFillAll = _localizationService.GetLocalizedString("validation_fill_all");
             ViewBag.SignUpSuccessEnterOtp = _localizationService.GetLocalizedString("signup_success_enter_otp");
             ViewBag.SignUpFailed = _localizationService.GetLocalizedString("signup_failed");
+            ViewBag.RegisterFailed = _localizationService.GetLocalizedString("register_failed");
+            ViewBag.InternalServerError = _localizationService.GetLocalizedString("internal_server_error");
+            ViewBag.EmailExists = _localizationService.GetLocalizedString("email_exists");
             ViewBag.ServerConnectionError = _localizationService.GetLocalizedString("server_connection_error");
+            ViewBag.WeakPassword = _localizationService.GetLocalizedString("weak_password");
             ViewBag.VerifyEmailNotFound = _localizationService.GetLocalizedString("verify_email_not_found");
             ViewBag.ResendEnterEmailFirst = _localizationService.GetLocalizedString("resend_enter_email_first");
             ViewBag.ResetEmailNotFound = _localizationService.GetLocalizedString("reset_email_not_found");
@@ -327,6 +337,123 @@ ViewBag.ResendOtpButton = _localizationService.GetLocalizedString("resend_otp_bu
             ViewBag.Entries = _localizationService.GetLocalizedString("entries");
             ViewBag.Previous = _localizationService.GetLocalizedString("previous");
             ViewBag.Next = _localizationService.GetLocalizedString("next");
+
+            // User settings messages
+            ViewBag.UpdateProfileSuccess = _localizationService.GetLocalizedString("update_profile_success");
+            ViewBag.PasswordChangeSuccess = _localizationService.GetLocalizedString("password_change_success");
+            ViewBag.InvalidPassword = _localizationService.GetLocalizedString("invalid_password");
+
+            // Password labels
+            ViewBag.NewPasswordLabel = _localizationService.GetLocalizedString("new_password_label");
+            ViewBag.CurrentPasswordLabel = _localizationService.GetLocalizedString("current_password_label");
+            ViewBag.NewPasswordHelp = _localizationService.GetLocalizedString("new_password_help");
+            ViewBag.CurrentPasswordHelp = _localizationService.GetLocalizedString("current_password_help");
+
+            ViewBag.SearchByName = _localizationService.GetLocalizedString("search_by_name");
+            ViewBag.TagOptional = _localizationService.GetLocalizedString("tag_optional");
+            ViewBag.SortLabel = _localizationService.GetLocalizedString("sort_label");
+            ViewBag.ViewDetails = _localizationService.GetLocalizedString("view_details");
+            ViewBag.AddedToCartSuccess = _localizationService.GetLocalizedString("added_to_cart_success");
+            ViewBag.CartUpdatedSuccess = _localizationService.GetLocalizedString("cart_updated_success");
+
+            ViewBag.AddressTitle = _localizationService.GetLocalizedString("address_title");
+            ViewBag.AddressAddNew = _localizationService.GetLocalizedString("address_add_new_button");
+            ViewBag.AddressModalTitle = _localizationService.GetLocalizedString("address_modal_title");
+            ViewBag.AddressType = _localizationService.GetLocalizedString("address_type");
+            ViewBag.AddressTypeHome = _localizationService.GetLocalizedString("address_type_home");
+            ViewBag.AddressTypeOffice = _localizationService.GetLocalizedString("address_type_office");
+            ViewBag.AddressTypeOther = _localizationService.GetLocalizedString("address_type_other");
+            ViewBag.FullNameLabel = _localizationService.GetLocalizedString("full_name_label");
+            ViewBag.StreetAddressLabel = _localizationService.GetLocalizedString("street_address_label");
+            ViewBag.CityLabel = _localizationService.GetLocalizedString("city_label");
+            ViewBag.StateLabel = _localizationService.GetLocalizedString("state_label");
+            ViewBag.ZipCodeLabel = _localizationService.GetLocalizedString("zip_code_label");
+            ViewBag.PhoneLabel = _localizationService.GetLocalizedString("phone_label");
+            ViewBag.SetDefaultAddress = _localizationService.GetLocalizedString("set_default_address");
+            ViewBag.DefaultAddressBadge = _localizationService.GetLocalizedString("default_address_badge");
+            ViewBag.DeleteAddressConfirm = _localizationService.GetLocalizedString("delete_address_confirm");
+            ViewBag.NoAddressesMessage = _localizationService.GetLocalizedString("no_addresses_message");
+            ViewBag.LoadAddressesError = _localizationService.GetLocalizedString("load_addresses_error");
+            ViewBag.SaveAddressButton = _localizationService.GetLocalizedString("save_address_button");
+
+            ViewBag.PaymentMethodTitle = _localizationService.GetLocalizedString("payment_method_title");
+            ViewBag.PaymentTypeLabel = _localizationService.GetLocalizedString("payment_type_label");
+            ViewBag.PaymentLabelLabel = _localizationService.GetLocalizedString("payment_label_label");
+            ViewBag.PaymentExpiryLabel = _localizationService.GetLocalizedString("payment_expiry_label");
+            ViewBag.PaymentAccountLabel = _localizationService.GetLocalizedString("payment_account_label");
+            ViewBag.SetDefaultPayment = _localizationService.GetLocalizedString("payment_set_default");
+            ViewBag.PaymentDefaultBadge = _localizationService.GetLocalizedString("payment_default_badge");
+            ViewBag.NoPaymentMethodsMessage = _localizationService.GetLocalizedString("no_payment_methods_message");
+            ViewBag.LoadPaymentError = _localizationService.GetLocalizedString("load_payment_error");
+
+            // Chat widget strings
+            ViewBag.ChatTitle = _localizationService.GetLocalizedString("chat_title");
+            ViewBag.ChatPlaceholder = _localizationService.GetLocalizedString("chat_placeholder");
+            ViewBag.ChatSend = _localizationService.GetLocalizedString("chat_send");
+            ViewBag.ChatWelcome = _localizationService.GetLocalizedString("chat_welcome");
+            ViewBag.ChatConnectionError = _localizationService.GetLocalizedString("chat_connection_error");
+
+            // Coupon strings
+            ViewBag.CouponTitle = _localizationService.GetLocalizedString("couponTitle");
+            ViewBag.CouponAddNew = _localizationService.GetLocalizedString("couponAddNew");
+            ViewBag.CouponEdit = _localizationService.GetLocalizedString("couponEdit");
+            ViewBag.CouponBackToList = _localizationService.GetLocalizedString("couponBackToList");
+            ViewBag.CouponSearch = _localizationService.GetLocalizedString("couponSearch");
+            ViewBag.CouponCode = _localizationService.GetLocalizedString("couponCode");
+            ViewBag.CouponName = _localizationService.GetLocalizedString("couponName");
+            ViewBag.CouponType = _localizationService.GetLocalizedString("couponType");
+            ViewBag.CouponValue = _localizationService.GetLocalizedString("couponValue");
+            ViewBag.CouponPeriod = _localizationService.GetLocalizedString("couponPeriod");
+            ViewBag.CouponUsage = _localizationService.GetLocalizedString("couponUsage");
+            ViewBag.CouponStatus = _localizationService.GetLocalizedString("couponStatus");
+            ViewBag.CouponStart = _localizationService.GetLocalizedString("couponStart");
+            ViewBag.CouponEnd = _localizationService.GetLocalizedString("couponEnd");
+            ViewBag.CouponRemaining = _localizationService.GetLocalizedString("couponRemaining");
+            ViewBag.CouponActive = _localizationService.GetLocalizedString("couponActive");
+            ViewBag.CouponInactive = _localizationService.GetLocalizedString("couponInactive");
+            ViewBag.CouponPending = _localizationService.GetLocalizedString("couponPending");
+            ViewBag.CouponExpired = _localizationService.GetLocalizedString("couponExpired");
+            ViewBag.CouponActivate = _localizationService.GetLocalizedString("couponActivate");
+            ViewBag.CouponDeactivate = _localizationService.GetLocalizedString("couponDeactivate");
+            ViewBag.CouponDelete = _localizationService.GetLocalizedString("couponDelete");
+            ViewBag.CouponDeleteConfirm = _localizationService.GetLocalizedString("couponDeleteConfirm");
+            ViewBag.CouponNoData = _localizationService.GetLocalizedString("couponNoData");
+            ViewBag.CouponBasicInfo = _localizationService.GetLocalizedString("couponBasicInfo");
+            ViewBag.CouponSettings = _localizationService.GetLocalizedString("couponSettings");
+            ViewBag.CouponPreview = _localizationService.GetLocalizedString("couponPreview");
+            ViewBag.CouponCodePlaceholder = _localizationService.GetLocalizedString("couponCodePlaceholder");
+            ViewBag.CouponNamePlaceholder = _localizationService.GetLocalizedString("couponNamePlaceholder");
+            ViewBag.CouponSelectType = _localizationService.GetLocalizedString("couponSelectType");
+            ViewBag.CouponPercentage = _localizationService.GetLocalizedString("couponPercentage");
+            ViewBag.CouponFixedAmount = _localizationService.GetLocalizedString("couponFixedAmount");
+            ViewBag.CouponValuePlaceholder = _localizationService.GetLocalizedString("couponValuePlaceholder");
+            ViewBag.CouponValueUnit = _localizationService.GetLocalizedString("couponValueUnit");
+            ViewBag.CouponStartDate = _localizationService.GetLocalizedString("couponStartDate");
+            ViewBag.CouponEndDate = _localizationService.GetLocalizedString("couponEndDate");
+            ViewBag.CouponTotalQuantity = _localizationService.GetLocalizedString("couponTotalQuantity");
+            ViewBag.CouponTotalPlaceholder = _localizationService.GetLocalizedString("couponTotalPlaceholder");
+            ViewBag.CouponProductOptional = _localizationService.GetLocalizedString("couponProductOptional");
+            ViewBag.CouponAllProducts = _localizationService.GetLocalizedString("couponAllProducts");
+            ViewBag.CouponProductNote = _localizationService.GetLocalizedString("couponProductNote");
+            ViewBag.CouponDescription = _localizationService.GetLocalizedString("couponDescription");
+            ViewBag.CouponDescriptionPlaceholder = _localizationService.GetLocalizedString("couponDescriptionPlaceholder");
+            ViewBag.CouponSave = _localizationService.GetLocalizedString("couponSave");
+            ViewBag.CouponUpdate = _localizationService.GetLocalizedString("couponUpdate");
+            ViewBag.CouponCancel = _localizationService.GetLocalizedString("couponCancel");
+            ViewBag.CouponCodePreview = _localizationService.GetLocalizedString("couponCodePreview");
+            ViewBag.CouponNamePreview = _localizationService.GetLocalizedString("couponNamePreview");
+            ViewBag.CouponValuePreview = _localizationService.GetLocalizedString("couponValuePreview");
+            ViewBag.CouponTypePreview = _localizationService.GetLocalizedString("couponTypePreview");
+            ViewBag.CouponPeriodPreview = _localizationService.GetLocalizedString("couponPeriodPreview");
+            ViewBag.CouponUsageStats = _localizationService.GetLocalizedString("couponUsageStats");
+            ViewBag.CouponUsed = _localizationService.GetLocalizedString("couponUsed");
+            ViewBag.CouponCreatedAt = _localizationService.GetLocalizedString("couponCreatedAt");
+            ViewBag.CouponUpdatedAt = _localizationService.GetLocalizedString("couponUpdatedAt");
+            ViewBag.CouponCurrentStatus = _localizationService.GetLocalizedString("couponCurrentStatus");
+            ViewBag.CouponDateError = _localizationService.GetLocalizedString("couponDateError");
+            ViewBag.CouponPercentageError = _localizationService.GetLocalizedString("couponPercentageError");
+            ViewBag.CouponAmountError = _localizationService.GetLocalizedString("couponAmountError");
+            ViewBag.CouponTotalError = _localizationService.GetLocalizedString("couponTotalError");
         }
 
         protected string GetLocalizedString(string key)

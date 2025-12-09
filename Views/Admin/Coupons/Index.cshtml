@@ -53,6 +53,13 @@
             </div>
             <!-- card body -->
             <div class="card-body p-0">
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show mx-6 mb-0" role="alert">
+                        @TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
                 @if (TempData["Success"] != null)
                 {
                     <div class="alert alert-success alert-dismissible fade show mx-6 mb-0" role="alert">

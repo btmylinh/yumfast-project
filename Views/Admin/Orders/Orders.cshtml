@@ -15,8 +15,79 @@
 					<li class="breadcrumb-item active" aria-current="page">@ViewBag.OrderTitle</li>
 				</ol>
 			</nav>
-		</div>
-	</div>
+                </div>
+            </div>
+            <div class="card-body p-0" x-data="ordersAdmin()" x-init="init()">
+                <div class="px-6 pb-3 d-flex flex-wrap gap-2 align-items-center">
+                    <input class="form-control" type="search" placeholder="Tìm mã đơn / sđt / email" x-model="search" x-on:input.debounce.500ms="load()" style="max-width:420px" />
+                    <select class="form-select" x-model="status" x-on:change="load()" style="max-width:200px">
+                        <option value="">@ViewBag.OrderStatus</option>
+                        <option value="0">Pending</option>
+                        <option value="1">Processing</option>
+                        <option value="2">Shipped</option>
+                        <option value="3">Delivered</option>
+                        <option value="4">Cancelled</option>
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>@ViewBag.OrderId</th>
+                                <th>Code</th>
+                                <th>@ViewBag.UserEmail</th>
+                                <th>@ViewBag.UserPhone</th>
+                                <th>@ViewBag.OrderTotal</th>
+                                <th>@ViewBag.OrderPayment</th>
+                                <th>@ViewBag.OrderStatus</th>
+                                <th>@ViewBag.OrderDate</th>
+                                <th>@ViewBag.Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-if="loading"><tr><td colspan="9" class="text-center py-4">Loading...</td></tr></template>
+                            <template x-for="o in items" :key="o.id">
+                                <tr>
+                                    <td x-text="o.id"></td>
+                                    <td x-text="o.code"></td>
+                                    <td x-text="o.email"></td>
+                                    <td x-text="o.phone || '-' "></td>
+                                    <td x-text="formatPrice(o.totalPrice)"></td>
+                                    <td><span class="badge" :class="paymentBadge(o.paymentStatus)" x-text="paymentText(o.paymentStatus)"></span></td>
+                                    <td><span class="badge" :class="statusBadge(o.status)" x-text="statusText(o.status)"></span></td>
+                                    <td x-text="formatDate(o.createdAt)"></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a href="#" class="text-reset" data-bs-toggle="dropdown"><i class="feather-icon icon-more-vertical fs-5"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-3"></i>@ViewBag.View</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="border-top d-md-flex justify-content-between align-items-center p-6">
+                    <span x-text="`Showing ${items.length} entries`"></span>
+                </div>
+            </div>
+            <script>
+            function ordersAdmin(){
+              return {
+                items:[], loading:false, error:false, search:'', status:'',
+                init(){ this.load(); },
+                formatPrice(v){ try{ return new Intl.NumberFormat('vi-VN').format(v); }catch{ return String(v); } },
+                formatDate(s){ try{ return new Date(s).toLocaleString('vi-VN'); }catch{ return s; } },
+                paymentText(p){ return p===1? 'Paid' : (p===2? 'Refunded' : 'Unpaid'); },
+                paymentBadge(p){ return p===1? 'bg-light-primary text-dark-primary' : (p===2? 'bg-light-warning text-dark-warning' : 'bg-light-secondary text-dark'); },
+                statusText(st){ switch(st){ case 0: return 'Pending'; case 1: return 'Processing'; case 2: return 'Shipped'; case 3: return 'Delivered'; case 4: return 'Cancelled'; default: return String(st);} },
+                statusBadge(st){ switch(st){ case 0: return 'bg-light-warning text-dark-warning'; case 3: return 'bg-light-success text-dark-success'; case 4: return 'bg-light-danger text-dark-danger'; default: return 'bg-light-primary text-dark-primary'; } },
+                async load(){ this.loading=true; this.error=false; try{ const u=new URL('/api/orders', window.location.origin); if(this.search) u.searchParams.set('search', this.search); if(this.status!=='') u.searchParams.set('status', this.status); u.searchParams.set('pageSize','200'); const r=await fetch(u); const j=await r.json(); this.items=j.data||[]; }catch(e){ this.error=true; } finally{ this.loading=false; } }
+              }
+            }
+            </script>
 </div>
 <!-- row -->
 <div class="row">
@@ -42,8 +113,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- card body -->
-			<div class="card-body p-0">
+            <!-- card body (static placeholder, hidden) -->
+            <div class="card-body p-0" style="display:none">
 				<!-- table responsive -->
 				<div class="table-responsive">
 					<table

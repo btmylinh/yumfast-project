@@ -206,7 +206,7 @@
                   <div>
                      <ul class="navbar-nav align-items-center">
                         <li class="dropdown me-6 d-none d-lg-block">
-                           <a href="#" class="text-inherit" data-bs-toggle="dropdown" aria-expanded="false">
+                           <a href="#" class="text-inherit" data-bs-toggle="dropdown" aria-expanded="false" id="allCategoriesTrigger">
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-text-left me-2" viewBox="0 0 16 16">
                                  <path
                                     fill-rule="evenodd"
@@ -215,7 +215,7 @@
                               @ViewBag.AllCategories
                            </a>
 
-                           <ul class="dropdown-menu dropdown-menu-lg">
+                           <ul class="dropdown-menu dropdown-menu-lg" id="allCategoriesMenu">
                               <li class="dropdown-menu-list">
                                  <a href="javascript:void(0)" class="dropdown-item d-flex justify-content-between mb-1 py-1">
                                     <div>
@@ -697,305 +697,18 @@
          </div>
          <div class="offcanvas-body">
             <div>
-               <!-- alert -->
                <div class="alert alert-danger p-2" role="alert">
                   You’ve got FREE delivery. Start
                   <a href="#!" class="alert-link">checkout now!</a>
                </div>
-               <ul class="list-group list-group-flush">
-                  <!-- list group -->
-                  <li class="list-group-item py-3 ps-0 border-top">
-                     <!-- row -->
-                     <div class="row align-items-center">
-                        <div class="col-6 col-md-6 col-lg-7">
-                           <div class="d-flex">
-                              <img src="../assets/images/products/product-img-1.jpg" alt="Ecommerce" class="icon-shape icon-xxl" />
-                              <div class="ms-3">
-                                 <!-- title -->
-                                 <a href="shop-single.html" class="text-inherit">
-                                    <h6 class="mb-0">Haldiram's Sev Bhujia</h6>
-                                 </a>
-                                 <span><small class="text-muted">.98 / lb</small></span>
-                                 <!-- text -->
-                                 <div class="mt-2 small lh-1">
-                                    <a href="#!" class="text-decoration-none text-inherit">
-                                       <span class="me-1 align-text-bottom">
-                                          <svg
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             width="14"
-                                             height="14"
-                                             viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2"
-                                             stroke-linecap="round"
-                                             stroke-linejoin="round"
-                                             class="feather feather-trash-2 text-success">
-                                             <polyline points="3 6 5 6 21 6"></polyline>
-                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                             <line x1="10" y1="11" x2="10" y2="17"></line>
-                                             <line x1="14" y1="11" x2="14" y2="17"></line>
-                                          </svg>
-                                       </span>
-                                       <span class="text-muted">Remove</span>
-                                    </a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <!-- input group -->
-                        <div class="col-4 col-md-3 col-lg-3">
-                           <!-- input -->
-                           <!-- input -->
-                           <div class="input-group input-spinner">
-                              <input type="button" value="-" class="button-minus btn btn-sm" data-field="quantity" />
-                              <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" />
-                              <input type="button" value="+" class="button-plus btn btn-sm" data-field="quantity" />
-                           </div>
-                        </div>
-                        <!-- price -->
-                        <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                           <span class="fw-bold">$5.00</span>
-                        </div>
-                     </div>
-                  </li>
-                  <!-- list group -->
-                  <li class="list-group-item py-3 ps-0">
-                     <!-- row -->
-                     <div class="row align-items-center">
-                        <div class="col-6 col-md-6 col-lg-7">
-                           <div class="d-flex">
-                              <img src="../assets/images/products/product-img-2.jpg" alt="Ecommerce" class="icon-shape icon-xxl" />
-                              <div class="ms-3">
-                                 <a href="shop-single.html" class="text-inherit">
-                                    <h6 class="mb-0">NutriChoice Digestive</h6>
-                                 </a>
-                                 <span><small class="text-muted">250g</small></span>
-                                 <!-- text -->
-                                 <div class="mt-2 small lh-1">
-                                    <a href="#!" class="text-decoration-none text-inherit">
-                                       <span class="me-1 align-text-bottom">
-                                          <svg
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             width="14"
-                                             height="14"
-                                             viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2"
-                                             stroke-linecap="round"
-                                             stroke-linejoin="round"
-                                             class="feather feather-trash-2 text-success">
-                                             <polyline points="3 6 5 6 21 6"></polyline>
-                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                             <line x1="10" y1="11" x2="10" y2="17"></line>
-                                             <line x1="14" y1="11" x2="14" y2="17"></line>
-                                          </svg>
-                                       </span>
-                                       <span class="text-muted">Remove</span>
-                                    </a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-
-                        <!-- input group -->
-                        <div class="col-4 col-md-3 col-lg-3">
-                           <!-- input -->
-                           <!-- input -->
-                           <div class="input-group input-spinner">
-                              <input type="button" value="-" class="button-minus btn btn-sm" data-field="quantity" />
-                              <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" />
-                              <input type="button" value="+" class="button-plus btn btn-sm" data-field="quantity" />
-                           </div>
-                        </div>
-                        <!-- price -->
-                        <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                           <span class="fw-bold text-danger">$20.00</span>
-                           <div class="text-decoration-line-through text-muted small">$26.00</div>
-                        </div>
-                     </div>
-                  </li>
-                  <!-- list group -->
-                  <li class="list-group-item py-3 ps-0">
-                     <!-- row -->
-                     <div class="row align-items-center">
-                        <div class="col-6 col-md-6 col-lg-7">
-                           <div class="d-flex">
-                              <img src="../assets/images/products/product-img-3.jpg" alt="Ecommerce" class="icon-shape icon-xxl" />
-                              <div class="ms-3">
-                                 <!-- title -->
-                                 <a href="shop-single.html" class="text-inherit">
-                                    <h6 class="mb-0">Cadbury 5 Star Chocolate</h6>
-                                 </a>
-                                 <span><small class="text-muted">1 kg</small></span>
-                                 <!-- text -->
-                                 <div class="mt-2 small lh-1">
-                                    <a href="#!" class="text-decoration-none text-inherit">
-                                       <span class="me-1 align-text-bottom">
-                                          <svg
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             width="14"
-                                             height="14"
-                                             viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2"
-                                             stroke-linecap="round"
-                                             stroke-linejoin="round"
-                                             class="feather feather-trash-2 text-success">
-                                             <polyline points="3 6 5 6 21 6"></polyline>
-                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                             <line x1="10" y1="11" x2="10" y2="17"></line>
-                                             <line x1="14" y1="11" x2="14" y2="17"></line>
-                                          </svg>
-                                       </span>
-                                       <span class="text-muted">Remove</span>
-                                    </a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-
-                        <!-- input group -->
-                        <div class="col-4 col-md-3 col-lg-3">
-                           <!-- input -->
-                           <!-- input -->
-                           <div class="input-group input-spinner">
-                              <input type="button" value="-" class="button-minus btn btn-sm" data-field="quantity" />
-                              <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" />
-                              <input type="button" value="+" class="button-plus btn btn-sm" data-field="quantity" />
-                           </div>
-                        </div>
-                        <!-- price -->
-                        <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                           <span class="fw-bold">$15.00</span>
-                           <div class="text-decoration-line-through text-muted small">$20.00</div>
-                        </div>
-                     </div>
-                  </li>
-                  <!-- list group -->
-                  <li class="list-group-item py-3 ps-0">
-                     <!-- row -->
-                     <div class="row align-items-center">
-                        <div class="col-6 col-md-6 col-lg-7">
-                           <div class="d-flex">
-                              <img src="../assets/images/products/product-img-4.jpg" alt="Ecommerce" class="icon-shape icon-xxl" />
-                              <div class="ms-3">
-                                 <!-- title -->
-                                 <!-- title -->
-                                 <a href="shop-single.html" class="text-inherit">
-                                    <h6 class="mb-0">Onion Flavour Potato</h6>
-                                 </a>
-                                 <span><small class="text-muted">250g</small></span>
-                                 <!-- text -->
-                                 <div class="mt-2 small lh-1">
-                                    <a href="#!" class="text-decoration-none text-inherit">
-                                       <span class="me-1 align-text-bottom">
-                                          <svg
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             width="14"
-                                             height="14"
-                                             viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2"
-                                             stroke-linecap="round"
-                                             stroke-linejoin="round"
-                                             class="feather feather-trash-2 text-success">
-                                             <polyline points="3 6 5 6 21 6"></polyline>
-                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                             <line x1="10" y1="11" x2="10" y2="17"></line>
-                                             <line x1="14" y1="11" x2="14" y2="17"></line>
-                                          </svg>
-                                       </span>
-                                       <span class="text-muted">Remove</span>
-                                    </a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-
-                        <!-- input group -->
-                        <div class="col-4 col-md-3 col-lg-3">
-                           <!-- input -->
-                           <!-- input -->
-                           <div class="input-group input-spinner">
-                              <input type="button" value="-" class="button-minus btn btn-sm" data-field="quantity" />
-                              <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" />
-                              <input type="button" value="+" class="button-plus btn btn-sm" data-field="quantity" />
-                           </div>
-                        </div>
-                        <!-- price -->
-                        <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                           <span class="fw-bold">$15.00</span>
-                           <div class="text-decoration-line-through text-muted small">$20.00</div>
-                        </div>
-                     </div>
-                  </li>
-                  <!-- list group -->
-                  <li class="list-group-item py-3 ps-0 border-bottom">
-                     <!-- row -->
-                     <div class="row align-items-center">
-                        <div class="col-6 col-md-6 col-lg-7">
-                           <div class="d-flex">
-                              <img src="../assets/images/products/product-img-5.jpg" alt="Ecommerce" class="icon-shape icon-xxl" />
-                              <div class="ms-3">
-                                 <!-- title -->
-                                 <a href="shop-single.html" class="text-inherit">
-                                    <h6 class="mb-0">Salted Instant Popcorn</h6>
-                                 </a>
-                                 <span><small class="text-muted">100g</small></span>
-                                 <!-- text -->
-                                 <div class="mt-2 small lh-1">
-                                    <a href="#!" class="text-decoration-none text-inherit">
-                                       <span class="me-1 align-text-bottom">
-                                          <svg
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             width="14"
-                                             height="14"
-                                             viewBox="0 0 24 24"
-                                             fill="none"
-                                             stroke="currentColor"
-                                             stroke-width="2"
-                                             stroke-linecap="round"
-                                             stroke-linejoin="round"
-                                             class="feather feather-trash-2 text-success">
-                                             <polyline points="3 6 5 6 21 6"></polyline>
-                                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                             <line x1="10" y1="11" x2="10" y2="17"></line>
-                                             <line x1="14" y1="11" x2="14" y2="17"></line>
-                                          </svg>
-                                       </span>
-                                       <span class="text-muted">Remove</span>
-                                    </a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-
-                        <!-- input group -->
-                        <div class="col-4 col-md-3 col-lg-3">
-                           <!-- input -->
-                           <!-- input -->
-                           <div class="input-group input-spinner">
-                              <input type="button" value="-" class="button-minus btn btn-sm" data-field="quantity" />
-                              <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input" />
-                              <input type="button" value="+" class="button-plus btn btn-sm" data-field="quantity" />
-                           </div>
-                        </div>
-                        <!-- price -->
-                        <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                           <span class="fw-bold">$15.00</span>
-                           <div class="text-decoration-line-through text-muted small">$25.00</div>
-                        </div>
-                     </div>
-                  </li>
-               </ul>
-               <!-- btn -->
+               <ul id="cartList" class="list-group list-group-flush"></ul>
+               <div class="d-flex justify-content-between mt-3">
+                  <span class="fw-semibold">Tổng</span>
+                  <span id="cartTotal" class="fw-bold">₫0</span>
+               </div>
                <div class="d-flex justify-content-between mt-4">
-                  <a href="#!" class="btn btn-primary">@ViewBag.ContinueShopping</a>
-                  <a href="#!" class="btn btn-dark">Update Cart</a>
+                  <a href="#" class="btn btn-primary">@ViewBag.ContinueShopping</a>
+                  <a href="#" id="btnUpdateCart" class="btn btn-dark">@ViewBag.UpdateCart</a>
                </div>
             </div>
          </div>
@@ -1138,6 +851,14 @@
       </div>
 
       @RenderBody()
+      <script>
+      (function(){
+        var m=document.getElementById('allCategoriesMenu'); var loaded=false;
+        function build(list){ if(!m) return; m.innerHTML=''; for(var i=0;i<list.length;i++){ var c=list[i]; var li=document.createElement('li'); li.className='dropdown-menu-list'; var a=document.createElement('a'); a.className='dropdown-item d-flex justify-content-between mb-1 py-1'; a.href='/Products?categoryId='+encodeURIComponent(c.id); var div1=document.createElement('div'); var span=document.createElement('span'); span.className='ms-1'; span.textContent=c.name; div1.appendChild(span); var div2=document.createElement('div'); var ic=document.createElement('i'); ic.className='feather-icon icon-chevron-right'; div2.appendChild(ic); a.appendChild(div1); a.appendChild(div2); li.appendChild(a); m.appendChild(li); } }
+        function load(){ if(loaded) return; loaded=true; fetch('/api/categories?status=1&page=1&pageSize=200').then(function(r){ return r.json(); }).then(function(j){ build(j.data||[]); }).catch(function(){ if(m){ m.innerHTML='<li class="px-4 py-3 text-danger">Không tải được danh mục</li>'; } }); }
+        var t=document.getElementById('allCategoriesTrigger'); if(t){ t.addEventListener('mouseenter', load); t.addEventListener('click', load); }
+      })();
+      </script>
 
 
 
@@ -1337,7 +1058,251 @@
                }
             });
          </script>
-   </body>
+         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+               var offcanvas = document.getElementById('offcanvasRight');
+               var cartList = document.getElementById('cartList');
+               var cartTotal = document.getElementById('cartTotal');
+               var btnUpdate = document.getElementById('btnUpdateCart');
+               function fmt(n){return '₫'+Number(n||0).toLocaleString('vi-VN');}
+               async function loadCart(){
+                  try{
+                     var res = await fetch('/api/cart');
+                     var json = await res.json();
+                     var items = json.data || [];
+                     cartList.innerHTML = '';
+                     if(items.length===0){
+                        var li = document.createElement('li');
+                        li.className = 'list-group-item py-3 ps-0 text-center text-muted';
+                        li.textContent = 'Giỏ hàng trống';
+                        cartList.appendChild(li);
+                        cartTotal.textContent = fmt(0);
+                        return;
+                     }
+                     for(var i=0;i<items.length;i++){
+                        var it = items[i];
+                        var li = document.createElement('li');
+                        li.className = 'list-group-item py-3 ps-0 border-top';
+                        li.dataset.id = String(it.id);
+                        li.dataset.key = String(it.key||'');
+                        li.innerHTML =
+                           '<div class="row align-items-center">'
+                           +'<div class="col-6 col-md-6 col-lg-7">'
+                           +  '<div class="d-flex">'
+                           +    '<img src="'+(it.image||'')+'" alt="" class="icon-shape icon-xxl" onerror="this.src=\'/assets/images/docs/placeholder-img.jpg\'" />'
+                           +    '<div class="ms-3">'
+                           +      '<h6 class="mb-0">'+(it.name||'')+'</h6>'
+                           +      '<div class="mt-2 small lh-1">'
+                           +        '<a href="#" class="text-decoration-none text-inherit remove-item">'
+                           +          '<span class="me-1 align-text-bottom">'
+                           +            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 text-success">'
+                           +              '<polyline points="3 6 5 6 21 6"></polyline>'
+                           +              '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>'
+                           +              '<line x1="10" y1="11" x2="10" y2="17"></line>'
+                           +              '<line x1="14" y1="11" x2="14" y2="17"></line>'
+                           +            '</svg>'
+                           +          '</span>'
+                           +          '<span class="text-muted">Remove</span>'
+                           +        '</a>'
+                           +      '</div>'
+                           +    '</div>'
+                           +  '</div>'
+                           +'</div>'
+                           +'<div class="col-4 col-md-3 col-lg-3">'
+                           +  '<div class="input-group input-spinner">'
+                           +    '<input type="button" value="-" class="button-minus btn btn-sm" />'
+                           +    '<input type="number" step="1" max="99" min="0" value="'+(it.quantity||1)+'" name="quantity" class="quantity-field form-control-sm form-input" />'
+                           +    '<input type="button" value="+" class="button-plus btn btn-sm" />'
+                           +  '</div>'
+                           +'</div>'
+                           +'<div class="col-2 text-lg-end text-start text-md-end col-md-2">'
+                           +  '<span class="fw-bold">'+fmt(it.subtotal||0)+'</span>'
+                           +'</div>'
+                           +'</div>';
+                        cartList.appendChild(li);
+                     }
+                     cartTotal.textContent = fmt(json.total||0);
+                  }catch(e){
+                     cartList.innerHTML='';
+                     var li = document.createElement('li');
+                     li.className = 'list-group-item py-3 ps-0 text-center text-muted';
+                     li.textContent = 'Không tải được giỏ hàng';
+                     cartList.appendChild(li);
+                     cartTotal.textContent = fmt(0);
+                  }
+               }
+               if(offcanvas){ offcanvas.addEventListener('show.bs.offcanvas', loadCart); }
+               window.addEventListener('cart:changed', loadCart);
+               if(btnUpdate){
+                  btnUpdate.addEventListener('click', async function(){
+                     var rows = cartList.querySelectorAll('li.list-group-item');
+                     var payload = [];
+                     rows.forEach(function(li){
+                        var id = parseInt(li.dataset.id||'0');
+                        var key = li.dataset.key||'';
+                        var qtyInput = li.querySelector('input[name="quantity"]');
+                        var q = parseInt((qtyInput&&qtyInput.value)||'0');
+                        if(id>0){ payload.push({ productId:id, optionsKey:key, quantity:q }); }
+                     });
+                     var res = await fetch('/api/cart/update', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+                     if(res.ok){ loadCart(); }
+                  });
+               }
+               cartList.addEventListener('click', async function(e){
+                  var minus = e.target.closest('.button-minus');
+                  var plus = e.target.closest('.button-plus');
+                  var remove = e.target.closest('.remove-item');
+                  if(minus){
+                     var li = minus.closest('li.list-group-item');
+                     var input = li.querySelector('input[name="quantity"]');
+                     var v = Math.max(0, parseInt((input&&input.value)||'0')-1);
+                     input.value = v;
+                  } else if(plus){
+                     var li2 = plus.closest('li.list-group-item');
+                     var input2 = li2.querySelector('input[name="quantity"]');
+                     var v2 = Math.max(1, parseInt((input2&&input2.value)||'0')+1);
+                     input2.value = v2;
+                  } else if(remove){
+                     e.preventDefault();
+                     var li3 = remove.closest('li.list-group-item');
+                     var id = parseInt(li3.dataset.id||'0');
+                     var key = li3.dataset.key||'';
+                     var res = await fetch('/api/cart/update', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify([{ productId:id, optionsKey:key, quantity:0 }]) });
+                     if(res.ok){ loadCart(); }
+                  }
+               });
+            });
+         </script>
+      <style>
+        [x-cloak]{display:none !important}
+        .chat-fab{position:fixed; right:16px; bottom:16px; z-index:2000}
+        .chat-panel{position:fixed; right:16px; bottom:72px; width:360px; height:420px; z-index:2000; display:flex; flex-direction:column}
+        .chat-panel .card-body{padding:12px; overflow:auto; flex:1}
+        .chat-bubble-user{display:inline-block; background:#0d6efd; color:#fff; border-radius:16px 16px 0 16px; padding:8px 12px; max-width:85%}
+        .chat-bubble-bot{display:inline-block; background:#f1f3f5; color:#212529; border-radius:16px 16px 16px 0; padding:8px 12px; max-width:85%}
+      </style>
+      <div x-data="chatWidget()" x-on:keydown.escape.window="open=false" x-init="init()">
+        <button class="btn btn-primary chat-fab" x-show="!open" x-on:click="open = !open">@((string.Equals(ViewBag.ChatTitle as string, "chat_title") || string.IsNullOrWhiteSpace(ViewBag.ChatTitle as string)) ? "Tư vấn" : ViewBag.ChatTitle)</button>
+        <div class="card shadow chat-panel" x-show="open" x-transition x-cloak>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <strong>@((string.Equals(ViewBag.ChatTitle as string, "chat_title") || string.IsNullOrWhiteSpace(ViewBag.ChatTitle as string)) ? "Tư vấn" : ViewBag.ChatTitle)</strong>
+            <button type="button" class="btn btn-sm btn-outline-secondary" x-on:click.stop="open=false" aria-label="Đóng">×</button>
+          </div>
+          <div class="card-body">
+            <div class="mb-2" x-html="welcome"></div>
+            <template x-for="m in msgs">
+              <div class="mb-2">
+                <div :class="m.role==='user' ? 'text-end' : 'text-start'">
+                  <div :class="m.role==='user' ? 'chat-bubble-user' : 'chat-bubble-bot'" x-text="m.text"></div>
+                </div>
+                <template x-if="m.items && m.items.length">
+                  <div class="mt-2">
+                    <template x-for="p in m.items">
+                      <div class="border rounded p-2 mb-2">
+                        <div class="fw-bold" x-text="p.name"></div>
+                        <div>₫<span x-text="formatPrice(p.price)"></span></div>
+                        <div class="mt-1 d-flex gap-2">
+                          <a class="btn btn-sm btn-outline-secondary" :href="'/product/'+p.id">@Html.Raw(ViewBag.ViewDetails)</a>
+                          <a class="btn btn-sm btn-primary" :href="'/product/'+p.id">@ViewBag.AddToCart</a>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </template>
+                <template x-if="m.coupons && m.coupons.length">
+                  <div class="mt-1">
+                    <div class="small text-muted">Mã giảm giá:</div>
+                    <template x-for="c in m.coupons">
+                      <div class="border rounded p-2 mb-1 d-flex justify-content-between align-items-center">
+                        <div>
+                          <div class="fw-bold" x-text="c.code"></div>
+                          <div class="small" x-text="c.name"></div>
+                        </div>
+                        <div class="text-end">
+                          <span class="badge bg-success" x-text="c.type===1 ? (c.value+'%') : ('₫'+formatPrice(c.value))"></span>
+                          <div class="small text-muted">Còn lại: <span x-text="c.remaining"></span></div>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+          <div class="card-footer">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="@((string.Equals(ViewBag.ChatPlaceholder as string, "chat_placeholder") || string.IsNullOrWhiteSpace(ViewBag.ChatPlaceholder as string)) ? "Nhập câu hỏi..." : ViewBag.ChatPlaceholder)" x-model="input" x-on:keydown.enter.prevent="send()">
+              <button class="btn btn-primary" x-on:click="send()">@((string.Equals(ViewBag.ChatSend as string, "chat_send") || string.IsNullOrWhiteSpace(ViewBag.ChatSend as string)) ? "Gửi" : ViewBag.ChatSend)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (function(){
+          var btn = document.querySelector('.chat-fab');
+          var panel = document.querySelector('.chat-panel');
+          var closeBtn = panel ? panel.querySelector('.btn-outline-secondary') : null;
+          var sendBtn = panel ? panel.querySelector('.card-footer .btn.btn-primary') : null;
+          var inputEl = panel ? panel.querySelector('.card-footer input.form-control') : null;
+          var bodyEl = panel ? panel.querySelector('.card-body') : null;
+          function alpineReady(){ try{ return !!window.Alpine; }catch(_){ return false; } }
+          if(btn && panel){
+            btn.addEventListener('click', function(){
+              if(alpineReady()) return;
+              panel.removeAttribute('x-cloak');
+              panel.style.display = 'block';
+            });
+          }
+          if(closeBtn && panel){
+            closeBtn.addEventListener('click', function(){
+              if(alpineReady()) return;
+              panel.style.display = 'none';
+            });
+          }
+          if(sendBtn && inputEl && bodyEl){
+            function append(role, text){
+              var wrap = document.createElement('div');
+              wrap.className = 'mb-2';
+              var inner = document.createElement('div');
+              inner.className = role==='user' ? 'text-end' : 'text-start';
+              var bubble = document.createElement('div');
+              bubble.className = role==='user' ? 'chat-bubble-user' : 'chat-bubble-bot';
+              bubble.textContent = text;
+              inner.appendChild(bubble);
+              wrap.appendChild(inner);
+              bodyEl.appendChild(wrap);
+              bodyEl.scrollTop = bodyEl.scrollHeight;
+            }
+            function doSend(){
+              if(alpineReady()) return;
+              var t = (inputEl.value||'').trim();
+              if(!t) return;
+              append('user', t);
+              inputEl.value = '';
+              fetch('/api/chat',{ method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ text:t }) })
+                .then(function(r){ return r.json(); })
+                .then(function(j){ append('bot', (j&&j.reply)||''); })
+                .catch(function(){ append('bot','Lỗi kết nối máy chủ, vui lòng thử lại.'); });
+            }
+            sendBtn.addEventListener('click', doSend);
+            inputEl.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); doSend(); } });
+          }
+          window.addEventListener('keydown', function(e){
+            if(e.key === 'Escape'){
+              if(alpineReady()) return;
+              if(panel) panel.style.display = 'none';
+            }
+          });
+        })();
+      </script>
+      <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@7.0.5/dist/browser/signalr.min.js"></script>
+      <script>
+        function chatWidget(){
+          return { open:false, input:'', msgs:[], welcome:'@Html.Raw((string.Equals(ViewBag.ChatWelcome as string, "chat_welcome") || string.IsNullOrWhiteSpace(ViewBag.ChatWelcome as string)) ? "<span class=\"text-muted\">Hỏi: tên sản phẩm, mã giảm, khoảng giá...</span>" : ViewBag.ChatWelcome)', isHubReady:false, connection:null, formatPrice(v){ try{ return new Intl.NumberFormat('vi-VN').format(v); }catch{ return v; } }, async init(){ try{ if(window.signalR){ this.connection = new signalR.HubConnectionBuilder().withUrl('/chatHub').withAutomaticReconnect().build(); this.connection.on('ReceiveMessage', (reply, items, coupons) => { this.msgs.push({ role:'bot', text: reply, items: items||[], coupons: coupons||[] }); }); await this.connection.start(); this.isHubReady = true; } }catch(e){ this.isHubReady=false; } }, async send(){ const t=this.input.trim(); if(!t) return; this.msgs.push({role:'user', text:t}); this.input=''; if(this.isHubReady && this.connection){ try{ await this.connection.invoke('SendQuestion', t); return; }catch(e){ } } try{ const r=await fetch('/api/chat',{ method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ text:t }) }); const j=await r.json(); this.msgs.push({ role:'bot', text:j.reply, items:j.items||[], coupons:j.coupons||[] }); } catch(_){ this.msgs.push({ role:'bot', text:'@((string.Equals(ViewBag.ChatConnectionError as string, "chat_connection_error") || string.IsNullOrWhiteSpace(ViewBag.ChatConnectionError as string)) ? "Lỗi kết nối máy chủ, vui lòng thử lại." : ViewBag.ChatConnectionError)' }); } } }
+        }
+      </script>
+      </body>
 
 <!-- Mirrored from freshcart.codescandy.com/pages/index-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Nov 2024 06:08:33 GMT -->
 </html>

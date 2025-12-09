@@ -15,26 +15,90 @@
 										</ol>
 									</nav>
 								</div>
-								<div>
-									<a href="@Url.Action("CreateUser", "Admin")" class="btn btn-primary">@ViewBag.UserAddNew</a>
-								</div>
+                                <div>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">@ViewBag.UserAddNew</button>
+                                </div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xl-12 col-12 mb-5">
-							<div class="card h-100 card-lg">
+                        <div class="col-xl-12 col-12 mb-5">
+                            <div class="card h-100 card-lg" x-data="usersAdmin()" x-init="init()">
 								<div class="p-6">
-									<div class="row justify-content-between">
-										<div class="col-md-4 col-12">
-											<form class="d-flex" role="search">
-												<label for="searchUsers" class="visually-hidden">Search Users</label>
-												<input class="form-control" type="search" id="searchUsers" placeholder="Search Users" aria-label="Search" />
-											</form>
-										</div>
-									</div>
-								</div>
-								<div class="card-body p-0">
+                                    <div class="row justify-content-between">
+                                        <div class="col-md-6 col-12">
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <input class="form-control" type="search" placeholder="@ViewBag.SearchByName" x-model="search" x-on:input.debounce.500ms="load()" />
+                                                <select class="form-select" x-model="status" x-on:change="load()">
+                                                    <option value="">@ViewBag.Status</option>
+                                                    <option value="1">@ViewBag.Active</option>
+                                                    <option value="0">@ViewBag.Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>@ViewBag.Name</th>
+                                                    <th>@ViewBag.UserEmail</th>
+                                                    <th>@ViewBag.UserPhone</th>
+                                                    <th>@ViewBag.Status</th>
+                                                    <th>@ViewBag.Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template x-if="loading">
+                                                    <tr><td colspan="6" class="text-center py-4">Loading...</td></tr>
+                                                </template>
+                                                <template x-for="u in items" :key="u.id">
+                                                    <tr>
+                                                        <td></td>
+                                                        <td x-text="u.name"></td>
+                                                        <td x-text="u.email"></td>
+                                                        <td x-text="u.phone || '-' "></td>
+                                                        <td>
+                                                            <span class="badge" :class="u.status===1 ? 'bg-light-primary text-dark-primary' : 'bg-light-secondary text-dark'" x-text="u.status===1 ? '@ViewBag.Active' : '@ViewBag.Inactive'"></span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <i class="feather-icon icon-more-vertical fs-5"></i>
+                                                                </a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="#" x-on:click.prevent="edit(u)">
+                                                                            <i class="bi bi-pencil-square me-3"></i>@ViewBag.Edit
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <button class="dropdown-item" x-on:click.prevent="toggle(u)">
+                                                                            <i class="bi" :class="u.status===1 ? 'bi-pause-circle me-3' : 'bi-play-circle me-3'"></i>
+                                                                            <span x-text="u.status===1 ? '@ViewBag.Inactive' : '@ViewBag.Active'"></span>
+                                                                        </button>
+                                                                    </li>
+                                                                    <li><hr class="dropdown-divider" /></li>
+                                                                    <li>
+                                                                        <button class="dropdown-item text-danger" x-on:click.prevent="remove(u)">
+                                                                            <i class="bi bi-trash me-3"></i>@ViewBag.Delete
+                                                                        </button>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="border-top d-md-flex justify-content-between align-items-center p-6">
+                                        <span x-text="`Showing ${items.length} entries`"></span>
+                                    </div>
+                                    <div style="display:none">
 									<div class="table-responsive">
 										<table class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
 											<thead class="bg-light">
@@ -554,9 +618,74 @@
 												<li class="page-item"><a class="page-link" href="#!">3</a></li>
 												<li class="page-item"><a class="page-link" href="#!">Next</a></li>
 											</ul>
-										</nav>
-									</div>
-								</div>
-							</div>
-						</div>
+                                        </nav>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" x-data="usersAdmin()" x-init="initModal()">
+      <div class="modal-header">
+        <h5 class="modal-title">@ViewBag.UserAddNew</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="userForm">
+          <div class="mb-3">
+            <label class="form-label">@ViewBag.Name</label>
+            <input type="text" class="form-control" x-model="form.name" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">@ViewBag.UserEmail</label>
+            <input type="email" class="form-control" x-model="form.email" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">@ViewBag.UserPhone</label>
+            <input type="text" class="form-control" x-model="form.phone" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select class="form-select" x-model="form.role">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="mb-3" x-show="!form.id">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" x-model="form.password" />
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" x-model="form.active" />
+            <label class="form-check-label">@ViewBag.Active</label>
+          </div>
+          <input type="hidden" x-model.number="form.id" />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">@ViewBag.Cancel</button>
+        <button class="btn btn-primary" x-on:click="save()">@ViewBag.Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function usersAdmin(){
+  return {
+    items:[], loading:false, error:false,
+    search:'', status:'',
+    form:{ id:0, name:'', email:'', phone:'', role:'user', password:'', active:true },
+    init(){ this.load(); },
+    initModal(){},
+    async load(){ this.loading=true; this.error=false; try{ const u=new URL('/api/users', window.location.origin); if(this.search) u.searchParams.set('search', this.search); if(this.status!=='') u.searchParams.set('status', this.status); u.searchParams.set('pageSize','200'); const r=await fetch(u); const j=await r.json(); this.items=j.data||[]; }catch(e){ this.error=true; } finally{ this.loading=false; } },
+    edit(u){ this.form={ id:u.id, name:u.name, email:u.email, phone:u.phone||'', role:u.role||'user', password:'', active:(u.status===1) }; const m = new bootstrap.Modal(document.getElementById('userModal')); m.show(); },
+    async toggle(u){ try{ const r=await fetch(`/api/users/${u.id}/status`,{ method:'PATCH' }); const j=await r.json(); u.status=j.status; }catch(e){} },
+    async remove(u){ if(!confirm('Xóa người dùng?')) return; try{ await fetch(`/api/users/${u.id}`,{ method:'DELETE' }); this.items=this.items.filter(x=>x.id!==u.id); }catch(e){} },
+    async save(){ try{ const payload={ name:this.form.name, email:this.form.email, phone:this.form.phone||'', role:this.form.role, status:this.form.active?1:0 }; if(!this.form.id){ payload.password=this.form.password; const r=await fetch('/api/users',{ method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) }); const j=await r.json(); if(j.id){ await this.load(); bootstrap.Modal.getInstance(document.getElementById('userModal'))?.hide(); } } else { if(this.form.password) payload.password=this.form.password; const r=await fetch(`/api/users/${this.form.id}`,{ method:'PUT', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) }); const j=await r.json(); if(j.id){ await this.load(); bootstrap.Modal.getInstance(document.getElementById('userModal'))?.hide(); } } }catch(e){} }
+  }
+}
+</script>
 					</div>

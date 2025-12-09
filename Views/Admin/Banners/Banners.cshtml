@@ -253,20 +253,24 @@
                         <!-- Banner Image URL -->
                         <div class="col-12 mb-3">
                             <label for="bannerImage" class="form-label">@ViewBag.BannerImage <span class="text-danger">*</span></label>
-                            <input type="url" class="form-control" x-model="formData.image" 
+                            <input type="text" class="form-control" x-model="formData.image" 
                                    :class="{ 'is-invalid': showValidation && !isValidImageUrl(formData.image) }" 
-                                   placeholder="https://example.com/banner.jpg" required>
+                                   placeholder="/assets/images/banner/hero.jpg hoặc https://example.com/banner.jpg" required>
                             <div class="invalid-feedback">
                                 Vui lòng nhập URL hình ảnh hợp lệ.
                             </div>
                             <div class="form-text">Định dạng: JPG, PNG, GIF. Kích thước khuyến nghị: 1920x600px</div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Tải ảnh từ thiết bị</label>
+                            <input type="file" class="form-control" accept="image/*" x-on:change="onBannerFilesSelected($event)">
                         </div>
 
                         <!-- Image Preview -->
                         <div class="col-12 mb-3" x-show="formData.image && isValidImageUrl(formData.image)">
                             <label class="form-label">Xem trước hình ảnh</label>
                             <div class="border rounded p-3">
-                                <img :src="formData.image" alt="Banner Preview" class="img-fluid rounded" 
+                                <img :src="formData.image.startsWith('/assets/') ? (formData.image) : formData.image" alt="Banner Preview" class="img-fluid rounded" 
                                      style="max-height: 200px;" x-on:error="imageLoadError = true">
                             </div>
                         </div>
@@ -274,9 +278,9 @@
                         <!-- Banner Link -->
                         <div class="col-12 mb-3">
                             <label for="bannerLink" class="form-label">@ViewBag.BannerLink</label>
-                            <input type="url" class="form-control" x-model="formData.link" 
-                                   placeholder="https://example.com">
-                            <div class="form-text">URL trang sẽ chuyển đến khi click vào banner</div>
+                            <input type="text" class="form-control" x-model="formData.link" 
+                                   placeholder="/shop hoặc https://example.com">
+                            <div class="form-text">Đường dẫn khi click banner (ví dụ: /shop hoặc URL đầy đủ)</div>
                         </div>
                     </div>
                 </form>
@@ -618,10 +622,30 @@ function bannerManager() {
                    this.isValidImageUrl(this.formData.image);
         },
 
+        async onBannerFilesSelected(e) {
+            try {
+                const fs = e.target.files;
+                if (!fs || fs.length === 0) return;
+                const fd = new FormData();
+                Array.from(fs).forEach(f => fd.append('files', f));
+                const r = await fetch('/api/banners/upload', { method: 'POST', body: fd });
+                if (r.ok) {
+                    const j = await r.json();
+                    const names = (j.files || []).map(x => String(x));
+                    if (names.length > 0) this.formData.image = `/assets/images/banner/${names[0]}`;
+                } else {
+                    alert('Có lỗi khi tải ảnh');
+                }
+            } catch {
+                alert('Có lỗi khi tải ảnh');
+            }
+        },
+
         isValidImageUrl(url) {
             if (!url) return false;
-            const imageUrlPattern = /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i;
-            return imageUrlPattern.test(url) || url.includes('unsplash.com');
+            const httpPattern = /^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i;
+            const assetsPattern = /^\/assets\/images\/.+\.(jpg|jpeg|png|gif|webp)$/i;
+            return httpPattern.test(url) || assetsPattern.test(url);
         },
 
         // Pagination methods

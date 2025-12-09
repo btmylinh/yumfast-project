@@ -1,0 +1,177 @@
+@model WebApp.Models.ShopCategoryViewModel
+@{
+    ViewData["Title"] = ViewBag.Categories;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+  <div class="container mt-4">
+    <div class="row gx-4">
+      <aside class="col-lg-3 col-md-4 mb-4">
+        <div class="card p-3">
+          <div class="mb-3">
+            <div class="fw-semibold mb-2">@ViewBag.Categories</div>
+            <div id="catList" class="list-group"></div>
+          </div>
+          <form method="get" action="@Url.Action("Category","Shop")">
+            <div class="mb-3">
+              <label class="form-label">@ViewBag.SearchByName</label>
+              <input type="text" name="q" class="form-control" placeholder="@ViewBag.SearchByName" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">@ViewBag.Categories</label>
+              <select name="category" class="form-select">
+                <option value="">@ViewBag.SelectAll</option>
+                @foreach (var cat in Model.Categories)
+                {
+                  <option value="@cat" selected="@(Model.SelectedCategory==cat ? "selected" : null)">@cat</option>
+                }
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Giá từ</label>
+              <input type="number" name="min" class="form-control" step="1000" value="@(Model.MinPrice?.ToString() ?? "")" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Giá đến</label>
+              <input type="number" name="max" class="form-control" step="1000" value="@(Model.MaxPrice?.ToString() ?? "")" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">@ViewBag.TagOptional</label>
+              <input type="text" name="tag" class="form-control" placeholder="@ViewBag.TagOptional" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">@ViewBag.SortLabel</label>
+              <select name="sort" class="form-select">
+                <option value="">Mặc định</option>
+                <option value="price_asc" selected="@(Model.Sort=="price_asc" ? "selected" : null)">Giá tăng dần</option>
+                <option value="price_desc" selected="@(Model.Sort=="price_desc" ? "selected" : null)">Giá giảm dần</option>
+              </select>
+            </div>
+            <button class="btn btn-primary w-100" type="submit">@ViewBag.Search</button>
+          </form>
+        </div>
+      </aside>
+      <section class="col-lg-9 col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="h5 mb-0">@ViewBag.CategoryTitle</h3>
+          <a href="/shop" class="btn btn-outline-primary">@ViewBag.ShopNow</a>
+        </div>
+        <div class="row g-3">
+          @if (Model.Products.Count == 0)
+          {
+            <div class="col-12">
+              <div class="alert alert-info">Không có sản phẩm phù hợp.</div>
+            </div>
+          }
+          else
+          {
+            foreach (var p in Model.Products)
+            {
+              <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100">
+                  <img src="@p.Image" class="card-img-top" alt="@p.Name" />
+                  <div class="card-body d-flex flex-column">
+                    <div class="small text-muted mb-1">@p.Category</div>
+                    <div class="fw-semibold">@p.Name</div>
+                    <div class="mt-auto">₫@String.Format("{0:N0}", p.Price)</div>
+                    <div class="mt-2 d-flex gap-2">
+                      <a class="btn btn-sm btn-outline-secondary" href="/product/@p.Id">@ViewBag.ViewDetails</a>
+                      <button class="btn btn-sm btn-primary" data-id="@p.Id">@ViewBag.AddToCart</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('form[action="/Shop/Category"]');
+  const grid = document.querySelector('.row.g-3');
+  const catList = document.getElementById('catList');
+  const catSelect = form.querySelector('select[name="category"]');
+  const sortSelect = form.querySelector('select[name="sort"]');
+  const qInput = form.querySelector('input[name="q"]');
+  const tagInput = form.querySelector('input[name="tag"]');
+  async function loadCategories() {
+    const res = await fetch('/api/categories?status=1');
+    const json = await res.json();
+    const data = json.data || [];
+    catList.innerHTML = '';
+    // rebuild select options from DB
+    if (catSelect) {
+      const current = catSelect.value;
+      catSelect.innerHTML = '';
+      const optAll = document.createElement('option');
+      optAll.value = '';
+      optAll.textContent = "@Html.Raw(ViewBag.SelectAll)";
+      catSelect.appendChild(optAll);
+      for (const c of data) {
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.textContent = c.name;
+        catSelect.appendChild(opt);
+      }
+      catSelect.value = current; // keep selection if any
+      catSelect.addEventListener('change', () => loadProducts());
+    }
+    for (const c of data) {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.className = 'list-group-item list-group-item-action';
+      a.textContent = c.name;
+      a.addEventListener('click', (e) => { e.preventDefault(); form.querySelector('select[name="category"]').value = c.name; loadProducts(); });
+      catList.appendChild(a);
+    }
+  }
+  if (sortSelect) sortSelect.addEventListener('change', () => loadProducts());
+  if (qInput) qInput.addEventListener('input', () => { clearTimeout(window.__qdeb); window.__qdeb = setTimeout(loadProducts, 300); });
+  if (tagInput) tagInput.addEventListener('input', () => { clearTimeout(window.__tdeb); window.__tdeb = setTimeout(loadProducts, 300); });
+  async function loadProducts() {
+    const params = new URLSearchParams(new FormData(form));
+    const res = await fetch('/api/products?' + params.toString());
+    const json = await res.json();
+    const list = json.data || [];
+    grid.innerHTML = '';
+    if (list.length === 0) {
+      const div = document.createElement('div');
+      div.className = 'col-12';
+      div.innerHTML = '<div class="alert alert-info">Không có sản phẩm phù hợp.</div>';
+      grid.appendChild(div);
+      return;
+    }
+    for (const p of list) {
+      const col = document.createElement('div');
+      col.className = 'col-6 col-md-4 col-lg-3';
+      col.innerHTML = `<div class="card h-100">
+        <img src="${p.image}" class="card-img-top" alt="${p.name}" onerror="this.src='/assets/images/docs/placeholder-img.jpg'" />
+        <div class="card-body d-flex flex-column">
+          <div class="small text-muted mb-1">${p.category}</div>
+          <div class="fw-semibold">${p.name}</div>
+          <div class="mt-2">₫${(p.price).toLocaleString('vi-VN')}</div>
+          <div class="mt-auto d-flex gap-2">
+            <a class="btn btn-sm btn-outline-secondary" href="/product/${p.id}">@Html.Raw(ViewBag.ViewDetails)</a>
+            <button class="btn btn-sm btn-primary" data-id="${p.id}">@ViewBag.AddToCart</button>
+          </div>
+        </div>
+      </div>`;
+      grid.appendChild(col);
+    }
+  }
+  form.addEventListener('submit', (e) => { e.preventDefault(); loadProducts(); });
+  loadCategories();
+  loadProducts();
+  grid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-id]');
+    if (!btn) return;
+    const id = parseInt(btn.getAttribute('data-id'));
+    const res = await fetch('/api/cart/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId: id, quantity: 1 }) });
+    if (res.ok) { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.AddedToCartSuccess)'); window.dispatchEvent(new Event('cart:changed')); } else { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); }
+  });
+});
+</script>

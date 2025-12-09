@@ -26,7 +26,7 @@
     </div>
 </div>
 <!-- row -->
-<div class="row">
+<div class="row" x-data="productsAdmin()" x-init="init()">
     <div class="col-xl-12 col-12 mb-5">
         <!-- card -->
         <div class="card h-100 card-lg">
@@ -34,18 +34,17 @@
                 <div class="row justify-content-between">
                     <!-- form -->
                     <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
-                        <form class="d-flex" role="search">
+                        <form class="d-flex" role="search" x-on:submit.prevent>
                             <input class="form-control" type="search" placeholder="@ViewBag.ProductSearch"
-                                aria-label="Search" />
+                                aria-label="Search" x-model="search" x-on:keyup.debounce.300="load()" />
                         </form>
                     </div>
                     <!-- select option -->
                     <div class="col-lg-2 col-md-4 col-12">
-                        <select class="form-select">
-                            <option selected>@ViewBag.ProductStatus</option>
+                        <select class="form-select" x-model="status" x-on:change="load()">
+                            <option value="">@ViewBag.ProductStatus</option>
                             <option value="1">@ViewBag.ProductActive</option>
-                            <option value="2">@ViewBag.ProductDeactive</option>
-                            <option value="3">@ViewBag.ProductDraft</option>
+                            <option value="0">@ViewBag.ProductDeactive</option>
                         </select>
                     </div>
                 </div>
@@ -74,128 +73,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="productOne" />
-                                        <label class="form-check-label" for="productOne"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="#!"><img src="~/assets/images/products/product-img-1.jpg" alt=""
-                                            class="icon-shape icon-md" /></a>
-                                </td>
-                                <td><a href="#" class="text-reset">Bánh Sev Bhujia của Haldiram</a></td>
-                                <td>Đồ ăn nhẹ & Món ăn vặt</td>
-                                <td>
-                                    <span class="badge bg-light-primary text-dark-primary">Đang hoạt động</span>
-                                </td>
-                                <td>18,00 USD</td>
-                                <td>24 Tháng 11 2022</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="feather-icon icon-more-vertical fs-5"></i>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-trash me-3"></i>
-                                                    Xóa
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil-square me-3"></i>
-                                                    Chỉnh sửa
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="productTwo" />
-                                        <label class="form-check-label" for="productTwo"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="#!"><img src="~/assets/images/products/product-img-2.jpg" alt=""
-                                            class="icon-shape icon-md" /></a>
-                                </td>
-                                <td><a href="#" class="text-reset">Bánh quy tiêu hóa NutriChoice</a></td>
-                                <td>Bánh ngọt & Bánh quy</td>
-                                <td>
-                                    <span class="badge bg-light-primary text-dark-primary">Đang hoạt động</span>
-                                </td>
-                                <td>24,00 USD</td>
-                                <td>20 Tháng 11 2022</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="feather-icon icon-more-vertical fs-5"></i>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-trash me-3"></i>
-                                                    Xóa
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil-square me-3"></i>
-                                                    Chỉnh sửa
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="productThree" />
-                                        <label class="form-check-label" for="productThree"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="#!"><img src="~/assets/images/products/product-img-3.jpg" alt=""
-                                            class="icon-shape icon-md" /></a>
-                                </td>
-                                <td><a href="#" class="text-reset">Sô-cô-la Cadbury 5 Star</a></td>
-                                <td>Đồ ăn nhẹ & Món ăn vặt</td>
-                                <td>
-                                    <span class="badge bg-light-primary text-dark-primary">Đang hoạt động</span>
-                                </td>
-                                <td>3,00 USD</td>
-                                <td>14 Tháng 11 2022</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="feather-icon icon-more-vertical fs-5"></i>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-trash me-3"></i>
-                                                    Xóa
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="bi bi-pencil-square me-3"></i>
-                                                    Chỉnh sửa
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
+                            <template x-for="it in items" :key="it.id">
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#"><img :src="it.image" alt="" class="icon-shape icon-md" /></a>
+                                    </td>
+                                    <td><a href="#" class="text-reset" x-text="it.name"></a></td>
+                                    <td x-text="it.category"></td>
+                                    <td x-text="formatPrice(it.price)"></td>
+                                    <td>
+                                        <span class="badge" :class="it.status===1 ? 'bg-light-primary text-dark-primary' : 'bg-light-secondary text-dark'" x-text="it.status===1 ? '@ViewBag.ProductActive' : '@ViewBag.ProductDeactive'"></span>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="feather-icon icon-more-vertical fs-5"></i>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="edit(it)"><i class="bi bi-pencil-square me-3"></i>Chỉnh sửa</a></li>
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="toggle(it)"><i class="bi bi-toggle2-on me-3"></i><span x-text="it.status===1 ? 'Ngừng bán' : 'Mở bán'"></span></a></li>
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="remove(it.id)"><i class="bi bi-trash me-3"></i>Xóa</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr x-show="!loading && items.length===0"><td colspan="8" class="text-center text-muted">Không có sản phẩm</td></tr>
+                            <tr x-show="error"><td colspan="8" class="text-center text-danger">Lỗi tải dữ liệu</td></tr>
                         </tbody>
 
                     </table>
@@ -203,4 +112,82 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@ViewBag.ProductAddProduct</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">@ViewBag.ProductName</label>
+                            <input type="text" class="form-control" x-model="form.name" x-on:input="onName()" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Slug</label>
+                            <input type="text" class="form-control" x-model="form.slug" x-on:input="slugManual=true" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">@ViewBag.ProductCategory</label>
+                            <select class="form-select" x-model.number="form.categoryId">
+                                <template x-for="c in cats" :key="c.id">
+                                    <option :value="c.id" x-text="c.name"></option>
+                                </template>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">@ViewBag.ProductPrice</label>
+                            <input type="number" class="form-control" x-model.number="form.price" />
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">@ViewBag.ProductDescription</label>
+                            <textarea class="form-control" rows="3" x-model="form.description"></textarea>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label">Ảnh (phân cách dấu phẩy)</label>
+                            <input type="text" class="form-control" x-model="form.imagesText" placeholder="vd: burger_bo.jpg, burger_ga.jpg" />
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" x-model="form.active" />
+                                <label class="form-check-label">@ViewBag.ProductActive</label>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" x-model.number="form.id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">@ViewBag.Cancel</button>
+                <button class="btn btn-primary" x-on:click="save()">@ViewBag.Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function productsAdmin(){
+  return {
+    items:[], cats:[], loading:false, error:false,
+    search:'', status:'', sortBy:'', slugManual:false,
+    form:{ id:0, categoryId:0, name:'', slug:'', description:'', price:0, imagesText:'', active:true },
+    init(){ this.loadCategories(); this.load(); },
+    formatPrice(v){ try{ return new Intl.NumberFormat('vi-VN').format(v); }catch{ return String(v); } },
+    async load(){ this.loading=true; this.error=false; try{ const u=new URL('/api/products/manage', window.location.origin); if(this.search) u.searchParams.set('search', this.search); if(this.status!=='') u.searchParams.set('status', this.status); u.searchParams.set('page','1'); u.searchParams.set('pageSize','1000'); if(this.sortBy) { u.searchParams.set('sortBy', this.sortBy); u.searchParams.set('sortDirection','desc'); } const r=await fetch(u); const j=await r.json(); this.items=j.data||[]; }catch(e){ this.error=true; } finally{ this.loading=false; } },
+    async loadCategories(){ try{ const u=new URL('/api/categories', window.location.origin); u.searchParams.set('status','1'); u.searchParams.set('pageSize','500'); const r=await fetch(u); const j=await r.json(); this.cats=(j.data||[]).map(x=>({id:x.id,name:x.name})); if(this.cats.length>0 && !this.form.categoryId) this.form.categoryId=this.cats[0].id; }catch{} },
+    openCreate(){ this.form={ id:0, categoryId:(this.cats[0]?.id||0), name:'', slug:'', description:'', price:0, imagesText:'', active:true }; this.slugManual=false; bootstrap.Modal.getOrCreateInstance(document.getElementById('productModal')).show(); },
+    async edit(it){ this.slugManual=true; this.form={ id:Number(it.id), categoryId:(this.cats.find(c=>c.name===it.category)?.id||0), name:it.name, slug:'', description:'', price:Number(it.price), imagesText:'', active:it.status===1 }; try{ const r=await fetch(`/api/products/${it.id}`); if(r.ok){ const j=await r.json(); const d=j.data||{}; this.form.slug=d?.slug||''; this.form.description=d?.description||''; const arr=d?.images||[]; this.form.imagesText=Array.isArray(arr)?arr.map(x=>String(x).replace('/assets/images/products/','')).join(', '):''; } }catch{} bootstrap.Modal.getOrCreateInstance(document.getElementById('productModal')).show(); },
+    onName(){ if(!this.slugManual){ this.form.slug=this.normalizeSlug(this.form.name); } },
+    normalizeSlug(s){ return String(s||'').toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\-\s]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-'); },
+    async save(){ const name=this.form.name.trim(); const slug=(this.form.slug||'').trim()||this.normalizeSlug(name); const desc=(this.form.description||'').trim(); const price=Number(this.form.price||0); const categoryId=Number(this.form.categoryId||0); const status=this.form.active?1:0; const images=(this.form.imagesText||'').split(',').map(s=>s.trim()).filter(Boolean); if(!name||!slug||!categoryId){ alert('Vui lòng nhập đầy đủ thông tin'); return; } const payload={ categoryId, name, slug, description:desc, price, images, status }; try{ let r; if(this.form.id>0){ r=await fetch(`/api/products/${this.form.id}`,{ method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) }); } else { r=await fetch('/api/products',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) }); } if(r.ok){ bootstrap.Modal.getOrCreateInstance(document.getElementById('productModal')).hide(); await this.load(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'Có lỗi xảy ra'); } } catch{ alert('Có lỗi xảy ra'); } },
+    async toggle(it){ try{ const r=await fetch(`/api/products/${it.id}/status`,{ method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify(it.status===1?0:1) }); if(r.ok){ await this.load(); } else { alert('Có lỗi xảy ra'); } } catch{ alert('Có lỗi xảy ra'); } },
+    async remove(id){ if(!confirm('Xóa sản phẩm này?')) return; try{ const r=await fetch(`/api/products/${id}`,{ method:'DELETE' }); if(r.ok){ await this.load(); } else { alert('Có lỗi xảy ra'); } } catch{ alert('Có lỗi xảy ra'); } }
+  }
+}
+</script>
 </div>

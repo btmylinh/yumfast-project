@@ -27,7 +27,7 @@
         </div>
     </div>
     <!-- row -->
-    <div class="row">
+    <div class="row" x-data="addProduct()" x-init="init()">
         <div class="col-lg-8 col-12">
             <!-- card -->
             <div class="card mb-6 card-lg">
@@ -35,32 +35,29 @@
                 <div class="card-body p-6">
                     <h4 class="mb-4 h5">Thông tin sản phẩm</h4>
                     <div class="row">
-                        <!-- input -->
                         <div class="mb-3 col-lg-6">
                             <label class="form-label">Tên sản phẩm</label>
-                            <input type="text" class="form-control" placeholder="Nhập tên sản phẩm">
+                            <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" x-model="form.name" x-on:input="onName()">
                         </div>
-                        <!-- input -->
+                        <div class="mb-3 col-lg-6">
+                            <label class="form-label">Slug</label>
+                            <input type="text" class="form-control" placeholder="ten-san-pham" x-model="form.slug" x-on:input="slugManual=true">
+                        </div>
                         <div class="mb-3 col-lg-6">
                             <label class="form-label">Danh mục</label>
-                            <select class="form-select">
-                                <option selected>Chọn danh mục</option>
-                                <option value="1">Trái cây</option>
-                                <option value="2">Rau củ</option>
-                                <option value="3">Đồ uống</option>
+                            <select class="form-select" x-model.number="form.categoryId">
+                                <template x-for="c in cats" :key="c.id">
+                                    <option :value="c.id" x-text="c.name"></option>
+                                </template>
                             </select>
                         </div>
-                        <!-- input -->
-                        <div class="mb-3 col-lg-12">
-                            <label class="form-label">Mô tả ngắn</label>
-                            <textarea class="form-control" rows="3" placeholder="Nhập mô tả ngắn"></textarea>
+                        <div class="mb-3 col-lg-6">
+                            <label class="form-label">Giá (VNĐ)</label>
+                            <input type="number" class="form-control" placeholder="0" x-model.number="form.price">
                         </div>
-                        <!-- input -->
                         <div class="mb-3 col-12">
-                            <label class="form-label">Mô tả chi tiết</label>
-                            <div id="editor" style="height: 300px;">
-                                <p>Nhập mô tả chi tiết sản phẩm...</p>
-                            </div>
+                            <label class="form-label">Mô tả</label>
+                            <textarea class="form-control" rows="4" placeholder="Nhập mô tả sản phẩm" x-model="form.description"></textarea>
                         </div>
                     </div>
                 </div>
@@ -70,27 +67,15 @@
                 <!-- card body -->
                 <div class="card-body p-6">
                     <h4 class="mb-4 h5">Hình ảnh sản phẩm</h4>
-                    <!-- input -->
-                    <div class="mb-4 d-lg-flex">
-                        <div>
-                            <img src="../assets/images/products/product-img-1.jpg" alt="" class="icon-shape icon-xxxl">
-                        </div>
-                        <div class="ms-lg-4">
-                            <h4 class="mb-1 h5">Hình ảnh chính</h4>
-                            <p>Format JPG, GIF hoặc PNG. Kích thước tối đa 800k</p>
-                            <input class="form-control" type="file" id="productImage">
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Danh sách ảnh (phân cách dấu phẩy)</label>
+                        <input type="text" class="form-control" placeholder="vd: burger_bo.jpg, burger_ga.jpg" x-model="form.imagesText">
+                        <div class="form-text">Nhập tên file trong thư mục assets/images/products hoặc URL tuyệt đối.</div>
                     </div>
-                    <!-- input -->
-                    <div class="mb-4 d-lg-flex">
-                        <div>
-                            <img src="../assets/images/products/product-img-2.jpg" alt="" class="icon-shape icon-xxxl">
-                        </div>
-                        <div class="ms-lg-4">
-                            <h4 class="mb-1 h5">Hình ảnh phụ</h4>
-                            <p>Format JPG, GIF hoặc PNG. Kích thước tối đa 800k</p>
-                            <input class="form-control" type="file" id="productImages" multiple>
-                        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tải ảnh từ máy</label>
+                        <input type="file" class="form-control" multiple accept="image/*" x-on:change="onFilesSelected($event)">
+                        <div class="form-text">Chọn nhiều ảnh để tải lên, hệ thống sẽ tự điền tên file.</div>
                     </div>
                 </div>
             </div>
@@ -100,55 +85,31 @@
             <div class="card mb-6 card-lg">
                 <!-- card body -->
                 <div class="card-body p-6">
-                    <!-- input -->
                     <div class="form-check form-switch mb-4">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchStock" checked>
-                        <label class="form-check-label" for="flexSwitchStock">Còn hàng</label>
-                    </div>
-                    <!-- input -->
-                    <div>
-                        <label class="form-label">Số lượng trong kho</label>
-                        <input type="number" class="form-control" placeholder="0">
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-6 card-lg">
-                <!-- card body -->
-                <div class="card-body p-6">
-                    <h4 class="mb-4 h5">Giá sản phẩm</h4>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Giá gốc (VNĐ)</label>
-                        <input type="number" class="form-control" placeholder="0">
-                    </div>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Giá khuyến mãi (VNĐ)</label>
-                        <input type="number" class="form-control" placeholder="0">
-                    </div>
-                </div>
-            </div>
-            <!-- card -->
-            <div class="card mb-6 card-lg">
-                <!-- card body -->
-                <div class="card-body p-6">
-                    <h4 class="mb-4 h5">Meta Data</h4>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Meta Title</label>
-                        <input type="text" class="form-control" placeholder="Title">
-                    </div>
-                    <!-- input -->
-                    <div class="mb-3">
-                        <label class="form-label">Meta Description</label>
-                        <textarea class="form-control" rows="3" placeholder="Meta Description"></textarea>
+                        <input class="form-check-input" type="checkbox" x-model="form.active">
+                        <label class="form-check-label">Kích hoạt</label>
                     </div>
                 </div>
             </div>
             <!-- button -->
             <div class="d-grid">
-                <button type="button" class="btn btn-primary">Tạo sản phẩm</button>
+                <button type="button" class="btn btn-primary" x-on:click="create()">Tạo sản phẩm</button>
             </div>
         </div>
     </div>
+
+    <script>
+        function addProduct(){
+          return {
+            cats:[],
+            slugManual:false,
+            form:{ name:'', slug:'', categoryId:0, description:'', price:0, imagesText:'', active:true },
+            init(){ this.loadCategories(); },
+            async loadCategories(){ try{ const u=new URL('/api/categories', window.location.origin); u.searchParams.set('status','1'); u.searchParams.set('pageSize','500'); const r=await fetch(u); const j=await r.json(); this.cats=(j.data||[]).map(x=>({id:x.id,name:x.name})); if(this.cats.length>0) this.form.categoryId=this.cats[0].id; }catch{} },
+            onName(){ if(!this.slugManual){ this.form.slug=this.normalizeSlug(this.form.name); } },
+            normalizeSlug(s){ return String(s||'').toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\-\s]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-'); },
+            async onFilesSelected(e){ try{ const fs=e.target.files; if(!fs||fs.length===0) return; const fd=new FormData(); Array.from(fs).forEach(f=>fd.append('files', f)); const r=await fetch('/api/products/upload',{ method:'POST', body: fd }); if(r.ok){ const j=await r.json(); const names=(j.files||[]).map(x=>String(x)); const cur=(this.form.imagesText||'').split(',').map(s=>s.trim()).filter(Boolean); const merged=[...cur, ...names].filter(Boolean); this.form.imagesText=merged.join(', '); } else { alert('Có lỗi khi tải ảnh'); } } catch{ alert('Có lỗi khi tải ảnh'); } },
+            async create(){ const name=this.form.name.trim(); const slug=(this.form.slug||'').trim()||this.normalizeSlug(name); const desc=(this.form.description||'').trim(); const price=Number(this.form.price||0); const categoryId=Number(this.form.categoryId||0); const status=this.form.active?1:0; const images=(this.form.imagesText||'').split(',').map(s=>s.trim()).filter(Boolean); if(!name||!slug||!categoryId){ alert('Vui lòng nhập đầy đủ thông tin'); return; } const payload={ categoryId, name, slug, description:desc, price, images, status }; try{ const r=await fetch('/api/products',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) }); if(r.ok){ window.location.href='@Url.Action("Products","Admin")'; } else { const j=await r.json().catch(()=>({})); alert(j.message||'Có lỗi xảy ra'); } } catch{ alert('Có lỗi xảy ra'); } }
+          }
+        }
+    </script>

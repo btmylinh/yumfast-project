@@ -2,7 +2,7 @@
    ViewData["Title"] = ViewBag.AuthSignInTitle;
    Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
-<section class="my-lg-14 my-8">
+<section class="my-lg-14 my-8" x-data="{ errorEmail:'', errorPassword:'' }">
    <div class="container">
       <div class="row justify-content-center align-items-center">
          <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
@@ -18,15 +18,15 @@
                <div class="row g-3">
                   <div class="col-12">
                      <label for="formSigninEmail" class="form-label visually-hidden">@ViewBag.AuthEmail</label>
-                     <input type="email" class="form-control" name="email" id="formSigninEmail" placeholder="@ViewBag.AuthSignInEmailPlaceholder" required />
-                     <div class="invalid-feedback">@ViewBag.ValidationEnterEmail</div>
+                     <input type="email" class="form-control" name="email" id="formSigninEmail" placeholder="@ViewBag.AuthSignInEmailPlaceholder" required :class="{'is-invalid': errorEmail}" />
+                     <div class="invalid-feedback" x-text="errorEmail || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationEnterEmail)' "></div>
                   </div>
                   <div class="col-12">
                      <div class="password-field position-relative">
                         <label for="formSigninPassword" class="form-label visually-hidden">@ViewBag.AuthSignInPasswordLabel</label>
-                        <input type="password" class="form-control" name="password" id="formSigninPassword" placeholder="*****" required />
+                        <input type="password" class="form-control" name="password" id="formSigninPassword" placeholder="*****" required :class="{'is-invalid': errorPassword}" />
                         <span><i class="bi bi-eye-slash passwordToggler"></i></span>
-                        <div class="invalid-feedback">@ViewBag.ValidationEnterPassword</div>
+                        <div class="invalid-feedback" x-text="errorPassword || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationEnterPassword)' "></div>
                      </div>
                   </div>
                   <div class="d-flex justify-content-between">
@@ -52,7 +52,18 @@
    </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script>
+var pIcon = document.querySelector('.passwordToggler');
+var pInput = document.getElementById('formSigninPassword');
+if(pIcon && pInput){
+  pIcon.addEventListener('click', function(){
+    var show = pInput.type === 'password';
+    pInput.type = show ? 'text' : 'password';
+    pIcon.classList.toggle('bi-eye-slash', !show);
+    pIcon.classList.toggle('bi-eye', show);
+  });
+}
 document.querySelector("#loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const data = {
@@ -60,19 +71,57 @@ document.querySelector("#loginForm").addEventListener("submit", async (e) => {
     password: document.querySelector("[name='password']").value
   };
 
-   const res = await fetch('@Url.Action("Login","Auth")', {
+  const res = await fetch('@Url.Action("Login","Auth")', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
 
   const json = await res.json();
-  if (res.ok) {
+  const root = document.querySelector('section[x-data]');
+  const alpine = root && root.__x && root.__x.$data ? root.__x.$data : null;
+  var emailInput = document.getElementById('formSigninEmail');
+  var emailFeedback = document.querySelector('#formSigninEmail + .invalid-feedback');
+  var passInput = document.getElementById('formSigninPassword');
+  var passFeedback = document.querySelector('#formSigninPassword + span + .invalid-feedback');
+  if (alpine) { alpine.errorEmail = ''; alpine.errorPassword = ''; }
+  emailInput.classList.remove('is-invalid');
+  passInput.classList.remove('is-invalid');
+  if (emailFeedback) emailFeedback.textContent = '';
+  if (passFeedback) passFeedback.textContent = '';
+
+  if (res.ok && json && json.code === 'signin_success') {
     localStorage.setItem("token", json.token);
-   alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignInSuccess)');
     window.location.href = "/";
+    return;
+  }
+
+  const msgInvalid = '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.InvalidPassword)';
+  const msgFailed = '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignInFailed)';
+  const code = json && json.code;
+  if (alpine) {
+    if (code === 'invalid_password') {
+      alpine.errorPassword = msgInvalid || msgFailed;
+      document.getElementById('formSigninPassword').focus();
+    } else if (code === 'email_not_found' || code === 'account_unverified') {
+      alpine.errorEmail = msgFailed;
+      document.getElementById('formSigninEmail').focus();
+    } else {
+      alpine.errorEmail = msgFailed;
+    }
   } else {
-   alert(json.message || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignInFailed)');
+    if (code === 'invalid_password'){
+      passInput.classList.add('is-invalid');
+      if (passFeedback) passFeedback.textContent = msgInvalid || msgFailed;
+      passInput.focus();
+    } else if (code === 'email_not_found' || code === 'account_unverified'){
+      emailInput.classList.add('is-invalid');
+      if (emailFeedback) emailFeedback.textContent = msgFailed;
+      emailInput.focus();
+    } else {
+      emailInput.classList.add('is-invalid');
+      if (emailFeedback) emailFeedback.textContent = msgFailed;
+    }
   }
 });
 </script>

@@ -4,6 +4,8 @@ using WebApp.Data;
 using WebApp.Models;
 using WebApp.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using System.Text;
 
 namespace WebApp.Controllers
 {
@@ -13,11 +15,13 @@ namespace WebApp.Controllers
     public class BannersController : BaseController
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public BannersController(ApplicationDbContext context, IJsonLocalizationService localizationService) 
+        public BannersController(ApplicationDbContext context, IJsonLocalizationService localizationService, IWebHostEnvironment env) 
             : base(localizationService)
         {
             _context = context;
+            _env = env;
         }
 
         /// <summary>
@@ -88,17 +92,40 @@ namespace WebApp.Controllers
 
                 return Ok(new
                 {
-                    Data = banners,
-                    TotalCount = totalCount,
-                    Page = page,
-                    PageSize = pageSize,
-                    TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+                    data = banners,
+                    totalCount = totalCount,
+                    page = page,
+                    pageSize = pageSize,
+                    totalPages = (int)Math.Ceiling((double)totalCount / pageSize)
                 });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { code = "internal_server_error", error = ex.Message });
             }
+        }
+
+        [HttpPost("upload")]
+        public IActionResult Upload()
+        {
+            var files = Request.Form.Files;
+            if (files == null || files.Count == 0) return BadRequest(new { message = "no_files" });
+            var allowed = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+            var target = System.IO.Path.Combine(_env.WebRootPath, "assets", "images", "banner");
+            if (!System.IO.Directory.Exists(target)) System.IO.Directory.CreateDirectory(target);
+            var saved = new List<string>();
+            foreach (var f in files)
+            {
+                var ext = System.IO.Path.GetExtension(f.FileName);
+                if (string.IsNullOrWhiteSpace(ext) || !allowed.Contains(ext)) return BadRequest(new { message = "invalid_extension" });
+                if (f.Length <= 0 || f.Length > 5 * 1024 * 1024) return BadRequest(new { message = "invalid_size" });
+                var baseName = NormalizeSlug(System.IO.Path.GetFileNameWithoutExtension(f.FileName));
+                var fileName = $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}_{baseName}{ext.ToLowerInvariant()}";
+                var path = System.IO.Path.Combine(target, fileName);
+                using (var s = System.IO.File.Create(path)) { f.CopyTo(s); }
+                saved.Add(fileName);
+            }
+            return Ok(new { files = saved });
         }
 
         /// <summary>
@@ -289,6 +316,23 @@ namespace WebApp.Controllers
         private bool BannerExists(long id)
         {
             return _context.Banners.Any(e => e.Id == id);
+        }
+
+        private string NormalizeSlug(string s)
+        {
+            s = (s ?? string.Empty).Trim().ToLowerInvariant();
+            var normalized = s.Normalize(NormalizationForm.FormD);
+            var chars = normalized.Where(ch => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(ch) != System.Globalization.UnicodeCategory.NonSpacingMark);
+            var filtered = new string(chars.ToArray());
+            var sb = new System.Text.StringBuilder();
+            foreach (var ch in filtered)
+            {
+                if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9') || ch == '-' || ch == ' ')
+                    sb.Append(ch);
+            }
+            var result = sb.ToString().Replace(' ', '-');
+            while (result.Contains("--")) result = result.Replace("--", "-");
+            return result.Trim('-');
         }
     }
 }

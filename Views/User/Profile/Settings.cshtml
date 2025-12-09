@@ -5,14 +5,14 @@
 <!-- section -->
 <section>
     <!-- container -->
-    <div class="container">
+    <div class="container" x-data="walletManager()" x-init="init()">
         <!-- row -->
         <div class="row">
             <!-- col -->
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center d-md-none py-4">
                     <!-- heading -->
-                    <h3 class="fs-5 mb-0">Account Setting</h3>
+                    <h3 class="fs-5 mb-0">@(((ViewBag.PageType as string)=="Settings") ? "Account Setting" : (string)ViewBag.Profile)</h3>
                     <!-- button -->
                     <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3" type="button"
                         data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
@@ -27,30 +27,30 @@
                     <ul class="nav flex-column nav-pills nav-pills-dark">
                         <!-- nav item -->
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="@Url.Action("Orders", "User")">
+                            <a class="nav-link" href="@Url.Action("Orders", "User")">
                                 <i class="feather-icon icon-shopping-bag me-2"></i>
-                                Your Orders
+                                @ViewBag.MyOrders
                             </a>
                         </li>
                         <!-- nav item -->
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Settings", "User")">
+                            <a class="nav-link @( (ViewBag.PageType as string)=="Settings" ? "active" : "" )" @( (ViewBag.PageType as string)=="Settings" ? "aria-current=\"page\"" : "") href="@Url.Action("Settings", "User")">
                                 <i class="feather-icon icon-settings me-2"></i>
-                                Settings
+                                @ViewBag.Settings
                             </a>
                         </li>
                         <!-- nav item -->
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Address", "User")">
                                 <i class="feather-icon icon-map-pin me-2"></i>
-                                Address
+                                @ViewBag.AddressTitle
                             </a>
                         </li>
                         <!-- nav item -->
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("PaymentMethod", "User")">
                                 <i class="feather-icon icon-credit-card me-2"></i>
-                                Payment Method
+                                @ViewBag.PaymentMethodTitle
                             </a>
                         </li>
                     </ul>
@@ -60,64 +60,119 @@
                 <div class="py-6 p-md-6 p-lg-10">
                     <div class="mb-6">
                         <!-- heading -->
-                        <h2 class="mb-0">Account Setting</h2>
+                        <h2 class="mb-0">@(((ViewBag.PageType as string)=="Settings") ? "Account Setting" : (string)ViewBag.Profile)</h2>
                     </div>
                     <div>
                         <!-- heading -->
-                        <h5 class="mb-4">Account details</h5>
+                        <h5 class="mb-4">@ViewBag.Settings</h5>
                         <div class="row">
                             <div class="col-lg-5">
-                                <!-- form -->
-                                <form>
-                                    <!-- input -->
+                                <form id="profileForm" class="needs-validation" novalidate>
                                     <div class="mb-3">
-                                        <label class="form-label">Name</label>
-                                        <input type="text" class="form-control" placeholder="jitu chauhan" />
+                                        <label class="form-label">@ViewBag.UserName</label>
+                                        <input type="text" class="form-control" name="name" id="pfName" placeholder="@ViewBag.UserName" required />
+                                        <div class="invalid-feedback">@ViewBag.ValidationFillAll</div>
                                     </div>
-                                    <!-- input -->
                                     <div class="mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" placeholder="example@gmail.com" />
+                                        <label class="form-label">@ViewBag.UserEmail</label>
+                                        <input type="email" class="form-control" name="email" id="pfEmail" placeholder="@ViewBag.AuthEmailAddress" readonly />
                                     </div>
-                                    <!-- input -->
                                     <div class="mb-5">
-                                        <label class="form-label">Phone</label>
-                                        <input type="text" class="form-control" placeholder="Phone number" />
+                                        <label class="form-label">@ViewBag.UserPhone</label>
+                                        <input type="text" class="form-control" name="phone" id="pfPhone" placeholder="@ViewBag.AuthPhonePlaceholder" />
                                     </div>
-                                    <!-- button -->
                                     <div class="mb-3">
-                                        <button class="btn btn-primary">Save Details</button>
+                                        <button type="submit" class="btn btn-primary">@ViewBag.Save</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    @if(((ViewBag.PageType as string)=="Settings")){
                     <hr class="my-10" />
                     <div class="pe-lg-14">
                         <!-- heading -->
-                        <h5 class="mb-4">Password</h5>
-                        <form class="row row-cols-1 row-cols-lg-2">
-                            <!-- input -->
+                        <h5 class="mb-4">@ViewBag.AuthPassword</h5>
+                        <form id="passwordForm" class="row row-cols-1 row-cols-lg-2 needs-validation" novalidate>
                             <div class="mb-3 col">
-                                <label class="form-label">New Password</label>
-                                <input type="password" class="form-control" placeholder="**********" />
+                                <label class="form-label">@ViewBag.CurrentPasswordLabel</label>
+                                <input type="password" class="form-control" name="currentPassword" id="pfCurrentPassword" placeholder="**********" required />
+                                <div class="form-text">@ViewBag.CurrentPasswordHelp</div>
+                                <div class="invalid-feedback">@ViewBag.ValidationEnterPassword</div>
                             </div>
-                            <!-- input -->
                             <div class="mb-3 col">
-                                <label class="form-label">Current Password</label>
-                                <input type="password" class="form-control" placeholder="**********" />
+                                <label class="form-label">@ViewBag.NewPasswordLabel</label>
+                                <input type="password" class="form-control" name="newPassword" id="pfNewPassword" placeholder="**********" required />
+                                <div class="form-text">@ViewBag.NewPasswordHelp</div>
+                                <div class="invalid-feedback">@ViewBag.ValidationEnterPassword</div>
                             </div>
-                            <!-- input -->
                             <div class="col-12">
-                                <p class="mb-4">
-                                    Can’t remember your current password?
-                                    <a href="#">Reset your password.</a>
-                                </p>
-                                <a href="#" class="btn btn-primary">Save Password</a>
+                                <button type="submit" class="btn btn-primary">@ViewBag.Save</button>
                             </div>
                         </form>
                     </div>
                     <hr class="my-10" />
+                    <div>
+                        <h5 class="mb-4">Ví điện tử</h5>
+                        <div class="d-flex justify-content-between mb-3">
+                            <p class="text-muted mb-0">Quản lý ví điện tử để thanh toán nhanh</p>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#walletModal" x-on:click="openCreate()">@ViewBag.Add</button>
+                        </div>
+                        <div class="row">
+                            <template x-for="w in wallets" :key="w.id">
+                                <div class="col-12 mb-3">
+                                    <div class="card">
+                                        <div class="card-body p-4 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <div class="fw-semibold" x-text="w.label"></div>
+                                                <div class="text-muted small" x-text="w.account"></div>
+                                            </div>
+                                            <div class="dropdown">
+                                                <a href="#" class="text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" x-on:click.prevent="edit(w)">@ViewBag.Edit</a></li>
+                                                    <li><a class="dropdown-item" href="#" x-on:click.prevent="remove(w.id)">@ViewBag.Delete</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="col-12 text-center text-muted py-6" x-show="!loading && wallets.length===0">Chưa có ví nào</div>
+                            <div class="col-12 text-center text-danger py-6" x-show="error">Lỗi tải dữ liệu</div>
+                        </div>
+                    </div>
+                    }
+                    <!-- Wallet Modal -->
+                    <div class="modal fade" id="walletModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@ViewBag.Add</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="walletForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Tên ví</label>
+                                            <input type="text" class="form-control" x-model="form.label" placeholder="Momo, ZaloPay, PayPal" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tài khoản</label>
+                                            <input type="text" class="form-control" x-model="form.account" placeholder="SĐT / email" />
+                                        </div>
+                                        <input type="hidden" x-model="form.id" />
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@ViewBag.Cancel</button>
+                                    <button type="button" class="btn btn-primary" x-on:click="save()">@ViewBag.Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <!-- heading -->
                         <h5 class="mb-4">Delete Account</h5>
@@ -132,3 +187,102 @@
         </div>
     </div>
 </section>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+function walletManager(){
+  return {
+    wallets: [],
+    loading: false,
+    error: false,
+    form: { id: 0, label: '', account: '' },
+    init(){ this.load(); },
+    async load(){ this.loading=true; this.error=false; try { const r=await fetch('/api/user/payment-methods?type=wallet'); const j=await r.json(); this.wallets=j.data||[]; } catch(e){ this.error=true; } finally { this.loading=false; } },
+    openCreate(){ this.form={ id:0, label:'', account:'' }; bootstrap.Modal.getOrCreateInstance(document.getElementById('walletModal')).show(); },
+    edit(w){ this.form={ id:Number(w.id||0), label:w.label||'', account:w.account||'' }; bootstrap.Modal.getOrCreateInstance(document.getElementById('walletModal')).show(); },
+    async remove(id){ if(!confirm('Xóa ví điện tử?')) return; try { const r=await fetch(`/api/user/payment-methods/${id}`,{method:'DELETE'}); if(r.ok){ await this.load(); } else { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } },
+    async save(){ const l=this.form.label.trim(), a=this.form.account.trim(); if(!l||!a){ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)'); return; } const payload={ type:'wallet', label:l, account:a, expiry:'', isDefault:false }; const id=Number(this.form.id||0); try { let r; if(id>0){ r=await fetch(`/api/user/payment-methods/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});} else { r=await fetch('/api/user/payment-methods',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});} if(r.ok){ bootstrap.Modal.getOrCreateInstance(document.getElementById('walletModal')).hide(); await this.load(); } else { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } }
+  }
+}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignInFailed)');
+    window.location.href = '@Url.Action("SignIn","AuthView")';
+    return;
+  }
+  try {
+    const res = await fetch('/api/user/GetProfile', { headers: { 'Authorization': 'Bearer ' + token } });
+    const json = await res.json();
+    if (res.ok) {
+      document.querySelector('#pfName').value = json.name || '';
+      document.querySelector('#pfEmail').value = json.email || '';
+      document.querySelector('#pfPhone').value = json.phone || '';
+    } else {
+      alert(json.code || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+    }
+  } catch (e) {
+    alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ServerConnectionError)');
+  }
+});
+
+document.querySelector('#profileForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  const name = document.querySelector('#pfName').value.trim();
+  const phone = document.querySelector('#pfPhone').value.trim();
+  if (!name) {
+    alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)');
+    return;
+  }
+  try {
+    const res = await fetch('/api/user/UpdateProfile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ name, phone })
+    });
+    const json = await res.json();
+    if (res.ok) {
+      alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.UpdateProfileSuccess)');
+    } else {
+      alert(json.code || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+    }
+  } catch (e) {
+    alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ServerConnectionError)');
+  }
+});
+
+document.querySelector('#passwordForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  const currentPassword = document.querySelector('#pfCurrentPassword').value.trim();
+  const newPassword = document.querySelector('#pfNewPassword').value.trim();
+  if (!currentPassword || !newPassword) {
+    alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)');
+    return;
+  }
+  try {
+    const res = await fetch('/api/user/ChangePassword', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    const json = await res.json();
+    if (res.ok) {
+      alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.PasswordChangeSuccess)');
+      document.querySelector('#pfCurrentPassword').value = '';
+      document.querySelector('#pfNewPassword').value = '';
+    } else {
+      const code = json.code || '';
+      if (code === 'invalid_password') {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.InvalidPassword)');
+      } else {
+        alert(code || '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      }
+    }
+  } catch (e) {
+    alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ServerConnectionError)');
+  }
+});
+</script>
