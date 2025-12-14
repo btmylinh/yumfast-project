@@ -151,15 +151,16 @@
                               <div class="mb-2">
                                  <i class="bi bi-person-circle fs-4"></i>
                               </div>
-                              <p class="mb-0 d-none d-xl-block small">@ViewBag.Account</p>
+                              <p class="mb-0 d-none d-xl-block small" id="headerAccountLabel">@ViewBag.Account</p>
                            </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                           <li><a class="dropdown-item" href="@Url.Action("SignIn", "Auth")">@ViewBag.SignIn</a></li>
-                           <li><a class="dropdown-item" href="@Url.Action("SignUp", "Auth")">@ViewBag.SignUp</a></li>
+                           <li><a class="dropdown-item" id="menuSignIn" href="/auth/SignIn">@ViewBag.SignIn</a></li>
+                           <li><a class="dropdown-item" id="menuSignUp" href="/auth/SignUp">@ViewBag.SignUp</a></li>
                            <li><hr class="dropdown-divider"></li>
-                           <li><a class="dropdown-item" href="@Url.Action("Profile", "User")">@ViewBag.Profile</a></li>
-                           <li><a class="dropdown-item" href="@Url.Action("Settings", "User")">@ViewBag.Settings</a></li>
+                           <li><a class="dropdown-item" id="menuDashboard" href="/dashboard">Dashboard</a></li>
+                           <li><a class="dropdown-item" id="menuProfile" href="/user/profile">@ViewBag.Profile</a></li>
+                           <li><a class="dropdown-item" id="menuSettings" href="/user/settings">@ViewBag.Settings</a></li>
                            <li><hr class="dropdown-divider"></li>
                            <li>
                               
@@ -170,7 +171,7 @@
                         </ul>
                      </div>
                      <div class="ms-6 text-center">
-                        <a href="@Url.Action("Orders","User")" class="text-reset">
+                        <a href="/Order/MyOrders" class="text-reset">
                            <div class="lh-1">
                               <div class="mb-2">
                                  <i class="bi bi-archive fs-4"></i>
@@ -706,9 +707,11 @@
                   <span class="fw-semibold">Tổng</span>
                   <span id="cartTotal" class="fw-bold">₫0</span>
                </div>
-               <div class="d-flex justify-content-between mt-4">
-                  <a href="#" class="btn btn-primary">@ViewBag.ContinueShopping</a>
-                  <a href="#" id="btnUpdateCart" class="btn btn-dark">@ViewBag.UpdateCart</a>
+               <div class="d-grid gap-2 mt-4">
+                  <a href="/Shop/Checkout" class="btn btn-primary btn-lg">
+                     <i class="bi bi-credit-card me-2"></i>Đặt hàng ngay
+                  </a>
+                  <a href="#" id="btnUpdateCart" class="btn btn-outline-dark">Cập nhật giỏ hàng</a>
                </div>
             </div>
          </div>
@@ -794,9 +797,9 @@
                   <div>
                      <h6 class="px-4 border-bottom py-3 mb-0">Notification</h6>
                      <p class="mb-0 px-4 py-3">
-                        <a href="signin.html">Sign in</a>
+                        <a href="/auth/SignIn">@ViewBag.SignIn</a>
                         or
-                        <a href="signup.html">Register</a>
+                        <a href="/auth/SignUp">@ViewBag.SignUp</a>
                         in or so you don t have to enter your details every time
                      </p>
                   </div>
@@ -868,7 +871,7 @@
          <div class="container">
             <div class="row align-items-center">
                <div class="col-8 col-md-12 col-lg-4">
-                  <a href="#"><img src="../assets/images/logo/freshcart-white-logo.svg" alt="" /></a>
+                  <a href="#"><img src="~/assets/images/logo/freshcart-white-logo.svg" alt="" /></a>
                </div>
                <div class="col-4 col-md-12 col-lg-8 text-end">
                   <ul class="list-inline text-md-end mb-0 small">
@@ -1004,19 +1007,19 @@
                      <ul class="list-inline mb-0">
                         <li class="list-inline-item text-light">Payment Partners</li>
                         <li class="list-inline-item">
-                           <a href="#!"><img src="../assets/images/payment/amazonpay.svg" alt="" /></a>
+                           <a href="#!"><img src="~/assets/images/payment/amazonpay.svg" alt="" /></a>
                         </li>
                         <li class="list-inline-item">
-                           <a href="#!"><img src="../assets/images/payment/american-express.svg" alt="" /></a>
+                           <a href="#!"><img src="~/assets/images/payment/american-express.svg" alt="" /></a>
                         </li>
                         <li class="list-inline-item">
-                           <a href="#!"><img src="../assets/images/payment/mastercard.svg" alt="" /></a>
+                           <a href="#!"><img src="~/assets/images/payment/mastercard.svg" alt="" /></a>
                         </li>
                         <li class="list-inline-item">
-                           <a href="#!"><img src="../assets/images/payment/paypal.svg" alt="" /></a>
+                           <a href="#!"><img src="~/assets/images/payment/paypal.svg" alt="" /></a>
                         </li>
                         <li class="list-inline-item">
-                           <a href="#!"><img src="../assets/images/payment/visa.svg" alt="" /></a>
+                           <a href="#!"><img src="~/assets/images/payment/visa.svg" alt="" /></a>
                         </li>
                      </ul>
                   </div>
@@ -1053,7 +1056,7 @@
                   logoutBtn.addEventListener('click', function(e) {
                      e.preventDefault();
                      localStorage.removeItem('token');
-                     window.location.href = '@Url.Action("SignIn","AuthView")';
+                     window.location.href = '/auth/SignIn';
                   });
                }
             });
@@ -1180,6 +1183,20 @@
         .chat-panel .card-body{padding:12px; overflow:auto; flex:1}
         .chat-bubble-user{display:inline-block; background:#0d6efd; color:#fff; border-radius:16px 16px 0 16px; padding:8px 12px; max-width:85%}
         .chat-bubble-bot{display:inline-block; background:#f1f3f5; color:#212529; border-radius:16px 16px 16px 0; padding:8px 12px; max-width:85%}
+        /* Fix cart image overflow */
+        #offcanvasRight #cartList img{ width:64px; height:64px; object-fit:cover; border-radius:.25rem; display:block; }
+        #offcanvasRight .list-group-item .d-flex{ gap:.75rem; }
+        #offcanvasRight .icon-xxl{ width:64px !important; height:64px !important; }
+        /* Product cards equal height (no content/image changes) */
+        #newProductsContainer > [class^="col-"], #newProductsContainer > [class*=" col-"],
+        #bestSellingContainer > [class^="col-"], #bestSellingContainer > [class*=" col-"]{ display:flex; }
+        #newProductsContainer .card.card-product, #bestSellingContainer .card.card-product{ flex:1; height:100%; }
+        .card.card-product .card-body{ display:flex; flex-direction:column; height:100%; }
+        .card.card-product .d-flex.justify-content-between{ margin-top:auto; }
+        /* Uniform product image height and title clamp */
+        .card.card-product h2.fs-6{ min-height:2.8em; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+        /* Fixed product image size for consistent grid */
+        .card.card-product .text-center.position-relative img{ width:100%; height:200px; object-fit:cover; }
       </style>
       <div x-data="chatWidget()" x-on:keydown.escape.window="open=false" x-init="init()">
         <button class="btn btn-primary chat-fab" x-show="!open" x-on:click="open = !open">@((string.Equals(ViewBag.ChatTitle as string, "chat_title") || string.IsNullOrWhiteSpace(ViewBag.ChatTitle as string)) ? "Tư vấn" : ViewBag.ChatTitle)</button>
@@ -1202,8 +1219,8 @@
                         <div class="fw-bold" x-text="p.name"></div>
                         <div>₫<span x-text="formatPrice(p.price)"></span></div>
                         <div class="mt-1 d-flex gap-2">
-                          <a class="btn btn-sm btn-outline-secondary" :href="'/product/'+p.id">@Html.Raw(ViewBag.ViewDetails)</a>
-                          <a class="btn btn-sm btn-primary" :href="'/product/'+p.id">@ViewBag.AddToCart</a>
+                          <a class="btn btn-sm btn-outline-secondary" :href="'/product/detail/'+p.id">@Html.Raw(ViewBag.ViewDetails)</a>
+                          <button class="btn btn-sm btn-primary btn-add-cart" :data-id="p.id">@ViewBag.AddToCart</button>
                         </div>
                       </div>
                     </template>
@@ -1297,6 +1314,89 @@
       </script>
       <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
       <script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@7.0.5/dist/browser/signalr.min.js"></script>
+      <script>
+        window.I18N = {
+          quickView: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.QuickView ?? "Quick View")',
+          wishlist: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.Wishlist ?? "Wishlist")',
+          compare: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.Compare ?? "Compare")',
+          newBadge: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.NewBadge ?? "New")',
+          saleBadge: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SaleBadge ?? "Sale")',
+          add: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.Add ?? "Add")',
+          addToCart: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.AddToCart ?? "Add to Cart")',
+          alreadySold: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.AlreadySold ?? "Already Sold")',
+          available: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.Available ?? "Available")',
+          dealHurry: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.DealHurry ?? "Hurry up offer ends soon")',
+          checkout_title: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutTitle ?? "Checkout")',
+          checkout_address: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutAddress ?? "Shipping Address")',
+          checkout_select_address: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutSelectAddress ?? "Select address")',
+          checkout_shipping_fee: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutShippingFee ?? "Shipping Fee")',
+          checkout_subtotal: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutSubtotal ?? "Subtotal")',
+          checkout_discount: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutDiscount ?? "Discount")',
+          checkout_total: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutTotal ?? "Total")',
+          checkout_place_order: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutPlaceOrder ?? "Place Order")',
+          checkout_payment_method: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutPaymentMethod ?? "Payment Method")',
+          checkout_coupon_code: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.CheckoutCouponCode ?? "Coupon Code")',
+          status_placed: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.StatusPlaced ?? "Placed")',
+          status_processing: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.StatusProcessing ?? "Processing")',
+          status_shipping: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.StatusShipping ?? "Shipping")',
+          status_paid: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.StatusPaid ?? "Paid")',
+          status_completed: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.StatusCompleted ?? "Completed")',
+          status_cancelled: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.StatusCancelled ?? "Cancelled")',
+          msg_select_address: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.MsgSelectAddress ?? "Please select a shipping address")',
+          msg_cart_empty: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.MsgCartEmpty ?? "Cart is empty")',
+          msg_out_of_stock: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.MsgOutOfStock ?? "Some items are out of stock")',
+          msg_payment_error: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.MsgPaymentError ?? "Payment error")',
+          msg_checkout_failed: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.MsgCheckoutFailed ?? "Checkout failed, please try again")',
+          msg_server_error: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.MsgServerError ?? "Server connection error")',
+          msg_login_required: '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.MsgLoginRequired ?? "Please sign in to continue")'
+        };
+      </script>
+      <script src="~/js/auth-helper.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function(){
+          try {
+            var token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+            var user = null; try { user = JSON.parse(localStorage.getItem('current_user')||'null'); } catch {}
+            var displayName = (user && (user.name || user.fullName || user.email)) || '';
+            var label = document.getElementById('headerAccountLabel');
+            var signIn = document.getElementById('menuSignIn');
+            var signUp = document.getElementById('menuSignUp');
+            var logout = document.getElementById('logout-btn');
+            var profile = document.getElementById('menuProfile');
+            var settings = document.getElementById('menuSettings');
+            if (token) {
+              if (label && displayName) label.textContent = displayName;
+              if (signIn) signIn.style.display = 'none';
+              if (signUp) signUp.style.display = 'none';
+              if (logout) logout.style.display = '';
+              if (profile) profile.style.display = '';
+              if (settings) settings.style.display = '';
+            } else {
+              if (label) label.textContent = '@ViewBag.Account';
+              if (signIn) signIn.style.display = '';
+              if (signUp) signUp.style.display = '';
+              if (logout) logout.style.display = 'none';
+              if (profile) profile.style.display = 'none';
+              if (settings) settings.style.display = 'none';
+            }
+            const dash = document.getElementById('menuDashboard');
+            if (token && dash) {
+              fetch('/api/user/is-admin', { headers: { 'Authorization': 'Bearer ' + token } })
+                .then(async (r)=>{ let j=null; try{ j=await r.json(); }catch{}; if(!r.ok || !j || !j.isAdmin){ dash.style.display='none'; } else { dash.style.display=''; } })
+                .catch(()=>{ if(dash) dash.style.display='none'; });
+            } else { if(dash) dash.style.display='none'; }
+            if (logout) {
+              logout.addEventListener('click', function(e){
+                e.preventDefault();
+                try { localStorage.removeItem('token'); localStorage.removeItem('auth_token'); localStorage.removeItem('current_user'); } catch {}
+                window.location.href = '/auth/SignIn';
+              });
+            }
+          } catch (e) { console.warn('Header UI init failed', e); }
+        });
+      </script>
+      <script src="~/js/product-sections.js"></script>
+      <script src="~/js/shipping-quote.js"></script>
       <script>
         function chatWidget(){
           return { open:false, input:'', msgs:[], welcome:'@Html.Raw((string.Equals(ViewBag.ChatWelcome as string, "chat_welcome") || string.IsNullOrWhiteSpace(ViewBag.ChatWelcome as string)) ? "<span class=\"text-muted\">Hỏi: tên sản phẩm, mã giảm, khoảng giá...</span>" : ViewBag.ChatWelcome)', isHubReady:false, connection:null, formatPrice(v){ try{ return new Intl.NumberFormat('vi-VN').format(v); }catch{ return v; } }, async init(){ try{ if(window.signalR){ this.connection = new signalR.HubConnectionBuilder().withUrl('/chatHub').withAutomaticReconnect().build(); this.connection.on('ReceiveMessage', (reply, items, coupons) => { this.msgs.push({ role:'bot', text: reply, items: items||[], coupons: coupons||[] }); }); await this.connection.start(); this.isHubReady = true; } }catch(e){ this.isHubReady=false; } }, async send(){ const t=this.input.trim(); if(!t) return; this.msgs.push({role:'user', text:t}); this.input=''; if(this.isHubReady && this.connection){ try{ await this.connection.invoke('SendQuestion', t); return; }catch(e){ } } try{ const r=await fetch('/api/chat',{ method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ text:t }) }); const j=await r.json(); this.msgs.push({ role:'bot', text:j.reply, items:j.items||[], coupons:j.coupons||[] }); } catch(_){ this.msgs.push({ role:'bot', text:'@((string.Equals(ViewBag.ChatConnectionError as string, "chat_connection_error") || string.IsNullOrWhiteSpace(ViewBag.ChatConnectionError as string)) ? "Lỗi kết nối máy chủ, vui lòng thử lại." : ViewBag.ChatConnectionError)' }); } } }

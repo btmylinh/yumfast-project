@@ -46,4 +46,49 @@ public class HomeController : BaseController
 
         return LocalRedirect(returnUrl ?? "/");
     }
+
+    // Product detail MVC routes
+    [HttpGet("/product/detail/{id}")]
+    public IActionResult ProductDetail(long id)
+    {
+        return View("~/Views/Product/Detail.cshtml");
+    }
+
+    // Short route variant
+    [HttpGet("/product/{id}")]
+    public IActionResult ProductDetailShort(long id)
+    {
+        return View("~/Views/Product/Detail.cshtml");
+    }
+
+    // Auth views (SignIn / SignUp)
+    [HttpGet("/auth/SignIn")]
+    public IActionResult AuthSignIn()
+    {
+        return View("~/Views/Auth/SignIn.cshtml");
+    }
+
+    [HttpGet("/auth/SignUp")]
+    public IActionResult AuthSignUp()
+    {
+        return View("~/Views/Auth/SignUp.cshtml");
+    }
+
+    [HttpGet("/auth/ForgotPassword")]
+    public IActionResult AuthForgotPassword()
+    {
+        return View("~/Views/Auth/ForgotPassword.cshtml");
+    }
+
+    [HttpGet("/auth/ResetPassword")]
+    public IActionResult AuthResetPassword()
+    {
+        return View("~/Views/Auth/ResetPassword.cshtml");
+    }
+
+    [HttpGet("/auth/Verify")]
+    public IActionResult AuthVerify()
+    {
+        return View("~/Views/Auth/Verify.cshtml");
+    }
 }

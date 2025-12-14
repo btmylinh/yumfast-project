@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const idMatch = location.pathname.match(/product\/(\d+)/i);
+  const idMatch = location.pathname.match(/product\/(?:detail\/)?(\d+)/i);
   const id = idMatch ? idMatch[1] : null;
   if (!id) return;
   const res = await fetch('/api/products/' + id);

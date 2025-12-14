@@ -76,7 +76,7 @@
                     <div class="fw-semibold">@p.Name</div>
                     <div class="mt-auto">₫@String.Format("{0:N0}", p.Price)</div>
                     <div class="mt-2 d-flex gap-2">
-                      <a class="btn btn-sm btn-outline-secondary" href="/product/@p.Id">@ViewBag.ViewDetails</a>
+                      <a class="btn btn-sm btn-outline-secondary" href="/product/detail/@p.Id">@ViewBag.ViewDetails</a>
                       <button class="btn btn-sm btn-primary" data-id="@p.Id">@ViewBag.AddToCart</button>
                     </div>
                   </div>
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="fw-semibold">${p.name}</div>
           <div class="mt-2">₫${(p.price).toLocaleString('vi-VN')}</div>
           <div class="mt-auto d-flex gap-2">
-            <a class="btn btn-sm btn-outline-secondary" href="/product/${p.id}">@Html.Raw(ViewBag.ViewDetails)</a>
+            <a class="btn btn-sm btn-outline-secondary" href="/product/detail/${p.id}">@Html.Raw(ViewBag.ViewDetails)</a>
             <button class="btn btn-sm btn-primary" data-id="${p.id}">@ViewBag.AddToCart</button>
           </div>
         </div>
@@ -169,9 +169,36 @@ document.addEventListener('DOMContentLoaded', () => {
   grid.addEventListener('click', async (e) => {
     const btn = e.target.closest('button[data-id]');
     if (!btn) return;
+
+    // Kiểm tra đăng nhập trước khi thêm vào giỏ hàng
+    if (typeof authHelper !== 'undefined' && !authHelper.isLoggedIn()) {
+      await authHelper.showLoginModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+      return;
+    }
+
     const id = parseInt(btn.getAttribute('data-id'));
+
+    // Trạng thái loading nút
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.AddToCart)';
+
+    try {
     const res = await fetch('/api/cart/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ productId: id, quantity: 1 }) });
-    if (res.ok) { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.AddedToCartSuccess)'); window.dispatchEvent(new Event('cart:changed')); } else { alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); }
+      if (res.ok) {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.AddedToCartSuccess)');
+        window.dispatchEvent(new Event('cart:changed'));
+      } else if (res.status === 401) {
+        await authHelper.showLoginModal('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
+      } else {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      }
+    } catch (err) {
+      alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ServerConnectionError)');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = originalHtml;
+    }
   });
 });
 </script>

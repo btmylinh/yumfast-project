@@ -35,7 +35,7 @@
                         <label class="form-check-label" for="flexCheckDefault">@ViewBag.AuthRememberMe</label>
                      </div>
                      <div>
-                        <a href="@Url.Action("ForgotPassword","AuthView")">@ViewBag.AuthForgotPassword</a>
+                        <a href="/auth/ForgotPassword">@ViewBag.AuthForgotPassword</a>
                      </div>
                   </div>
                   <div class="col-12 d-grid">
@@ -43,7 +43,7 @@
                   </div>
                   <div>
                      @ViewBag.AuthNoAccount
-                     <a href="@Url.Action("SignUp", "AuthView")">@ViewBag.AuthSignUpLink</a>
+                     <a href="/auth/SignUp">@ViewBag.AuthSignUpLink</a>
                   </div>
                </div>
             </form>
@@ -71,13 +71,14 @@ document.querySelector("#loginForm").addEventListener("submit", async (e) => {
     password: document.querySelector("[name='password']").value
   };
 
-  const res = await fetch('@Url.Action("Login","Auth")', {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   });
 
-  const json = await res.json();
+  let json = null;
+  try { json = await res.json(); } catch { json = null; }
   const root = document.querySelector('section[x-data]');
   const alpine = root && root.__x && root.__x.$data ? root.__x.$data : null;
   var emailInput = document.getElementById('formSigninEmail');
@@ -91,8 +92,21 @@ document.querySelector("#loginForm").addEventListener("submit", async (e) => {
   if (passFeedback) passFeedback.textContent = '';
 
   if (res.ok && json && json.code === 'signin_success') {
-    localStorage.setItem("token", json.token);
-    window.location.href = "/";
+    try {
+      localStorage.setItem('token', json.token);
+      localStorage.setItem('auth_token', json.token);
+      localStorage.setItem('current_user', JSON.stringify({ name: json.name || '', email: json.email || '', role: json.role || 'user' }));
+    } catch {}
+    
+    // Redirect theo role
+    const role = json.role || 'user';
+    if (role === 'admin') {
+      window.location.href = "/Dashboard"; // Trang quản trị admin
+    } else if (role === 'driver') {
+      window.location.href = "/Driver/Dashboard"; // Trang tài xế
+    } else {
+      window.location.href = "/"; // Trang chủ cho user
+    }
     return;
   }
 

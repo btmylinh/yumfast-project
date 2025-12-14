@@ -1,0 +1,492 @@
+@{
+    ViewData["Title"] = "Theo dõi đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var orderId = ViewBag.OrderId;
+}
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+<style>
+    [x-cloak] { display: none !important; }
+    
+    /* Timeline styles */
+    .timeline-step {
+        position: relative;
+        padding-left: 2rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .timeline-step::before {
+        content: '';
+        position: absolute;
+        left: 0.5rem;
+        top: 2rem;
+        bottom: 0;
+        width: 2px;
+        background: #e5e7eb;
+    }
+    
+    .timeline-step:last-child::before {
+        display: none;
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background: #e5e7eb;
+        border: 3px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .timeline-dot.active {
+        background: #f97316;
+    }
+    
+    .timeline-dot.completed {
+        background: #22c55e;
+    }
+</style>
+
+<main>
+    <div x-data="trackingApp(@orderId)" x-init="init()" x-cloak>
+        <!-- Page Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="/Order/MyOrders">Đơn hàng của tôi</a></li>
+                        <li class="breadcrumb-item active">Theo dõi</li>
+                    </ol>
+                </nav>
+                <div class="d-flex align-items-center justify-content-between mt-3">
+                    <h2 class="mb-0"><i class="bi bi-box-seam me-2"></i>Đơn hàng #<span x-text="order.orderCode"></span></h2>
+                    <span class="badge" 
+                          :class="getStatusBadgeClass(order.status)"
+                          x-text="getStatusText(order.status)"></span>
+                </div>
+                <p class="text-muted small mt-2" x-text="order.createdAt ? new Date(order.createdAt).toLocaleString('vi-VN') : ''"></p>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div x-show="loading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Đang tải...</span>
+            </div>
+            <p class="mt-3 text-muted">Đang tải thông tin đơn hàng...</p>
+        </div>
+
+        <!-- Main Content -->
+        <div x-show="!loading && order.orderId" class="row g-4">
+            
+            <div class="col-lg-8">
+                <!-- Status Timeline -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-arrow-repeat text-success me-2"></i>Trạng thái đơn hàng
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <template x-for="(step, index) in statusSteps" :key="index">
+                            <div class="timeline-step">
+                                <div class="timeline-dot"
+                                     :class="getStepClass(step.status)">
+                                    <i :class="step.icon" class="text-xs text-white"></i>
+                                </div>
+                                <div class="ms-2">
+                                    <div class="fw-medium" x-text="step.label"></div>
+                                    <div class="small text-muted" x-text="getStepTime(step.status)"></div>
+                                    <div x-show="getStepNotes(step.status)" 
+                                         class="small text-muted mt-1" 
+                                         x-text="getStepNotes(step.status)"></div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Driver Info (if assigned) -->
+                <div x-show="order.driverId" class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-person-circle text-primary me-2"></i>Tài xế giao hàng
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <span class="fw-bold text-primary fs-5" x-text="order.driverName ? order.driverName.charAt(0).toUpperCase() : 'D'"></span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold" x-text="order.driverName"></div>
+                                <div class="small text-muted">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <span x-text="order.driverRating ? order.driverRating.toFixed(1) : 'Chưa có đánh giá'"></span>
+                                </div>
+                            </div>
+                            <a :href="'tel:' + order.driverPhone" 
+                               class="btn btn-sm btn-success">
+                                <i class="bi bi-telephone me-1"></i>Gọi
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Details -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-receipt text-warning me-2"></i>Chi tiết đơn hàng
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Items -->
+                        <div class="mb-3">
+                            <template x-for="item in order.items" :key="item.productId">
+                                <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                                    <img :src="item.imageUrl || '/assets/images/products/product-img-1.jpg'" 
+                                         :alt="item.productName"
+                                         class="rounded me-3"
+                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <div class="fw-medium mb-1" x-text="item.productName"></div>
+                                        <div class="text-muted small">
+                                            <span x-text="formatMoney(item.price)"></span> × <span x-text="item.quantity"></span>
+                                        </div>
+                                    </div>
+                                    <div class="fw-semibold" x-text="formatMoney(item.price * item.quantity)"></div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Pricing Summary -->
+                        <div class="border-top pt-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Tạm tính</span>
+                                <span x-text="formatMoney(order.subtotal)"></span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Phí vận chuyển</span>
+                                <span x-text="formatMoney(order.shippingFee)"></span>
+                            </div>
+                            <div x-show="order.discountAmount > 0" class="d-flex justify-content-between mb-2 text-success">
+                                <span>Giảm giá</span>
+                                <span>-<span x-text="formatMoney(order.discountAmount)"></span></span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3 pt-3 border-top">
+                                <span class="fw-bold fs-5">Tổng cộng</span>
+                                <span class="fw-bold fs-5 text-success" x-text="formatMoney(order.totalPrice)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-geo-alt text-danger me-2"></i>Địa chỉ giao hàng
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="fw-semibold mb-1" x-text="order.customerName"></div>
+                        <div class="small mb-1" x-text="order.customerPhone"></div>
+                        <div class="small text-muted" x-text="order.shippingAddress"></div>
+                    </div>
+                </div>
+
+                <!-- History Timeline -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-clock-history text-info me-2"></i>Lịch sử thay đổi
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <template x-for="log in history" :key="log.id">
+                            <div class="d-flex align-items-start mb-2 pb-2 border-bottom">
+                                <div class="text-muted small me-3" style="min-width: 80px;" x-text="new Date(log.changedAt).toLocaleTimeString('vi-VN')"></div>
+                                <div class="flex-grow-1">
+                                    <span class="fw-medium" x-text="getStatusText(log.newStatus)"></span>
+                                    <span x-show="log.notes" class="text-muted"> - <span x-text="log.notes"></span></span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2">
+                    <!-- Cancel Button -->
+                    <button x-show="order.canCancel" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#cancelModal"
+                            class="btn btn-danger flex-grow-1">
+                        <i class="bi bi-x-circle me-2"></i>Hủy đơn hàng
+                    </button>
+                    
+                    <!-- Review Button -->
+                    <button x-show="order.canReview" 
+                            x-on:click="window.location.href = `/Order/Review/${order.orderId}`"
+                            class="btn btn-warning flex-grow-1">
+                        <i class="bi bi-star me-2"></i>Đánh giá đơn hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancel Modal -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel">Xác nhận hủy đơn hàng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted mb-3">Bạn có chắc chắn muốn hủy đơn hàng này?</p>
+                        
+                        <label class="form-label">Lý do hủy:</label>
+                        <textarea x-model="cancelReason" 
+                                  class="form-control" 
+                                  rows="3"
+                                  placeholder="Nhập lý do hủy đơn..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-danger" x-on:click="cancelOrder" :disabled="cancelling">
+                            <span x-show="!cancelling">Xác nhận hủy</span>
+                            <span x-show="cancelling"><span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div x-show="toast.show" 
+             class="position-fixed bottom-0 end-0 p-3" 
+             style="z-index: 11;">
+            <div class="toast show" role="alert">
+                <div class="toast-header" :class="{'bg-success text-white': toast.type === 'success', 'bg-danger text-white': toast.type === 'error'}">
+                    <i class="bi me-2" :class="toast.type === 'success' ? 'bi-check-circle' : 'bi-exclamation-triangle'"></i>
+                    <strong class="me-auto" x-text="toast.type === 'success' ? 'Thành công' : 'Lỗi'"></strong>
+                    <button type="button" class="btn-close btn-close-white" x-on:click="toast.show = false"></button>
+                </div>
+                <div class="toast-body" x-text="toast.message"></div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+        function trackingApp(orderId) {
+            return {
+                orderId: orderId,
+                order: {},
+                history: [],
+                loading: true,
+                connection: null,
+                showCancelModal: false,
+                cancelReason: '',
+                cancelling: false,
+                toast: { show: false, message: '', type: 'success' },
+                
+                statusSteps: [
+                    { status: 0, label: 'Chờ xác nhận', icon: 'fas fa-clock' },
+                    { status: 1, label: 'Đã xác nhận', icon: 'fas fa-check' },
+                    { status: 2, label: 'Đã có tài xế', icon: 'fas fa-user' },
+                    { status: 3, label: 'Đang lấy hàng', icon: 'fas fa-box' },
+                    { status: 4, label: 'Đang giao hàng', icon: 'fas fa-shipping-fast' },
+                    { status: 5, label: 'Hoàn thành', icon: 'fas fa-check-double' }
+                ],
+
+                async init() {
+                    await this.loadOrder();
+                    await this.loadHistory();
+                    this.setupSignalR();
+                    this.loading = false;
+                },
+
+                async loadOrder() {
+                    try {
+                        const response = await fetch(`/api/orders/${this.orderId}/tracking`);
+                        
+                        if (response.status === 401) {
+                            this.showToast('Vui lòng đăng nhập để xem đơn hàng', 'error');
+                            setTimeout(() => window.location.href = '/Auth/SignIn', 2000);
+                            return;
+                        }
+                        
+                        if (response.status === 403) {
+                            this.showToast('Bạn không có quyền xem đơn hàng này', 'error');
+                            setTimeout(() => window.location.href = '/Order/MyOrders', 2000);
+                            return;
+                        }
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: Failed to load order`);
+                        }
+                        
+                        const result = await response.json();
+                        if (result.success) {
+                            this.order = result.data;
+                        } else {
+                            this.showToast(result.message || 'Không thể tải đơn hàng', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Load order error:', error);
+                        this.showToast('Không thể tải thông tin đơn hàng. Vui lòng thử lại.', 'error');
+                    }
+                },
+
+                async loadHistory() {
+                    try {
+                        const response = await fetch(`/api/orders/${this.orderId}/history`);
+                        if (!response.ok) throw new Error('Failed to load history');
+                        
+                        const result = await response.json();
+                        if (result.success) {
+                            this.history = result.data;
+                        }
+                    } catch (error) {
+                        console.error('Load history error:', error);
+                    }
+                },
+
+                setupSignalR() {
+                    this.connection = new signalR.HubConnectionBuilder()
+                        .withUrl("/hubs/order")
+                        .withAutomaticReconnect()
+                        .build();
+
+                    this.connection.on("OrderStatusUpdated", (data) => {
+                        if (data.orderId === this.orderId) {
+                            this.showToast(data.message, 'success');
+                            this.loadOrder();
+                            this.loadHistory();
+                        }
+                    });
+
+                    this.connection.on("OrderCancelled", (data) => {
+                        if (data.orderId === this.orderId) {
+                            this.showToast('Đơn hàng đã bị hủy', 'error');
+                            this.loadOrder();
+                            this.loadHistory();
+                        }
+                    });
+
+                    this.connection.start()
+                        .then(() => {
+                            this.connection.invoke("JoinOrderGroup", this.orderId);
+                        })
+                        .catch(err => console.error('SignalR connection error:', err));
+                },
+
+                async cancelOrder() {
+                    if (!this.cancelReason.trim()) {
+                        this.showToast('Vui lòng nhập lý do hủy đơn', 'error');
+                        return;
+                    }
+
+                    this.cancelling = true;
+                    try {
+                        const response = await fetch(`/api/orders/${this.orderId}/cancel`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ reason: this.cancelReason })
+                        });
+
+                        const result = await response.json();
+                        if (result.success) {
+                            this.showToast('Đơn hàng đã được hủy thành công', 'success');
+                            
+                            // Close modal using Bootstrap API
+                            const modalEl = document.getElementById('cancelModal');
+                            const modal = bootstrap.Modal.getInstance(modalEl);
+                            if (modal) modal.hide();
+                            
+                            this.cancelReason = '';
+                            await this.loadOrder();
+                            await this.loadHistory();
+                        } else {
+                            this.showToast(result.message, 'error');
+                        }
+                    } catch (error) {
+                        console.error('Cancel order error:', error);
+                        this.showToast('Không thể hủy đơn hàng', 'error');
+                    } finally {
+                        this.cancelling = false;
+                    }
+                },
+
+                getStepClass(status) {
+                    if (this.order.status === status) return 'active';
+                    if (this.order.status > status) return 'completed';
+                    return '';
+                },
+
+                getStepTime(status) {
+                    const log = this.history.find(h => h.newStatus === status);
+                    return log ? new Date(log.changedAt).toLocaleString('vi-VN') : '';
+                },
+
+                getStepNotes(status) {
+                    const log = this.history.find(h => h.newStatus === status);
+                    return log?.notes || '';
+                },
+
+                getStatusText(status) {
+                    const texts = {
+                        0: 'Chờ xác nhận',
+                        1: 'Đã xác nhận',
+                        2: 'Đã có tài xế',
+                        3: 'Đang lấy hàng',
+                        4: 'Đang giao hàng',
+                        5: 'Hoàn thành',
+                        6: 'Đã hủy',
+                        7: 'Đã hoàn tiền'
+                    };
+                    return texts[status] || 'Không xác định';
+                },
+
+                getStatusBadgeClass(status) {
+                    const classes = {
+                        0: 'bg-secondary',
+                        1: 'bg-info',
+                        2: 'bg-primary',
+                        3: 'bg-warning text-dark',
+                        4: 'bg-info',
+                        5: 'bg-success',
+                        6: 'bg-danger',
+                        7: 'bg-warning text-dark'
+                    };
+                    return classes[status] || 'bg-secondary';
+                },
+
+                formatMoney(amount) {
+                    return new Intl.NumberFormat('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }).format(amount);
+                },
+
+                showToast(message, type = 'success') {
+                    this.toast = { show: true, message, type };
+                    setTimeout(() => {
+                        this.toast.show = false;
+                    }, 3000);
+                }
+            };
+        }
+    </script>
+

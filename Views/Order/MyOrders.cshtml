@@ -1,0 +1,453 @@
+@{
+    ViewData["Title"] = "Đơn hàng của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<style>
+    [x-cloak] { display: none !important; }
+    
+    .order-card {
+        transition: all 0.2s;
+        border: 1px solid #dee2e6;
+    }
+    
+    .order-card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+    
+    .nav-pills .nav-link.active {
+        background-color: #0aad0a;
+    }
+    
+    .nav-pills .nav-link {
+        color: #6c757d;
+    }
+    
+    .nav-pills .nav-link:hover {
+        color: #0aad0a;
+    }
+</style>
+
+<!-- Container giống trang Payment - max width -->
+<div class="container py-4" style="max-width: 1200px;" x-data="myOrdersApp()" x-init="init()" x-cloak>
+    
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Trang chủ</a></li>
+            <li class="breadcrumb-item active">Đơn hàng của tôi</li>
+        </ol>
+    </nav>
+    
+    <!-- Page Title -->
+    <h3 class="mb-4">
+        <i class="bi bi-bag-check text-success me-2"></i>Đơn hàng của tôi
+    </h3>
+
+    <!-- Filter Pills - Responsive -->
+    <div class="mb-4">
+        <ul class="nav nav-pills flex-wrap gap-2" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-3 py-2" :class="filter === null ? 'active' : ''" x-on:click="changeFilter(null)">
+                    Tất cả
+                    <span x-show="counts.all > 0" class="badge bg-light text-dark ms-1" x-text="counts.all"></span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-3 py-2" :class="filter === '1' ? 'active' : ''" x-on:click="changeFilter('1')">
+                    <i class="bi bi-clock-history me-1"></i>Chờ tài xế
+                    <span x-show="counts.pending > 0" class="badge bg-light text-dark ms-1" x-text="counts.pending"></span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-3 py-2" :class="filter === '2,3' ? 'active' : ''" x-on:click="changeFilter('2,3')">
+                    <i class="bi bi-truck me-1"></i>Đang giao
+                    <span x-show="counts.delivering > 0" class="badge bg-light text-dark ms-1" x-text="counts.delivering"></span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-3 py-2" :class="filter === '4' ? 'active' : ''" x-on:click="changeFilter('4')">
+                    <i class="bi bi-check-circle me-1"></i>Hoàn thành
+                    <span x-show="counts.completed > 0" class="badge bg-light text-dark ms-1" x-text="counts.completed"></span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-3 py-2" :class="filter === '5' ? 'active' : ''" x-on:click="changeFilter('5')">
+                    <i class="bi bi-x-circle me-1"></i>Đã hủy
+                    <span x-show="counts.cancelled > 0" class="badge bg-light text-dark ms-1" x-text="counts.cancelled"></span>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Loading State -->
+    <div x-show="loading" class="text-center py-5">
+        <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Đang tải...</span>
+        </div>
+        <p class="mt-3 text-muted">Đang tải đơn hàng...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div x-show="!loading && orders.length === 0" class="text-center py-5">
+        <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
+        <h5 class="mt-3 text-muted">Chưa có đơn hàng nào</h5>
+        <p class="text-muted mb-4">Hãy bắt đầu mua sắm để tạo đơn hàng đầu tiên!</p>
+        <a href="/Shop" class="btn btn-success">
+            <i class="bi bi-shop me-2"></i>Khám phá sản phẩm
+        </a>
+    </div>
+
+    <!-- Orders List - Responsive Grid -->
+    <div x-show="!loading && orders.length > 0" class="row g-3">
+        <template x-for="order in orders" :key="order.orderId">
+            <div class="col-12 col-lg-6">
+                <div class="card order-card h-100">
+                    <!-- Order Header -->
+                    <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between py-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-receipt text-success me-2"></i>
+                            <span class="fw-semibold small" x-text="order.orderCode"></span>
+                        </div>
+                        <span class="badge" :class="getStatusBadgeClass(order.status)" x-text="getStatusText(order.status)"></span>
+                    </div>
+
+                    <!-- Order Body -->
+                    <div class="card-body">
+                        <!-- Items List với toggle -->
+                        <div class="mb-3" x-show="order.items && order.items.length > 0" x-data="{ showAll: false }">
+                            <!-- Show first item -->
+                            <div class="d-flex align-items-center mb-2">
+                                <img :src="order.items[0]?.imageUrl || '/assets/images/products/product-img-1.jpg'" 
+                                     :alt="order.items[0]?.productName"
+                                     class="rounded me-3"
+                                     style="width: 60px; height: 60px; object-fit: cover;">
+                                <div class="flex-grow-1">
+                                    <div class="fw-medium mb-1" x-text="order.items[0]?.productName"></div>
+                                    <div class="text-muted small">
+                                        <span x-text="formatMoney(order.items[0]?.price)"></span> × 
+                                        <span x-text="order.items[0]?.quantity"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Show rest of items when expanded -->
+                            <div x-show="showAll" x-collapse>
+                                <template x-for="item in order.items.slice(1)" :key="item.productId">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img :src="item.imageUrl || '/assets/images/products/product-img-1.jpg'" 
+                                             :alt="item.productName"
+                                             class="rounded me-3"
+                                             style="width: 60px; height: 60px; object-fit: cover;">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-medium mb-1" x-text="item.productName"></div>
+                                            <div class="text-muted small">
+                                                <span x-text="formatMoney(item.price)"></span> × 
+                                                <span x-text="item.quantity"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            
+                            <!-- Toggle button -->
+                            <div x-show="order.items.length > 1" class="text-center">
+                                <button class="btn btn-link btn-sm text-decoration-none p-0" 
+                                        x-on:click="showAll = !showAll">
+                                    <i class="bi" :class="showAll ? 'bi-dash-circle' : 'bi-plus-circle'"></i>
+                                    <span x-text="showAll ? 'Thu gọn' : `Xem thêm ${order.items.length - 1} sản phẩm khác`"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                            <span class="text-muted small">Tổng cộng:</span>
+                            <span class="fw-bold text-success fs-5" x-text="formatMoney(order.totalPrice)"></span>
+                        </div>
+
+                        <div class="text-muted small mb-3">
+                            <i class="bi bi-clock me-1"></i>
+                            <span x-text="new Date(order.createdAt).toLocaleString('vi-VN')"></span>
+                        </div>
+
+                        <!-- Action Buttons - Stack on mobile -->
+                        <div class="d-grid gap-2">
+                            <div class="d-flex gap-2">
+                                <!-- View Tracking -->
+                                <button x-on:click="viewTracking(order.orderId)"
+                                        class="btn btn-success btn-sm flex-fill">
+                                    <i class="bi bi-geo-alt me-1"></i>Theo dõi
+                                </button>
+
+                                <!-- Cancel Order -->
+                                <button x-show="order.canCancel"
+                                        x-on:click="showCancelModal(order)"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#cancelModal"
+                                        class="btn btn-outline-danger btn-sm flex-fill">
+                                    <i class="bi bi-x-circle me-1"></i>Hủy
+                                </button>
+
+                                <!-- Review Order -->
+                                <button x-show="order.canReview"
+                                        x-on:click="reviewOrder(order.orderId)"
+                                        class="btn btn-warning btn-sm flex-fill">
+                                    <i class="bi bi-star me-1"></i>Đánh giá
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <!-- Load More -->
+    <div x-show="hasMore && !loading" class="text-center mt-4">
+        <button x-on:click="loadMore" class="btn btn-outline-success">
+            <i class="bi bi-chevron-down me-2"></i>Xem thêm đơn hàng
+        </button>
+    </div>
+
+    <!-- Cancel Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-circle text-warning me-2"></i>
+                        Xác nhận hủy đơn hàng
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <strong>Đơn hàng:</strong> <span x-text="cancelModal.order?.orderCode"></span>
+                    </div>
+                    
+                    <label class="form-label fw-semibold">Lý do hủy đơn:</label>
+                    <textarea x-model="cancelModal.reason" 
+                              class="form-control" 
+                              rows="3"
+                              placeholder="Vui lòng cho chúng tôi biết lý do bạn hủy đơn..."></textarea>
+                    <small class="text-muted">Thông tin này giúp chúng tôi cải thiện dịch vụ tốt hơn.</small>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" x-on:click="confirmCancel" :disabled="cancelModal.processing">
+                        <span x-show="!cancelModal.processing">
+                            <i class="bi bi-x-circle me-1"></i>Xác nhận hủy
+                        </span>
+                        <span x-show="cancelModal.processing">
+                            <span class="spinner-border spinner-border-sm me-2"></span>Đang xử lý...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div x-show="toast.show" 
+         x-transition
+         class="position-fixed bottom-0 end-0 p-3" 
+         style="z-index: 9999;">
+        <div class="toast show shadow-lg" role="alert">
+            <div class="toast-header" :class="{'bg-success text-white': toast.type === 'success', 'bg-danger text-white': toast.type === 'error'}">
+                <i class="bi me-2" :class="toast.type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i>
+                <strong class="me-auto" x-text="toast.type === 'success' ? 'Thành công' : 'Lỗi'"></strong>
+                <button type="button" class="btn-close btn-close-white" x-on:click="toast.show = false"></button>
+            </div>
+            <div class="toast-body" x-text="toast.message"></div>
+        </div>
+    </div>
+    
+</div>
+<!-- End Container -->
+
+<script>
+        function myOrdersApp() {
+            return {
+                orders: [],
+                filter: null,
+                page: 1,
+                pageSize: 10,
+                hasMore: true,
+                loading: true,
+                counts: { all: 0, pending: 0, delivering: 0, completed: 0, cancelled: 0 },
+                cancelModal: { show: false, order: null, reason: '', processing: false },
+                toast: { show: false, message: '', type: 'success' },
+
+                async init() {
+                    await this.loadOrders();
+                    await this.loadCounts();
+                    this.loading = false;
+                },
+
+                async loadOrders(reset = true) {
+                    if (reset) {
+                        this.page = 1;
+                        this.orders = [];
+                    }
+
+                    try {
+                        let url = `/api/orders/my-orders?page=${this.page}&pageSize=${this.pageSize}`;
+                        if (this.filter) {
+                            url += `&status=${this.filter}`;
+                        }
+
+                        const response = await fetch(url);
+                        if (!response.ok) throw new Error('Failed to load orders');
+                        
+                        const result = await response.json();
+                        if (result.success) {
+                            if (reset) {
+                                this.orders = result.data;
+                            } else {
+                                this.orders.push(...result.data);
+                            }
+                            this.hasMore = result.data.length === this.pageSize;
+                        }
+                    } catch (error) {
+                        console.error('Load orders error:', error);
+                        this.showToast('Không thể tải danh sách đơn hàng', 'error');
+                    }
+                },
+
+                async loadCounts() {
+                    try {
+                        const response = await fetch('/api/orders/my-orders?page=1&pageSize=1000');
+                        if (response.ok) {
+                            const result = await response.json();
+                            if (result.success) {
+                                const allOrders = result.data;
+                                this.counts.all = allOrders.length;
+                                // Status mới: 1=Chờ tài xế, 2=Đang lấy, 3=Đang giao, 4=Hoàn thành, 5=Hủy, 6=Hoàn tiền
+                                this.counts.pending = allOrders.filter(o => o.status === 1).length;
+                                this.counts.delivering = allOrders.filter(o => [2, 3].includes(o.status)).length;
+                                this.counts.completed = allOrders.filter(o => o.status === 4).length;
+                                this.counts.cancelled = allOrders.filter(o => o.status === 5).length;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Load counts error:', error);
+                    }
+                },
+
+                async changeFilter(newFilter) {
+                    this.filter = newFilter;
+                    this.loading = true;
+                    await this.loadOrders(true);
+                    this.loading = false;
+                },
+
+                async loadMore() {
+                    this.page++;
+                    await this.loadOrders(false);
+                },
+
+                viewTracking(orderId) {
+                    window.location.href = `/Order/Tracking/${orderId}`;
+                },
+
+                reviewOrder(orderId) {
+                    window.location.href = `/Order/Review/${orderId}`;
+                },
+
+                showCancelModal(order) {
+                    this.cancelModal = {
+                        show: true,
+                        order: order,
+                        reason: '',
+                        processing: false
+                    };
+                },
+
+                async confirmCancel() {
+                    if (!this.cancelModal.reason.trim()) {
+                        this.showToast('Vui lòng nhập lý do hủy đơn', 'error');
+                        return;
+                    }
+
+                    this.cancelModal.processing = true;
+
+                    try {
+                        const response = await fetch(`/api/orders/${this.cancelModal.order.orderId}/cancel`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ reason: this.cancelModal.reason })
+                        });
+
+                        const result = await response.json();
+                        if (result.success) {
+                            this.showToast('Đơn hàng đã được hủy thành công', 'success');
+                            
+                            // Close modal using Bootstrap API
+                            const modalEl = document.getElementById('cancelModal');
+                            const modal = bootstrap.Modal.getInstance(modalEl);
+                            if (modal) modal.hide();
+                            
+                            await this.loadOrders(true);
+                            await this.loadCounts();
+                        } else {
+                            this.showToast(result.message, 'error');
+                        }
+                    } catch (error) {
+                        console.error('Cancel order error:', error);
+                        this.showToast('Không thể hủy đơn hàng', 'error');
+                    } finally {
+                        this.cancelModal.processing = false;
+                    }
+                },
+
+                async reorder(orderId) {
+                    // TODO: Implement reorder logic
+                    this.showToast('Tính năng đang được phát triển', 'error');
+                },
+
+                getStatusText(status) {
+                    // Status mới: 1=Chờ tài xế, 2=Đang lấy, 3=Đang giao, 4=Hoàn thành, 5=Hủy, 6=Hoàn tiền
+                    const texts = {
+                        1: 'Chờ tài xế',
+                        2: 'Đang lấy đồ ăn',
+                        3: 'Đang giao hàng',
+                        4: 'Hoàn thành',
+                        5: 'Đã hủy',
+                        6: 'Hoàn tiền'
+                    };
+                    return texts[status] || 'Không xác định';
+                },
+
+                getStatusBadgeClass(status) {
+                    // Status mới: 1=Chờ tài xế, 2=Đang lấy, 3=Đang giao, 4=Hoàn thành, 5=Hủy, 6=Hoàn tiền
+                    const classes = {
+                        1: 'bg-warning text-dark',     // Chờ tài xế - vàng
+                        2: 'bg-info',                  // Đang lấy - xanh dương
+                        3: 'bg-primary',               // Đang giao - xanh đậm
+                        4: 'bg-success',               // Hoàn thành - xanh lá
+                        5: 'bg-danger',                // Hủy - đỏ
+                        6: 'bg-warning text-dark'       // Hoàn tiền - vàng
+                    };
+                    return classes[status] || 'bg-secondary';
+                },
+
+                formatMoney(amount) {
+                    return new Intl.NumberFormat('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    }).format(amount);
+                },
+
+                showToast(message, type = 'success') {
+                    this.toast = { show: true, message, type };
+                    setTimeout(() => {
+                        this.toast.show = false;
+                    }, 3000);
+                }
+            };
+        }
+    </script>
+

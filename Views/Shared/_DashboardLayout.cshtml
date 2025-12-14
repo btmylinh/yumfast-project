@@ -66,6 +66,15 @@
 			background-color: var(--primary-green-dark) !important;
 			border-color: var(--primary-green-dark) !important;
 		}
+
+        /* Emphasis style for Dashboard nav */
+        .navbar-vertical .nav-link.dashboard-emphasis {
+            border-left: 4px solid var(--primary-green);
+            background: linear-gradient(90deg, rgba(40,167,69,0.15) 0%, rgba(40,167,69,0) 100%);
+        }
+        .navbar-vertical .nav-link.dashboard-emphasis.active {
+            background: linear-gradient(90deg, rgba(40,167,69,0.3) 0%, rgba(40,167,69,0.05) 100%);
+        }
 	</style>
 	
 	<!-- Alpine.js -->
@@ -331,7 +340,7 @@
 							}
 						}">
 							<li class="nav-item">
-								<a class="nav-link" :class="{ 'active': isActiveMenu('dashboard') }" href="@Url.Action("Index", "Dashboard")">
+								<a class="nav-link dashboard-emphasis" :class="{ 'active': isActiveMenu('dashboard') }" href="@Url.Action("Index", "Dashboard")">
 									<div class="d-flex align-items-center">
 										<span class="nav-link-icon"><i class="bi bi-house"></i></span>
 										<span class="nav-link-text">@ViewBag.Dashboard</span>
@@ -339,7 +348,7 @@
 								</a>
 							</li>
 							<li class="nav-item mt-6 mb-3">
-								<span class="nav-label">Store Managements</span>
+								<span class="nav-label">@ViewBag.StoreManagements</span>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -410,7 +419,7 @@
 								<a class="nav-link" :class="{ 'active': isActiveMenu('orders') }" href="@Url.Action("Orders", "Admin")">
 									<div class="d-flex align-items-center">
 										<span class="nav-link-icon"><i class="bi bi-bag"></i></span>
-										<span class="nav-link-text">Orders</span>
+										<span class="nav-link-text">@ViewBag.Orders</span>
 									</div>
 								</a>
 							</li>
@@ -418,7 +427,7 @@
 								<a class="nav-link" :class="{ 'active': isActiveMenu('users') }" href="@Url.Action("Users", "Admin")">
 									<div class="d-flex align-items-center">
 										<span class="nav-link-icon"><i class="bi bi-people"></i></span>
-										<span class="nav-link-text">Users</span>
+										<span class="nav-link-text">@ViewBag.Users</span>
 									</div>
 								</a>
 							</li>
@@ -432,6 +441,12 @@
 								</a>
 							</li>
 							<li class="nav-item">
+	                                <a class="nav-link @(((ViewContext.RouteData.Values["controller"] as string)=="Admin" && (ViewContext.RouteData.Values["action"] as string)=="Inventory") ? "active" : "")" href="@Url.Action("Inventory","Admin")">
+                                    <div class="d-flex align-items-center">
+                                        <span class="nav-link-icon"><i class="bi bi-box-seam"></i></span>
+                                        <span class="nav-link-text">@ViewBag.Inventory</span>
+                                    </div>
+                                </a>
 								<a class="nav-link" :class="{ 'active': isActiveMenu('reports') }" href="@Url.Action("Reports", "Admin")">
 									<div class="d-flex align-items-center">
 										<span class="nav-link-icon"><i class="bi bi-graph-up"></i></span>
@@ -458,7 +473,7 @@
 								<a class="nav-link  active " href="index.html">
 									<div class="d-flex align-items-center">
 										<span class="nav-link-icon"><i class="bi bi-house"></i></span>
-										<span>Dashboard</span>
+										<span>@ViewBag.Dashboard</span>
 									</div>
 								</a>
 							</li>
@@ -486,7 +501,7 @@
 									data-bs-target="#navOrders" aria-expanded="false" aria-controls="navOrders">
 									<div class="d-flex align-items-center">
 										<span class="nav-link-icon"><i class="bi bi-bag"></i></span>
-										<span class="nav-link-text">Orders</span>
+										<span class="nav-link-text">@ViewBag.Orders</span>
 									</div>
 								</a>
 								<div id="navOrders" class="collapse " data-bs-parent="#sideNavbar">
@@ -513,7 +528,7 @@
 								<a class="nav-link " href="users.html">
 									<div class="d-flex align-items-center">
 										<span class="nav-link-icon"><i class="bi bi-people"></i></span>
-										<span class="nav-link-text">Users</span>
+										<span class="nav-link-text">@ViewBag.Users</span>
 									</div>
 								</a>
 							</li>
@@ -675,6 +690,18 @@
 
 	<script src="~/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
 	<script src="~/assets/js/vendors/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@7.0.5/dist/browser/signalr.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async function(){
+        try {
+          var token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+          if (!token) { window.location.href = '/auth/SignIn'; return; }
+          const res = await fetch('/api/user/is-admin', { headers: { 'Authorization': 'Bearer ' + token } });
+          const j = await res.json().catch(()=>null);
+          if (!res.ok || !j || !j.isAdmin) { window.location.href = '/'; return; }
+        } catch(e){ window.location.href = '/'; }
+      });
+    </script>
 
 	@await RenderSectionAsync("Scripts", required: false)
 </body>

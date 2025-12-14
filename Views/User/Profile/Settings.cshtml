@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
   if (!token) {
     alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.SignInFailed)');
-    window.location.href = '@Url.Action("SignIn","AuthView")';
+    window.location.href = '/auth/SignIn';
     return;
   }
   try {

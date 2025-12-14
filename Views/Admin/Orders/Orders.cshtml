@@ -60,7 +60,14 @@
                                         <div class="dropdown">
                                             <a href="#" class="text-reset" data-bs-toggle="dropdown"><i class="feather-icon icon-more-vertical fs-5"></i></a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-3"></i>@ViewBag.View</a></li>
+                                                <li><a class="dropdown-item" href="@Url.Action("OrderDetail","Admin")"><i class="bi bi-eye me-3"></i>@ViewBag.View</a></li>
+                                                <li><hr class="dropdown-divider" /></li>
+                                                <li class="dropdown-header">Cập nhật trạng thái</li>
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="updateStatus(o,0)"><span class="badge bg-light-warning text-dark-warning me-2">Pending</span> Pending</a></li>
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="updateStatus(o,1)"><span class="badge bg-light-primary text-dark-primary me-2">Processing</span> Processing</a></li>
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="updateStatus(o,2)"><span class="badge bg-light-primary text-dark-primary me-2">Shipped</span> Shipped</a></li>
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="updateStatus(o,3)"><span class="badge bg-light-success text-dark-success me-2">Delivered</span> Delivered</a></li>
+                                                <li><a class="dropdown-item" href="#" x-on:click.prevent="updateStatus(o,4)"><span class="badge bg-light-danger text-dark-danger me-2">Cancelled</span> Cancelled</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -76,15 +83,18 @@
             <script>
             function ordersAdmin(){
               return {
-                items:[], loading:false, error:false, search:'', status:'',
-                init(){ this.load(); },
+                items:[], loading:false, error:false, search:'', status:'', connection:null,
+                init(){ this.load(); this.initHub(); },
                 formatPrice(v){ try{ return new Intl.NumberFormat('vi-VN').format(v); }catch{ return String(v); } },
                 formatDate(s){ try{ return new Date(s).toLocaleString('vi-VN'); }catch{ return s; } },
                 paymentText(p){ return p===1? 'Paid' : (p===2? 'Refunded' : 'Unpaid'); },
                 paymentBadge(p){ return p===1? 'bg-light-primary text-dark-primary' : (p===2? 'bg-light-warning text-dark-warning' : 'bg-light-secondary text-dark'); },
                 statusText(st){ switch(st){ case 0: return 'Pending'; case 1: return 'Processing'; case 2: return 'Shipped'; case 3: return 'Delivered'; case 4: return 'Cancelled'; default: return String(st);} },
                 statusBadge(st){ switch(st){ case 0: return 'bg-light-warning text-dark-warning'; case 3: return 'bg-light-success text-dark-success'; case 4: return 'bg-light-danger text-dark-danger'; default: return 'bg-light-primary text-dark-primary'; } },
-                async load(){ this.loading=true; this.error=false; try{ const u=new URL('/api/orders', window.location.origin); if(this.search) u.searchParams.set('search', this.search); if(this.status!=='') u.searchParams.set('status', this.status); u.searchParams.set('pageSize','200'); const r=await fetch(u); const j=await r.json(); this.items=j.data||[]; }catch(e){ this.error=true; } finally{ this.loading=false; } }
+                async load(){ this.loading=true; this.error=false; try{ const u=new URL('/api/orders', window.location.origin); if(this.search) u.searchParams.set('search', this.search); if(this.status!=='') u.searchParams.set('status', this.status); u.searchParams.set('pageSize','200'); const r=await fetch(u); const j=await r.json(); this.items=j.data||[]; }catch(e){ this.error=true; } finally{ this.loading=false; } },
+                async updateStatus(order, st){ try{ const note = prompt('Ghi chú (tuỳ chọn):',''); const r = await fetch(`/api/orders/${order.id}/status`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status: st, note }) }); if(r.ok){ await this.load(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'Cập nhật trạng thái thất bại'); } } catch(e){ alert('Lỗi kết nối máy chủ'); } },
+                async initHub(){ try { if(window.signalR){ this.connection = new signalR.HubConnectionBuilder().withUrl('/order-hub').withAutomaticReconnect().build(); this.connection.on('OrderUpdated', (orderId, status)=>{ this.load(); }); await this.connection.start(); } } catch(e){ console.warn('Order hub init failed', e); }
+                }
               }
             }
             </script>

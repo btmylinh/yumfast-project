@@ -27,6 +27,12 @@ public class AdminController : BaseController
         return View("~/Views/Admin/Orders/Orders.cshtml");
     }
 
+    // GET: Admin/Inventory
+    public IActionResult Inventory()
+    {
+        return View("~/Views/Admin/Inventory.cshtml");
+    }
+
     // GET: Admin/Users
     public IActionResult Users()
     {

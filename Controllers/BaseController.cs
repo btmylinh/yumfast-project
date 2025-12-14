@@ -84,6 +84,22 @@ namespace WebApp.Controllers
             ViewBag.AddToCart = _localizationService.GetLocalizedString("addToCart");
             ViewBag.Quantity = _localizationService.GetLocalizedString("quantity");
 
+            // UI misc labels for JS/templates
+            ViewBag.QuickView = _localizationService.GetLocalizedString("quick_view");
+            ViewBag.Wishlist = _localizationService.GetLocalizedString("wishlist");
+            ViewBag.Compare = _localizationService.GetLocalizedString("compare");
+            ViewBag.NewBadge = _localizationService.GetLocalizedString("new_badge");
+            ViewBag.SaleBadge = _localizationService.GetLocalizedString("sale_badge");
+            ViewBag.DealHurry = _localizationService.GetLocalizedString("deal_hurry");
+            ViewBag.AlreadySold = _localizationService.GetLocalizedString("already_sold");
+            ViewBag.Available = _localizationService.GetLocalizedString("available");
+
+            // Home headings
+            ViewBag.NewProducts = _localizationService.GetLocalizedString("new_products");
+            ViewBag.BestSellingProducts = _localizationService.GetLocalizedString("best_selling_products");
+            ViewBag.DealOfDay = _localizationService.GetLocalizedString("deal_of_day");
+            ViewBag.ViewAll = _localizationService.GetLocalizedString("view_all");
+
             // Dashboard specific strings
             ViewBag.WelcomeBack = _localizationService.GetLocalizedString("welcomeBack");
             ViewBag.WelcomeDescription = _localizationService.GetLocalizedString("welcomeDescription");
@@ -112,6 +128,8 @@ namespace WebApp.Controllers
             ViewBag.StoreManagements = _localizationService.GetLocalizedString("storeManagements");
             ViewBag.Users = _localizationService.GetLocalizedString("users");
             ViewBag.Reviews = _localizationService.GetLocalizedString("reviews");
+            ViewBag.Reports = _localizationService.GetLocalizedString("reports");
+            ViewBag.Inventory = _localizationService.GetLocalizedString("inventory");
 
             // Product page strings
             ViewBag.ProductTitle = _localizationService.GetLocalizedString("product_title");
@@ -392,6 +410,34 @@ ViewBag.ResendOtpButton = _localizationService.GetLocalizedString("resend_otp_bu
             ViewBag.ChatSend = _localizationService.GetLocalizedString("chat_send");
             ViewBag.ChatWelcome = _localizationService.GetLocalizedString("chat_welcome");
             ViewBag.ChatConnectionError = _localizationService.GetLocalizedString("chat_connection_error");
+
+            // Checkout & Order Status & Messages
+            ViewBag.CheckoutTitle = _localizationService.GetLocalizedString("checkout_title");
+            ViewBag.CheckoutAddress = _localizationService.GetLocalizedString("checkout_address");
+            ViewBag.CheckoutSelectAddress = _localizationService.GetLocalizedString("checkout_select_address");
+            ViewBag.CheckoutShippingFee = _localizationService.GetLocalizedString("checkout_shipping_fee");
+            ViewBag.CheckoutSubtotal = _localizationService.GetLocalizedString("checkout_subtotal");
+            ViewBag.CheckoutDiscount = _localizationService.GetLocalizedString("checkout_discount");
+            ViewBag.CheckoutTotal = _localizationService.GetLocalizedString("checkout_total");
+            ViewBag.CheckoutPlaceOrder = _localizationService.GetLocalizedString("checkout_place_order");
+            ViewBag.CheckoutPaymentMethod = _localizationService.GetLocalizedString("checkout_payment_method");
+            ViewBag.CheckoutCouponCode = _localizationService.GetLocalizedString("checkout_coupon_code");
+
+            ViewBag.StatusPlaced = _localizationService.GetLocalizedString("status_placed");
+            ViewBag.StatusProcessing = _localizationService.GetLocalizedString("status_processing");
+            ViewBag.StatusShipping = _localizationService.GetLocalizedString("status_shipping");
+            ViewBag.StatusPaid = _localizationService.GetLocalizedString("status_paid");
+            ViewBag.StatusCompleted = _localizationService.GetLocalizedString("status_completed");
+            ViewBag.StatusCancelled = _localizationService.GetLocalizedString("status_cancelled");
+
+            ViewBag.MsgSelectAddress = _localizationService.GetLocalizedString("msg_select_address");
+            ViewBag.MsgCartEmpty = _localizationService.GetLocalizedString("msg_cart_empty");
+            ViewBag.MsgOutOfStock = _localizationService.GetLocalizedString("msg_out_of_stock");
+            ViewBag.MsgPaymentError = _localizationService.GetLocalizedString("msg_payment_error");
+            ViewBag.MsgCheckoutFailed = _localizationService.GetLocalizedString("msg_checkout_failed");
+            ViewBag.MsgServerError = _localizationService.GetLocalizedString("msg_server_error");
+            ViewBag.MsgLoginRequired = _localizationService.GetLocalizedString("msg_login_required");
+            ViewBag.LoadMore = _localizationService.GetLocalizedString("load_more");
 
             // Coupon strings
             ViewBag.CouponTitle = _localizationService.GetLocalizedString("couponTitle");

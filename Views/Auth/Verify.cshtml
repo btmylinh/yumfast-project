@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
         emailInput.readOnly = true;
     } else {
         alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.VerifyEmailNotFound)');
-        window.location.href = '@Url.Action("SignUp","AuthView")';
+        window.location.href = '/auth/SignUp';
     }
 });
 document.getElementById("verifyForm").addEventListener("submit", async (e) => {
@@ -85,7 +85,7 @@ document.getElementById("verifyForm").addEventListener("submit", async (e) => {
         alert(messageFromCode(json.code, '@ViewBag.VerifySuccess'));
         // Clear the pending email on successful verification
         localStorage.removeItem('pendingEmail');
-    window.location.href = '@Url.Action("SignIn","AuthView")';
+    window.location.href = '/auth/SignIn';
     } else {
         alert(messageFromCode(json.code, '@ViewBag.GenericError'));
     }

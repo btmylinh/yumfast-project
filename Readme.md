@@ -1,4 +1,5 @@
 dotnet watch run
+dotnet run
 
 # Hướng dẫn quy trình git làm việc với team
 

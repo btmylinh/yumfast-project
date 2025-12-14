@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WebApp.Data;
 using WebApp.Services;
+using WebApp.Services.Interfaces;
 using WebApp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,8 +41,25 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 // Localization service
-
 builder.Services.AddSingleton<IJsonLocalizationService, JsonLocalizationService>();
+
+// Shipping fee service (zone-based)
+builder.Services.AddScoped<IShippingFeeService, ShippingFeeService>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
+builder.Services.AddScoped<ICheckoutService, CheckoutService>();
+builder.Services.AddScoped<WebApp.Services.IPaymentService, PaymentService>(); // ⚠️ Keep old for compatibility
+builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+
+// 🆕 New payment services (VNPay/Momo)
+builder.Services.AddScoped<VNPayService>(); // Register as concrete type for now
+builder.Services.AddScoped<MoMoService>(); // MoMo payment service
+
+// 🆕 New services for driver & tracking
+builder.Services.AddScoped<IDriverService, DriverService>();
+builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
+builder.Services.AddScoped<IOrderReviewService, OrderReviewService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Product catalog (demo in-memory)
 builder.Services.AddSingleton<IProductCatalogService, ProductCatalogService>();
@@ -52,6 +70,13 @@ builder.Services.AddSingleton<IProductCatalogService, ProductCatalogService>();
 // DB connection 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// 🆕 Register NpgsqlConnection for services using Dapper
+builder.Services.AddScoped<Npgsql.NpgsqlConnection>(sp =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    return new Npgsql.NpgsqlConnection(connectionString);
+});
 
 // Cookie Auth 
 builder.Services.AddAuthentication(options =>
@@ -106,9 +131,18 @@ builder.Services.AddCors(options =>
                         .AllowCredentials());
 });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        // Convert property names to camelCase for JavaScript compatibility
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
+
+// App services DI
+builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddSignalR();
 builder.Services.AddHostedService<WebApp.Services.UnverifiedUserCleanupService>();
+builder.Services.AddHostedService<WebApp.Services.CartReservationCleanupService>(); // 🆕
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -194,12 +228,13 @@ app.UseCsp(options => options
     .FormActions(s => s.Self())
     .FrameAncestors(s => s.Self())
     // Cho phép ảnh từ self, data:, Unsplash, jsdelivr
-    .ImageSources(s => s.Self().CustomSources("data:", "https://images.unsplash.com", "https://cdn.jsdelivr.net"))
+    .ImageSources(s => s.Self().CustomSources("data:", "https://images.unsplash.com", "https://cdn.jsdelivr.net", "https://www.google.com", "https://www.google.com.vn", "https://www.google-analytics.com", "https://www.googletagmanager.com"))
     // Cho phép script từ self, inline, eval, jsdelivr, Google Tag Manager, Clarity
     .ScriptSources(s => s.Self().UnsafeInline().UnsafeEval().CustomSources(
         "https://cdn.jsdelivr.net",
         "https://www.googletagmanager.com",
-        "https://www.clarity.ms"
+        "https://www.clarity.ms",
+        "https://unpkg.com"
     ))
 ); 
 // 3. Bật CORS cho frontend
@@ -208,6 +243,27 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+// Explicit conventional routes for product detail and auth views
+app.MapControllerRoute(
+    name: "product_detail",
+    pattern: "product/detail/{id}",
+    defaults: new { controller = "Home", action = "ProductDetail" });
+
+app.MapControllerRoute(
+    name: "product_detail_short",
+    pattern: "product/{id}",
+    defaults: new { controller = "Home", action = "ProductDetailShort" });
+
+app.MapControllerRoute(
+    name: "auth_signin_view",
+    pattern: "auth/SignIn",
+    defaults: new { controller = "Home", action = "AuthSignIn" });
+
+app.MapControllerRoute(
+    name: "auth_signup_view",
+    pattern: "auth/SignUp",
+    defaults: new { controller = "Home", action = "AuthSignUp" });
 
 app.MapControllerRoute(
     name: "shop",
@@ -248,16 +304,24 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-
+// SignalR Hubs
 app.MapHub<ChatHub>("/chatHub");
+app.MapHub<OrderHub>("/hubs/order"); // Real-time order tracking
 
 // Seed Database
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    await BannerSeeder.SeedBannersAsync(context);
     var config = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+    var connString = config.GetConnectionString("DefaultConnection") ?? "";
+    
+    // Seed banners & products
+    await BannerSeeder.SeedBannersAsync(context);
     await ProductSeeder.SeedProductsAsync(context, config);
+    
+    // 🆕 Seed shipping zones & inventory
+    ShippingZoneSeeder.Seed(connString);
+    InventorySeeder.Seed(connString);
 }
 
 app.Run();

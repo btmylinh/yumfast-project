@@ -4,9 +4,7 @@ using WebApp.Models;
 
 namespace WebApp.Services
 {
-    /// <summary>
     /// Service for banner business logic and data access
-    /// </summary>
     public interface IBannerService
     {
         Task<IEnumerable<Banner>> GetBannersAsync(string? search = null, int? status = null, int page = 1, int pageSize = 10, string? sortBy = "CreatedAt", string? sortDirection = "desc");

@@ -39,7 +39,7 @@
                         </div>
 
             <p class="mt-2 mb-0">
-              @ViewBag.AuthHaveAccount <a href="@Url.Action("SignIn","AuthView")">@ViewBag.AuthSignInLink</a>
+              @ViewBag.AuthHaveAccount <a href="/auth/SignIn">@ViewBag.AuthSignInLink</a>
             </p>
                     </div>
                 </form>
@@ -136,7 +136,7 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
       passwordInput.classList.remove('is-invalid');
       if (passwordError) passwordError.textContent = '';
       localStorage.setItem("pendingEmail", data.email);
-      window.location.href = '@Url.Action("Verify","AuthView")';
+      window.location.href = '/auth/Verify';
     } else {
       // Có lỗi - sử dụng error key từ backend để hiển thị bằng i18n
       const errorKey = json.error || 'register_failed';

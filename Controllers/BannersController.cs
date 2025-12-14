@@ -10,7 +10,7 @@ using System.Text;
 namespace WebApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/banners")]
     // [Authorize] // Temporarily disabled for testing
     public class BannersController : BaseController
     {
@@ -24,16 +24,7 @@ namespace WebApp.Controllers
             _env = env;
         }
 
-        /// <summary>
         /// Get all banners with optional search, filter, pagination and sorting
-        /// </summary>
-        /// <param name="search">Search term for banner name or link</param>
-        /// <param name="status">Filter by status (1=active, 0=inactive)</param>
-        /// <param name="page">Page number for pagination</param>
-        /// <param name="pageSize">Number of items per page</param>
-        /// <param name="sortBy">Field to sort by (name, status, createdAt)</param>
-        /// <param name="sortDirection">Sort direction (asc, desc)</param>
-        /// <returns>Paginated list of banners</returns>
         // GET: api/banners
         [HttpGet]
         [AllowAnonymous] // Allow public access to view banners
@@ -128,9 +119,7 @@ namespace WebApp.Controllers
             return Ok(new { files = saved });
         }
 
-        /// <summary>
         /// Get a specific banner by ID
-        /// </summary>
         /// <param name="id">Banner ID</param>
         /// <returns>Banner details</returns>
         // GET: api/banners/5

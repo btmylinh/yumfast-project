@@ -1,0 +1,198 @@
+@{
+    ViewData["Title"] = "Inventory";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="row mb-8" x-data="inventoryAdmin()" x-init="init()">
+  <div class="col-md-12">
+    <div class="d-md-flex justify-content-between align-items-center">
+      <div>
+        <h2>Tồn kho</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")" class="text-inherit">@ViewBag.Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Inventory</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="d-flex gap-2 align-items-center">
+        <div class="form-check">
+          <input class="form-check-input" id="chkLow" type="checkbox" x-model="lowOnly" x-on:change="load()" />
+          <label class="form-check-label" for="chkLow">Chỉ hiển thị Low-stock</label>
+        </div>
+        <div class="input-group">
+          <input type="search" class="form-control" placeholder="Tìm theo tên / danh mục" x-model="search" x-on:input.debounce.400ms="load()" />
+          <button class="btn btn-outline-secondary" x-on:click="load()">Tìm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 mt-4">
+    <div class="card h-100">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-centered table-hover text-nowrap table-borderless mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th>ID</th>
+                <th>Sản phẩm</th>
+                <th>Danh mục</th>
+                <th class="text-end">Tồn</th>
+                <th class="text-end">Đã giữ</th>
+                <th class="text-end">Khả dụng</th>
+                <th class="text-end">Ngưỡng Low</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-if="loading"><tr><td colspan="8" class="text-center py-4">Loading...</td></tr></template>
+              <template x-for="it in items" :key="it.id">
+                <tr :class="it.low ? 'table-warning' : ''">
+                  <td x-text="it.id"></td>
+                  <td x-text="it.name"></td>
+                  <td x-text="it.category"></td>
+                  <td class="text-end" x-text="fmt(it.quantity)"></td>
+                  <td class="text-end" x-text="fmt(it.reserved)"></td>
+                  <td class="text-end">
+                    <span x-text="fmt(it.available)"></span>
+                    <span class="badge bg-danger ms-2" x-show="it.low">Low</span>
+                  </td>
+                  <td class="text-end" x-text="fmt(it.threshold)"></td>
+                  <td class="text-end">
+                    <div class="dropdown">
+                      <a href="#" class="text-reset" data-bs-toggle="dropdown"><i class="feather-icon icon-more-vertical fs-5"></i></a>
+                      <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#" x-on:click.prevent="openAdjust(it, 'import')"><i class="bi bi-box-arrow-in-down me-2"></i>Nhập (Import)</a></li>
+                        <li><a class="dropdown-item" href="#" x-on:click.prevent="openAdjust(it, 'export')"><i class="bi bi-box-arrow-up me-2"></i>Xuất (Export)</a></li>
+                        <li><a class="dropdown-item" href="#" x-on:click.prevent="openAdjust(it, 'adjust')"><i class="bi bi-pencil-square me-2"></i>Điều chỉnh số lượng</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#" x-on:click.prevent="openAdjust(it, 'set-threshold')"><i class="bi bi-exclamation-triangle me-2"></i>Đặt ngưỡng Low-stock</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+              <tr x-show="!loading && items.length===0"><td colspan="8" class="text-center text-muted py-4">Không có dữ liệu</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer d-flex justify-content-between align-items-center">
+        <div>
+            Hiển thị <span x-text="items.length"></span> trên <span x-text="totalItems"></span> sản phẩm
+            <span x-show="lowCount>0" class="ms-2 text-danger">(Low: <span x-text="lowCount"></span>)</span>
+        </div>
+        <nav>
+            <ul class="pagination mb-0">
+                <li class="page-item" :class="{ 'disabled': page <= 1 }">
+                    <a class="page-link" href="#" x-on:click.prevent="prevPage()">Previous</a>
+                </li>
+                <template x-for="p in Array.from({ length: totalPages }, (_, i) => i + 1)">
+                    <li class="page-item" :class="{ 'active': p === page }">
+                        <a class="page-link" href="#" x-on:click.prevent="goToPage(p)" x-text="p"></a>
+                    </li>
+                </template>
+                <li class="page-item" :class="{ 'disabled': page >= totalPages }">
+                    <a class="page-link" href="#" x-on:click.prevent="nextPage()">Next</a>
+                </li>
+            </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adjust Modal -->
+  <div class="modal fade" id="adjustModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" x-text="modal.title">Điều chỉnh tồn kho</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Sản phẩm</label>
+            <div class="form-control-plaintext" x-text="modal.item?.name"></div>
+          </div>
+          <template x-if="modal.mode!=='set-threshold'">
+            <div class="mb-3">
+              <label class="form-label" x-text="modal.mode==='adjust' ? 'Số lượng mới' : 'Số lượng' "></label>
+              <input type="number" class="form-control" x-model.number="modal.quantity" />
+            </div>
+          </template>
+          <template x-if="modal.mode==='set-threshold'">
+            <div class="mb-3">
+              <label class="form-label">Ngưỡng Low-stock</label>
+              <input type="number" class="form-control" x-model.number="modal.threshold" />
+            </div>
+          </template>
+          <div class="mb-3">
+            <label class="form-label">Ghi chú (tuỳ chọn)</label>
+            <input type="text" class="form-control" x-model="modal.note" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+          <button type="button" class="btn btn-primary" :disabled="saving" x-on:click="saveAdjust()">
+            <span x-show="!saving">Lưu</span>
+            <span x-show="saving"><span class="spinner-border spinner-border-sm me-2"></span>Đang lưu...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function inventoryAdmin(){
+    return {
+      items:[], loading:false, search:'', lowOnly:false, lowCount:0, lastUpdated:'',
+      page:1, pageSize:10, totalItems:0, totalPages:0,
+      modal:{ open:false, mode:'import', title:'', item:null, quantity:0, threshold:0, note:'' }, saving:false,
+      fmt(v){ try{ return new Intl.NumberFormat('vi-VN').format(v); }catch{ return String(v); } },
+      init(){ this.load(); },
+      async load(){
+        this.loading=true;
+        try{
+          const u = new URL('/api/products/stock', window.location.origin);
+          if(this.search) u.searchParams.set('search', this.search);
+          if(this.lowOnly) u.searchParams.set('lowStockOnly','1');
+          u.searchParams.set('page', this.page);
+          u.searchParams.set('pageSize', this.pageSize);
+          const r = await fetch(u);
+          const j = await r.json();
+          this.items = j.data||[];
+          this.totalItems = j.total || 0;
+          this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+          this.lowCount = this.items.filter(x=>x.low).length; // Note: lowCount is only for the current page
+          this.lastUpdated = new Date().toLocaleString('vi-VN');
+        }catch(e){ console.error(e); } finally{ this.loading=false; }
+      },
+      goToPage(p){
+        if (p < 1 || p > this.totalPages) return;
+        this.page = p;
+        this.load();
+      },
+      prevPage(){ this.goToPage(this.page - 1); },
+      nextPage(){ this.goToPage(this.page + 1); },
+      openAdjust(it, mode){
+        this.modal = { open:true, mode, title: this.getTitle(mode), item: it, quantity:0, threshold: it.threshold||0, note:'' };
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('adjustModal')).show();
+      },
+      getTitle(mode){ switch(mode){ case 'import': return 'Nhập hàng'; case 'export': return 'Xuất hàng'; case 'adjust': return 'Điều chỉnh số lượng'; case 'set-threshold': return 'Đặt ngưỡng Low-stock'; default: return 'Điều chỉnh tồn kho'; } },
+      async saveAdjust(){
+        if(!this.modal.item) return;
+        this.saving = true;
+        try {
+          const payload = { productId: Number(this.modal.item.id), type: this.modal.mode, quantity: Number(this.modal.quantity||0), threshold: this.modal.mode==='set-threshold'? Number(this.modal.threshold||0) : undefined, note: (this.modal.note||'').trim() };
+          const r = await fetch('/api/products/stock/adjust', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+          const j = await r.json().catch(()=>({}));
+          if(r.ok){ bootstrap.Modal.getOrCreateInstance(document.getElementById('adjustModal')).hide(); await this.load(); }
+          else { alert(j.message||'Cập nhật tồn kho thất bại'); }
+        }catch(e){ alert('Lỗi kết nối máy chủ'); } finally { this.saving=false; }
+      }
+    }
+  }
+  </script>
+</div>
+
