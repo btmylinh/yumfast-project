@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebApp.Services.Interfaces;
@@ -13,7 +15,7 @@ namespace WebApp.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/admin/reviews")]
-[Authorize(Roles = "admin")] // Chỉ admin
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme + "," + CookieAuthenticationDefaults.AuthenticationScheme, Roles = "admin")]
 public class AdminReviewsController : ControllerBase
 {
     private readonly IOrderReviewService _orderReviewService;
@@ -35,7 +37,7 @@ public class AdminReviewsController : ControllerBase
 
     /// <summary>
     /// Lấy tất cả reviews với filter
-    /// GET /api/admin/reviews?type=order&status=1&rating=5&page=1&pageSize=20
+    /// GET /api/admin/reviews?type=order&amp;status=1&amp;rating=5&amp;page=1&amp;pageSize=20
     /// </summary>
     [HttpGet]
     public async Task<IActionResult> GetReviews(
@@ -170,16 +172,16 @@ public class AdminReviewsController : ControllerBase
         var sql = $@"
             SELECT 
                 or_review.id,
-                or_review.order_id as OrderId,
-                o.code as OrderCode,
-                or_review.user_id as UserId,
-                u.name as UserName,
-                or_review.order_rating as OrderRating,
-                or_review.driver_rating as DriverRating,
-                or_review.comment as Comment,
-                or_review.admin_reply as AdminReply,
-                or_review.admin_replied_at as AdminRepliedAt,
-                or_review.created_at as CreatedAt
+                or_review.order_id as orderid,
+                o.code as ordercode,
+                or_review.user_id as userid,
+                u.name as username,
+                or_review.order_rating as orderrating,
+                or_review.driver_rating as driverrating,
+                or_review.comment as comment,
+                or_review.admin_reply as adminreply,
+                or_review.admin_replied_at as adminrepliedat,
+                or_review.created_at as createdat
             FROM order_reviews or_review
             JOIN orders o ON o.id = or_review.order_id
             LEFT JOIN users u ON u.id = or_review.user_id
@@ -194,18 +196,18 @@ public class AdminReviewsController : ControllerBase
 
         var reviewList = reviews.Select(r => new
         {
-            id = r.id,
+            id = (long)r.id,
             type = "order",
-            orderId = r.OrderId,
-            orderCode = r.OrderCode,
-            userId = r.UserId,
-            userName = r.UserName ?? "Người dùng",
-            orderRating = r.OrderRating,
-            driverRating = r.DriverRating,
-            comment = r.Comment,
-            adminReply = r.AdminReply,
-            adminRepliedAt = r.AdminRepliedAt,
-            createdAt = r.CreatedAt
+            orderId = r.orderid != null ? (long?)r.orderid : null,
+            orderCode = r.ordercode?.ToString(),
+            userId = r.userid != null ? (long?)r.userid : null,
+            userName = r.username?.ToString() ?? "Người dùng",
+            orderRating = r.orderrating != null ? (short?)r.orderrating : null,
+            driverRating = r.driverrating != null ? (short?)r.driverrating : null,
+            comment = r.comment?.ToString(),
+            adminReply = r.adminreply?.ToString(),
+            adminRepliedAt = r.adminrepliedat != null ? (DateTime?)r.adminrepliedat : null,
+            createdAt = r.createdat != null ? (DateTime)r.createdat : DateTime.MinValue
         }).ToList<object>();
 
         return (reviewList, total);
@@ -260,15 +262,15 @@ public class AdminReviewsController : ControllerBase
         var sql = $@"
             SELECT 
                 pr.id,
-                pr.product_id as ProductId,
-                p.name as ProductName,
-                pr.user_id as UserId,
-                u.name as UserName,
-                pr.rating as Rating,
-                pr.comment as Comment,
-                pr.status as Status,
-                pr.created_at as CreatedAt,
-                pr.updated_at as UpdatedAt
+                pr.product_id as productid,
+                p.name as productname,
+                pr.user_id as userid,
+                u.name as username,
+                pr.rating as rating,
+                pr.comment as comment,
+                pr.status as status,
+                pr.created_at as createdat,
+                pr.updated_at as updatedat
             FROM product_reviews pr
             JOIN products p ON p.id = pr.product_id
             LEFT JOIN users u ON u.id = pr.user_id
@@ -283,18 +285,18 @@ public class AdminReviewsController : ControllerBase
 
         var reviewList = reviews.Select(r => new
         {
-            id = r.id,
+            id = (long)r.id,
             type = "product",
-            productId = r.ProductId,
-            productName = r.ProductName,
-            userId = r.UserId,
-            userName = r.UserName ?? "Người dùng",
-            rating = r.Rating,
-            comment = r.Comment,
-            status = r.Status,
-            statusText = r.Status == 1 ? "Đã phê duyệt" : "Chờ phê duyệt",
-            createdAt = r.CreatedAt,
-            updatedAt = r.UpdatedAt
+            productId = r.productid != null ? (long)r.productid : 0,
+            productName = r.productname?.ToString() ?? "",
+            userId = r.userid != null ? (long?)r.userid : null,
+            userName = r.username?.ToString() ?? "Người dùng",
+            rating = r.rating != null ? (short)r.rating : (short)0,
+            comment = r.comment?.ToString(),
+            status = r.status != null ? (short)r.status : (short)0,
+            statusText = (r.status != null && (short)r.status == 1) ? "Đã phê duyệt" : "Chờ phê duyệt",
+            createdAt = r.createdat != null ? (DateTime)r.createdat : DateTime.MinValue,
+            updatedAt = r.updatedat != null ? (DateTime)r.updatedat : DateTime.MinValue
         }).ToList<object>();
 
         return (reviewList, total);
@@ -516,13 +518,5 @@ public class AdminReviewsController : ControllerBase
 public class UpdateStatusRequest
 {
     public short Status { get; set; } // 0=pending, 1=approved
-}
-
-/// <summary>
-/// Request model để admin trả lời review
-/// </summary>
-public class AdminReplyRequest
-{
-    public string Reply { get; set; } = string.Empty;
 }
 

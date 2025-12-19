@@ -155,22 +155,24 @@ public class ProductReviewService : IProductReviewService
     public async Task<List<ProductReview>> GetProductReviewsAsync(long productId, int page = 1, int pageSize = 10)
     {
         // Lấy reviews từ 2 nguồn:
-        // 1. Product reviews trực tiếp (product_reviews)
-        // 2. Reviews từ order reviews (order_reviews) - khi user đánh giá đơn hàng
+        // 1. Product reviews trực tiếp (product_reviews), ưu tiên comment riêng; nếu được tạo từ order thì lấy thêm images/comment từ order_reviews qua order_id
+        // 2. Reviews từ order reviews (order_reviews) - khi user đánh giá đơn hàng mà chưa có product_reviews tương ứng
         var sql = @"
             SELECT 
                 pr.id,
                 pr.product_id as ProductId,
                 pr.user_id as UserId,
                 pr.rating as Rating,
-                pr.comment as Comment,
+                COALESCE(pr.comment, or_review.comment) as Comment,
+                or_review.images as Images,
                 pr.status as Status,
-                pr.created_at as CreatedAt,
-                pr.updated_at as UpdatedAt,
+                pr.created_at as created_at,
+                pr.updated_at as updated_at,
                 u.name as user_name,
                 'product' as review_source
             FROM product_reviews pr
             LEFT JOIN users u ON u.id = pr.user_id
+            LEFT JOIN order_reviews or_review ON or_review.order_id = pr.order_id
             WHERE pr.product_id = @productId 
               AND pr.status = 1  -- Chỉ lấy reviews đã approved
             
@@ -182,9 +184,10 @@ public class ProductReviewService : IProductReviewService
                 or_review.user_id as UserId,
                 or_review.order_rating as Rating,
                 or_review.comment as Comment,
+                or_review.images as Images,
                 1 as Status, -- Order reviews luôn approved
-                or_review.created_at as CreatedAt,
-                or_review.updated_at as UpdatedAt,
+                or_review.created_at as created_at,
+                or_review.updated_at as updated_at,
                 u2.name as user_name,
                 'order' as review_source
             FROM order_reviews or_review
@@ -213,17 +216,18 @@ public class ProductReviewService : IProductReviewService
             var offset = (page - 1) * pageSize;
             var reviews = await _connection.QueryAsync<dynamic>(sql, new { productId, pageSize, offset });
             
-            // Map to ProductReview
+            // Map to ProductReview (Dapper dynamic dùng tên cột lowercase theo Postgres)
             var reviewList = reviews.Select(r => new ProductReview
             {
-                Id = r.id,
-                ProductId = r.ProductId,
-                UserId = r.UserId,
-                Rating = (short)r.Rating,
-                Comment = r.Comment,
-                Status = (short)r.Status,
-                CreatedAt = r.CreatedAt,
-                UpdatedAt = r.UpdatedAt,
+                Id = (long)(r.id ?? 0L),
+                ProductId = (long)(r.productid ?? 0L),
+                UserId = (long)(r.userid ?? 0L),
+                Rating = (short)(r.rating ?? 0),
+                Comment = r.comment,
+                Images = r.images as string[] ?? (r.images is IEnumerable<string> imgs ? imgs.ToArray() : Array.Empty<string>()),
+                Status = (short)(r.status ?? 0),
+                CreatedAt = r.created_at ?? DateTime.UtcNow,
+                UpdatedAt = r.updated_at ?? DateTime.UtcNow,
                 User = new Models.User { Name = r.user_name ?? "" }
             }).ToList();
             

@@ -303,17 +303,13 @@
          </div>
          <div class="offcanvas-body">
             <div>
-               <div class="alert alert-danger p-2" role="alert">
-                  You’ve got FREE delivery. Start
-                  <a href="#!" class="alert-link">checkout now!</a>
-               </div>
                <ul id="cartList" class="list-group list-group-flush"></ul>
                <div class="d-flex justify-content-between mt-3">
                   <span class="fw-semibold">Tổng</span>
                   <span id="cartTotal" class="fw-bold">₫0</span>
                </div>
                <div class="d-grid gap-2 mt-4">
-                  <a href="/Shop/Checkout" class="btn btn-primary btn-lg">
+                  <a href="/Checkout/Payment" class="btn btn-primary btn-lg">
                      <i class="bi bi-credit-card me-2"></i>Đặt hàng ngay
                   </a>
                   <a href="#" id="btnUpdateCart" class="btn btn-outline-dark">Cập nhật giỏ hàng</a>
@@ -415,7 +411,7 @@
       <div class="d-block d-lg-none" style="height: 60px;"></div>
 
       <!-- Order Tracking Card Container - Sticky trên mobile -->
-      <div class="container-fluid px-3 px-md-4 mt-3" id="orderTrackingContainer" style="display: none;">
+      <div class="container-fluid px-3 px-md-4 mt-3" id="orderTrackingContainer" style="display: none; max-width: 50%; margin: 0 auto;">
          <!-- Card sẽ được inject vào đây bằng JavaScript -->
       </div>
 

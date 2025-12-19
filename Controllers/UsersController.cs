@@ -79,7 +79,8 @@ namespace WebApp.Controllers
         public IActionResult Address()
         {
             ViewBag.PageType = "Address";
-            return View("~/Views/User/Profile/Settings.cshtml");
+            // Dùng view chuyên cho quản lý địa chỉ
+            return View("~/Views/User/Profile/Address.cshtml");
         }
 
         /// <summary>
@@ -89,7 +90,8 @@ namespace WebApp.Controllers
         public IActionResult PaymentMethod()
         {
             ViewBag.PageType = "PaymentMethod";
-            return View("~/Views/User/Profile/Settings.cshtml");
+            // Dùng view chuyên cho quản lý phương thức thanh toán
+            return View("~/Views/User/Profile/PaymentMethod.cshtml");
         }
 
         #endregion

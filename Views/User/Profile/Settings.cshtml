@@ -27,28 +27,28 @@
                     <ul class="nav flex-column nav-pills nav-pills-dark">
                         <!-- nav item -->
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Orders", "User")">
+                            <a class="nav-link" href="/Order/MyOrders">
                                 <i class="feather-icon icon-shopping-bag me-2"></i>
                                 @ViewBag.MyOrders
                             </a>
                         </li>
                         <!-- nav item -->
                         <li class="nav-item">
-                            <a class="nav-link @( (ViewBag.PageType as string)=="Settings" ? "active" : "" )" @( (ViewBag.PageType as string)=="Settings" ? "aria-current=\"page\"" : "") href="@Url.Action("Settings", "User")">
+                            <a class="nav-link @( (ViewBag.PageType as string)=="Settings" ? "active" : "" )" @( (ViewBag.PageType as string)=="Settings" ? "aria-current=\"page\"" : "") href="/user/settings">
                                 <i class="feather-icon icon-settings me-2"></i>
                                 @ViewBag.Settings
                             </a>
                         </li>
                         <!-- nav item -->
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Address", "User")">
+                            <a class="nav-link" href="/user/address">
                                 <i class="feather-icon icon-map-pin me-2"></i>
                                 @ViewBag.AddressTitle
                             </a>
                         </li>
                         <!-- nav item -->
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("PaymentMethod", "User")">
+                            <a class="nav-link" href="/user/paymentmethod">
                                 <i class="feather-icon icon-credit-card me-2"></i>
                                 @ViewBag.PaymentMethodTitle
                             </a>

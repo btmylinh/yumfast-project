@@ -280,12 +280,14 @@ public class DriverService : IDriverService
     
     public async Task<ServiceResult> StartPickupAsync(long orderId, long driverId)
     {
-        return await UpdateOrderStatusAsync(orderId, driverId, 2, 3, "Started pickup");
+        // Tài xế bắt đầu đi lấy đồ (có thể giữ nguyên status 2 hoặc không cần hàm này)
+        // Vì khi assign driver đã chuyển sang status 2 rồi
+        return ServiceResult.Ok("Đang đi lấy đồ ăn");
     }
     
     public async Task<ServiceResult> StartDeliveryAsync(long orderId, long driverId)
     {
-        // Start delivery: status 2 (Đang lấy đồ ăn) → 3 (Đang giao hàng) - theo OrderStatusHelper
+        // Start delivery: status 2 (Đang chuẩn bị) → 3 (Đang giao hàng)
         return await UpdateOrderStatusAsync(orderId, driverId, 2, 3, "Bắt đầu giao hàng");
     }
     
@@ -503,7 +505,12 @@ public class DriverService : IDriverService
                 return ServiceResult.Fail("You are not assigned to this order");
             
             if (order.status != expectedStatus)
-                return ServiceResult.Fail($"Order is not in expected status");
+            {
+                var currentStatus = (int)order.status;
+                _logger.LogWarning("Order {OrderId} status mismatch: current={Current}, expected={Expected}", 
+                    orderId, currentStatus, expectedStatus);
+                return ServiceResult.Fail($"Đơn hàng đang ở trạng thái {currentStatus}, cần ở trạng thái {expectedStatus} để thực hiện hành động này");
+            }
             
             // Update
             var updateSql = @"
@@ -526,7 +533,7 @@ public class DriverService : IDriverService
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            _logger.LogError(ex, "Error updating order status");
+            _logger.LogError(ex, "Error updating order status for order {OrderId}", orderId);
             return ServiceResult.Fail("Failed to update status");
         }
     }

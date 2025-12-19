@@ -112,12 +112,20 @@ namespace WebApp.Controllers
                     return StatusCode(500, new { success = false, message = "Không thể tạo đơn hàng" });
                 }
 
-                // Clear cart after successful order
+                // Clear cart after successful order (DB + cookie)
                 await using (var clearCmd = new NpgsqlCommand("DELETE FROM carts WHERE user_id = @uid", conn))
                 {
                     clearCmd.Parameters.AddWithValue("@uid", userId.Value);
                     await clearCmd.ExecuteNonQueryAsync();
                 }
+
+                // Reset cart cookie so frontend/offcanvas reflects empty cart
+                Response.Cookies.Append("cart", "[]", new CookieOptions
+                {
+                    HttpOnly = false,
+                    IsEssential = true,
+                    Expires = DateTimeOffset.UtcNow.AddDays(7)
+                });
 
                 return Ok(new 
                 { 

@@ -5,7 +5,8 @@ using WebApp.Services;
 namespace WebApp.Controllers;
 
 /// <summary>
-
+/// Controller for driver-related views
+/// </summary>
 public class DriverController : BaseController
 {
     private readonly ILogger<DriverController> _logger;

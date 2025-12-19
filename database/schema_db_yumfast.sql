@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict Z3ttpXUgkV9kHOL9OrbmkBWhDh2eZZLipqACeg1kePud9fgIWLa512Wsya6LVTC
+\restrict 8Vcvbm3nE9hF2WbKcENveXX0Ci9lFfmR5zJHDVJMPknR1Q0DBbaHA9gSCe3i5Ch
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
 
--- Started on 2025-12-13 00:54:38
+-- Started on 2025-12-19 14:57:26
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -22,7 +22,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 264 (class 1255 OID 36011)
+-- TOC entry 265 (class 1255 OID 36011)
 -- Name: confirm_stock_on_paid(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -33,8 +33,8 @@ BEGIN
     IF NEW.status IN (2,3) AND OLD.status <> NEW.status THEN
         UPDATE public.product_stock ps
         SET 
-            quantity = quantity - oi.quantity,
-            reserved = reserved - oi.quantity
+            quantity = ps.quantity - oi.quantity,
+            reserved = ps.reserved - oi.quantity
         FROM public.order_items oi
         WHERE oi.order_id = NEW.id
           AND oi.product_id = ps.product_id;
@@ -68,7 +68,7 @@ $$;
 ALTER FUNCTION public.deduct_stock_on_order() OWNER TO postgres;
 
 --
--- TOC entry 265 (class 1255 OID 36014)
+-- TOC entry 264 (class 1255 OID 36014)
 -- Name: restore_stock_on_cancel(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -132,7 +132,7 @@ ALTER TABLE public."__EFMigrationsHistory" OWNER TO postgres;
 
 CREATE TABLE public.banners (
     id bigint NOT NULL,
-    name character varying(120) NOT NULL,
+    name character varying(120),
     image character varying(255) NOT NULL,
     link character varying(255),
     status smallint DEFAULT 1 NOT NULL,
@@ -242,6 +242,8 @@ CREATE TABLE public.coupons (
     status smallint DEFAULT 1 NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    min_order integer DEFAULT 0,
+    max_discount integer DEFAULT 0,
     CONSTRAINT coupons_counts_chk CHECK (((total >= 0) AND (used_count >= 0))),
     CONSTRAINT coupons_range_chk CHECK ((end_at > start_at)),
     CONSTRAINT coupons_status_chk CHECK ((status = ANY (ARRAY[0, 1]))),
@@ -302,7 +304,7 @@ CREATE SEQUENCE public.drivers_id_seq
 ALTER SEQUENCE public.drivers_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5229 (class 0 OID 0)
+-- TOC entry 5231 (class 0 OID 0)
 -- Dependencies: 254
 -- Name: drivers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -344,7 +346,7 @@ CREATE SEQUENCE public.inventory_id_seq
 ALTER SEQUENCE public.inventory_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5230 (class 0 OID 0)
+-- TOC entry 5232 (class 0 OID 0)
 -- Dependencies: 252
 -- Name: inventory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -468,7 +470,7 @@ CREATE SEQUENCE public.order_reviews_id_seq
 ALTER SEQUENCE public.order_reviews_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5231 (class 0 OID 0)
+-- TOC entry 5233 (class 0 OID 0)
 -- Dependencies: 258
 -- Name: order_reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -543,7 +545,7 @@ CREATE SEQUENCE public.order_status_logs_id_seq
 ALTER SEQUENCE public.order_status_logs_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5232 (class 0 OID 0)
+-- TOC entry 5234 (class 0 OID 0)
 -- Dependencies: 256
 -- Name: order_status_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -585,7 +587,7 @@ CREATE TABLE public.orders (
 ALTER TABLE public.orders OWNER TO postgres;
 
 --
--- TOC entry 5233 (class 0 OID 0)
+-- TOC entry 5235 (class 0 OID 0)
 -- Dependencies: 235
 -- Name: COLUMN orders.status; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -652,7 +654,7 @@ CREATE SEQUENCE public.payment_transactions_id_seq
 ALTER SEQUENCE public.payment_transactions_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5234 (class 0 OID 0)
+-- TOC entry 5236 (class 0 OID 0)
 -- Dependencies: 260
 -- Name: payment_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -708,6 +710,7 @@ CREATE TABLE public.product_reviews (
     status smallint DEFAULT 1 NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    order_id bigint,
     CONSTRAINT product_reviews_rating_chk CHECK (((rating >= 1) AND (rating <= 5))),
     CONSTRAINT product_reviews_status_chk CHECK ((status = ANY (ARRAY[0, 1])))
 );
@@ -999,7 +1002,7 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- TOC entry 4825 (class 2604 OID 36043)
+-- TOC entry 4827 (class 2604 OID 36043)
 -- Name: drivers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1007,7 +1010,7 @@ ALTER TABLE ONLY public.drivers ALTER COLUMN id SET DEFAULT nextval('public.driv
 
 
 --
--- TOC entry 4819 (class 2604 OID 36024)
+-- TOC entry 4821 (class 2604 OID 36024)
 -- Name: inventory id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1015,7 +1018,7 @@ ALTER TABLE ONLY public.inventory ALTER COLUMN id SET DEFAULT nextval('public.in
 
 
 --
--- TOC entry 4833 (class 2604 OID 36092)
+-- TOC entry 4835 (class 2604 OID 36092)
 -- Name: order_reviews id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1023,7 +1026,7 @@ ALTER TABLE ONLY public.order_reviews ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 4831 (class 2604 OID 36065)
+-- TOC entry 4833 (class 2604 OID 36065)
 -- Name: order_status_logs id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1031,7 +1034,7 @@ ALTER TABLE ONLY public.order_status_logs ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 4836 (class 2604 OID 36128)
+-- TOC entry 4838 (class 2604 OID 36128)
 -- Name: payment_transactions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1039,7 +1042,7 @@ ALTER TABLE ONLY public.payment_transactions ALTER COLUMN id SET DEFAULT nextval
 
 
 --
--- TOC entry 5179 (class 0 OID 17702)
+-- TOC entry 5181 (class 0 OID 17702)
 -- Dependencies: 217
 -- Data for Name: __EFMigrationsHistory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1050,7 +1053,7 @@ COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin
 
 
 --
--- TOC entry 5181 (class 0 OID 17708)
+-- TOC entry 5183 (class 0 OID 17708)
 -- Dependencies: 219
 -- Data for Name: banners; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1066,7 +1069,7 @@ COPY public.banners (id, name, image, link, status, created_at, updated_at) FROM
 
 
 --
--- TOC entry 5195 (class 0 OID 17817)
+-- TOC entry 5197 (class 0 OID 17817)
 -- Dependencies: 233
 -- Data for Name: carts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1076,7 +1079,7 @@ COPY public.carts (id, user_id, cart_item, created_at) FROM stdin;
 
 
 --
--- TOC entry 5189 (class 0 OID 17769)
+-- TOC entry 5191 (class 0 OID 17769)
 -- Dependencies: 227
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1096,40 +1099,40 @@ COPY public.categories (id, name, slug, description, status, created_at, updated
 
 
 --
--- TOC entry 5203 (class 0 OID 17876)
+-- TOC entry 5205 (class 0 OID 17876)
 -- Dependencies: 241
 -- Data for Name: coupons; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.coupons (id, product_id, code, name, type, value, start_at, end_at, description, total, used_count, status, created_at, updated_at) FROM stdin;
-1	\N	WELCOME10	Giảm 10% đơn đầu	1	10	2025-04-14 23:54:10.536405+07	2026-04-09 23:54:10.536405+07	Áp cho toàn bộ đơn, tối đa 50k	1000	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-2	\N	FREESHIP20K	Giảm 20k phí ship	2	20000	2025-08-12 23:54:10.536405+07	2026-02-08 23:54:10.536405+07	Giảm phí vận chuyển	500	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-3	11	BO10K	Burger bò -10k	2	10000	2025-09-11 23:54:10.536405+07	2026-01-09 23:54:10.536405+07	Giảm trực tiếp 10k cho Burger Bò Phô Mai	300	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-4	22	GA15	Gà cay -15%	1	15	2025-09-26 23:54:10.536405+07	2025-12-10 23:54:10.536405+07	Áp riêng Gà cay Hàn	200	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-5	\N	LUNCH30	Trưa vui -30%	1	30	2025-10-11 11:00:00+07	2026-02-08 23:54:10.536405+07	Khung giờ 11h-14h, tối đa 40k	1000	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-6	\N	DRINK5K	Nước ngọt -5k	2	5000	2025-10-04 23:54:10.536405+07	2026-01-09 23:54:10.536405+07	Áp các đồ uống	800	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-7	33	PASTA7	Mì Ý -7%	1	7	2025-07-13 23:54:10.536405+07	2026-01-09 23:54:10.536405+07	Giảm cho dòng pasta	400	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-8	31	COM5K	Cơm gà -5k	2	5000	2025-09-11 23:54:10.536405+07	2026-02-08 23:54:10.536405+07	Áp riêng cơm gà nước mắm	300	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-9	\N	SWEET15	Tráng miệng -15%	1	15	2025-10-01 23:54:10.536405+07	2026-01-19 23:54:10.536405+07	Áp cho tráng miệng	600	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-10	\N	COMBO20	Combo -20%	1	20	2025-04-14 23:54:10.536405+07	2026-04-09 23:54:10.536405+07	Áp các combo	1000	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-11	45	MILKTEA6K	Trà sữa -6k	2	6000	2025-10-06 23:54:10.536405+07	2025-12-30 23:54:10.536405+07	Áp riêng trà sữa	500	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
-12	41	PEPSI3K	Pepsi -3k	2	3000	2025-10-06 23:54:10.536405+07	2025-12-30 23:54:10.536405+07	Áp riêng Pepsi	500	0	1	2025-10-11 23:54:10.536405+07	2025-10-11 23:54:10.536405+07
+COPY public.coupons (id, product_id, code, name, type, value, start_at, end_at, description, total, used_count, status, created_at, updated_at, min_order, max_discount) FROM stdin;
+1	\N	WELCOME10	Giảm 10% đơn đầu	1	10	2025-04-14 23:54:10.536405+07	2026-04-09 23:54:10.536405+07	Áp cho toàn bộ đơn, tối đa 50k	1000	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+3	11	BO10K	Burger bò -10k	2	10000	2025-09-11 23:54:10.536405+07	2026-01-09 23:54:10.536405+07	Giảm trực tiếp 10k cho Burger Bò Phô Mai	300	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+4	22	GA15	Gà cay -15%	1	15	2025-09-26 23:54:10.536405+07	2025-12-10 23:54:10.536405+07	Áp riêng Gà cay Hàn	200	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+5	\N	LUNCH30	Trưa vui -30%	1	30	2025-10-11 11:00:00+07	2026-02-08 23:54:10.536405+07	Khung giờ 11h-14h, tối đa 40k	1000	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+6	\N	DRINK5K	Nước ngọt -5k	2	5000	2025-10-04 23:54:10.536405+07	2026-01-09 23:54:10.536405+07	Áp các đồ uống	800	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+7	33	PASTA7	Mì Ý -7%	1	7	2025-07-13 23:54:10.536405+07	2026-01-09 23:54:10.536405+07	Giảm cho dòng pasta	400	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+8	31	COM5K	Cơm gà -5k	2	5000	2025-09-11 23:54:10.536405+07	2026-02-08 23:54:10.536405+07	Áp riêng cơm gà nước mắm	300	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+9	\N	SWEET15	Tráng miệng -15%	1	15	2025-10-01 23:54:10.536405+07	2026-01-19 23:54:10.536405+07	Áp cho tráng miệng	600	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+10	\N	COMBO20	Combo -20%	1	20	2025-04-14 23:54:10.536405+07	2026-04-09 23:54:10.536405+07	Áp các combo	1000	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+11	45	MILKTEA6K	Trà sữa -6k	2	6000	2025-10-06 23:54:10.536405+07	2025-12-30 23:54:10.536405+07	Áp riêng trà sữa	500	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+12	41	PEPSI3K	Pepsi -3k	2	3000	2025-10-06 23:54:10.536405+07	2025-12-30 23:54:10.536405+07	Áp riêng Pepsi	500	0	1	2025-10-11 23:54:10.536405+07	2025-12-13 04:09:18.844016+07	0	0
+2	\N	FREESHIP20K	Giảm 20k phí ship	2	20000	2025-08-12 23:54:10.536405+07	2026-02-08 23:54:10.536405+07	Giảm phí vận chuyển	500	6	1	2025-10-11 23:54:10.536405+07	2025-12-13 18:11:17.015397+07	0	0
 \.
 
 
 --
--- TOC entry 5217 (class 0 OID 36040)
+-- TOC entry 5219 (class 0 OID 36040)
 -- Dependencies: 255
 -- Data for Name: drivers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.drivers (id, user_id, full_name, phone, status, rating, total_orders, created_at, updated_at) FROM stdin;
-1	4	Nguyễn Văn Taixe	0901234567	offline	5.00	0	2025-12-13 00:52:41.886407+07	2025-12-13 00:52:41.886407+07
+1	4	Nguyễn Văn Taixe	0901234567	available	5.00	3	2025-12-13 00:52:41.886407+07	2025-12-19 13:25:39.287671+07
 \.
 
 
 --
--- TOC entry 5215 (class 0 OID 36021)
+-- TOC entry 5217 (class 0 OID 36021)
 -- Dependencies: 253
 -- Data for Name: inventory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1199,17 +1202,101 @@ COPY public.inventory (id, product_id, stock_quantity, reserved_quantity, low_st
 
 
 --
--- TOC entry 5199 (class 0 OID 17851)
+-- TOC entry 5201 (class 0 OID 17851)
 -- Dependencies: 237
 -- Data for Name: order_items; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.order_items (id, order_id, product_id, quantity, price, total, options) FROM stdin;
+1	1	1	1	79000	79000	\N
+2	1	2	1	89000	89000	\N
+3	1	3	1	99000	99000	\N
+4	1	4	1	109000	109000	\N
+5	2	1	1	79000	79000	\N
+6	2	2	1	89000	89000	\N
+7	2	3	1	99000	99000	\N
+8	2	4	1	109000	109000	\N
+9	3	1	1	79000	79000	\N
+10	3	2	1	89000	89000	\N
+11	3	3	1	99000	99000	\N
+12	3	4	1	109000	109000	\N
+13	4	1	1	79000	79000	\N
+14	4	2	1	89000	89000	\N
+15	4	3	1	99000	99000	\N
+16	4	4	1	109000	109000	\N
+17	5	1	1	79000	79000	\N
+18	5	2	1	89000	89000	\N
+19	5	3	1	99000	99000	\N
+20	5	4	1	109000	109000	\N
+21	7	1	1	79000	79000	\N
+22	7	2	1	89000	89000	\N
+23	7	3	1	99000	99000	\N
+24	7	4	1	109000	109000	\N
+25	9	1	1	79000	79000	\N
+26	9	2	1	89000	89000	\N
+27	9	3	1	99000	99000	\N
+28	9	4	1	109000	109000	\N
+29	10	1	1	79000	79000	\N
+30	10	2	1	89000	89000	\N
+31	10	3	1	99000	99000	\N
+32	10	4	1	109000	109000	\N
+33	11	1	1	79000	79000	\N
+34	11	2	1	89000	89000	\N
+35	11	3	1	99000	99000	\N
+36	11	4	1	109000	109000	\N
+37	12	1	1	79000	79000	\N
+38	12	2	1	89000	89000	\N
+39	12	3	1	99000	99000	\N
+40	12	4	1	109000	109000	\N
+41	13	1	1	79000	79000	\N
+42	13	2	1	89000	89000	\N
+43	13	3	1	99000	99000	\N
+44	13	4	1	109000	109000	\N
+45	14	1	1	79000	79000	\N
+46	14	2	1	89000	89000	\N
+47	14	3	1	99000	99000	\N
+48	14	4	1	109000	109000	\N
+49	15	1	1	79000	79000	\N
+50	15	2	1	89000	89000	\N
+51	15	3	1	99000	99000	\N
+52	15	4	1	109000	109000	\N
+53	16	1	1	79000	79000	\N
+54	16	2	1	89000	89000	\N
+55	16	3	1	99000	99000	\N
+56	16	4	1	109000	109000	\N
+57	17	1	1	79000	79000	\N
+58	17	2	1	89000	89000	\N
+59	17	3	1	99000	99000	\N
+60	17	4	1	109000	109000	\N
+61	18	1	1	79000	79000	\N
+62	18	2	1	89000	89000	\N
+63	18	3	1	99000	99000	\N
+64	18	4	1	109000	109000	\N
+65	19	1	1	79000	79000	\N
+66	19	2	1	89000	89000	\N
+67	19	3	1	99000	99000	\N
+68	19	4	1	109000	109000	\N
+69	20	1	1	79000	79000	\N
+70	20	2	1	89000	89000	\N
+71	20	3	1	99000	99000	\N
+72	20	4	1	109000	109000	\N
+73	21	1	1	79000	79000	\N
+74	21	2	1	89000	89000	\N
+75	21	3	1	99000	99000	\N
+76	21	4	1	109000	109000	\N
+77	22	1	1	79000	79000	\N
+78	22	2	1	89000	89000	\N
+79	22	3	1	99000	99000	\N
+80	22	4	1	109000	109000	\N
+81	23	1	1	79000	79000	\N
+82	23	2	1	89000	89000	\N
+83	23	3	1	99000	99000	\N
+84	23	4	1	109000	109000	\N
 \.
 
 
 --
--- TOC entry 5201 (class 0 OID 17864)
+-- TOC entry 5203 (class 0 OID 17864)
 -- Dependencies: 239
 -- Data for Name: order_payments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1219,27 +1306,38 @@ COPY public.order_payments (id, order_id, amount, currency, status, created_at, 
 
 
 --
--- TOC entry 5221 (class 0 OID 36089)
+-- TOC entry 5223 (class 0 OID 36089)
 -- Dependencies: 259
 -- Data for Name: order_reviews; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.order_reviews (id, order_id, user_id, driver_id, order_rating, driver_rating, comment, images, admin_reply, admin_replied_at, created_at, updated_at) FROM stdin;
+3	10	1	1	3	\N	cũng được	{}	\N	\N	2025-12-19 13:26:18.148487+07	2025-12-19 13:26:18.148487+07
+6	23	1	1	3	\N	cũng ngon	{"data:image/jpeg;base64,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"}	\N	\N	2025-12-19 14:52:40.461588+07	2025-12-19 14:52:40.461588+07
 \.
 
 
 --
--- TOC entry 5213 (class 0 OID 35981)
+-- TOC entry 5215 (class 0 OID 35981)
 -- Dependencies: 251
 -- Data for Name: order_status_history; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.order_status_history (id, order_id, status, note, created_by, created_at) FROM stdin;
+1	23	2	Driver accepted order	\N	2025-12-18 22:32:11.818845+07
+2	23	4	Started delivery	\N	2025-12-18 22:32:50.052905+07
+6	23	3	Order completed	\N	2025-12-18 22:38:56.209506+07
+7	22	2	Driver accepted order	\N	2025-12-19 11:27:56.383792+07
+8	22	3	Bắt đầu giao hàng	\N	2025-12-19 11:28:05.478264+07
+9	22	4	Đơn hàng đã hoàn thành	\N	2025-12-19 11:28:17.547981+07
+10	10	2	Driver accepted order	\N	2025-12-19 13:25:04.351648+07
+11	10	3	Bắt đầu giao hàng	\N	2025-12-19 13:25:18.618732+07
+12	10	4	Đơn hàng đã hoàn thành	\N	2025-12-19 13:25:39.287671+07
 \.
 
 
 --
--- TOC entry 5219 (class 0 OID 36062)
+-- TOC entry 5221 (class 0 OID 36062)
 -- Dependencies: 257
 -- Data for Name: order_status_logs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1249,27 +1347,57 @@ COPY public.order_status_logs (id, order_id, old_status, new_status, notes, chan
 
 
 --
--- TOC entry 5197 (class 0 OID 17827)
+-- TOC entry 5199 (class 0 OID 17827)
 -- Dependencies: 235
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.orders (id, code, user_id, coupons_id, ship_name, ship_phone, ship_address_text, price_subtotal, price_discount, price_shipping, total_price, payment_status, status, note, created_at, updated_at, driver_id, driver_accepted_at, completed_at) FROM stdin;
+23	ORD20251213181116	1	2	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	20000	30000	386000	0	4	\N	2025-12-13 18:11:16.991157+07	2025-12-19 01:48:00.801183+07	1	2025-12-18 22:32:11.818845+07	2025-12-18 22:38:56.209506+07
+11	ORD20251213132633	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:26:33.309566+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+12	ORD20251213132735	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:27:35.809562+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+13	ORD20251213134158	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:41:58.925719+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+14	ORD20251213144528	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 14:45:28.535742+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+15	ORD20251213174323	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 17:43:23.634979+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+16	ORD20251213174327	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 17:43:27.451419+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+17	ORD20251213174331	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 17:43:31.864996+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+18	ORD20251213174550	1	2	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	20000	30000	386000	0	5	\N	2025-12-13 17:45:50.421187+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+22	ORD20251213180340	1	2	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	20000	30000	386000	0	4	\N	2025-12-13 18:03:40.72182+07	2025-12-19 11:28:17.547981+07	1	2025-12-19 11:27:56.383792+07	2025-12-19 11:28:17.547981+07
+1	ORD20251213045229	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 04:52:29.42508+07	2025-12-19 12:20:08.753292+07	\N	\N	\N
+2	ORD20251213131847	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:18:47.918697+07	2025-12-19 12:20:08.753292+07	\N	\N	\N
+3	ORD20251213131854	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:18:54.247326+07	2025-12-19 12:20:08.753292+07	\N	\N	\N
+4	ORD20251213131859	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:18:59.237509+07	2025-12-19 12:20:08.753292+07	\N	\N	\N
+5	ORD20251213131908	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:19:08.305619+07	2025-12-19 12:20:08.753292+07	\N	\N	\N
+7	ORD20251213131909	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:19:09.257047+07	2025-12-19 12:20:08.753292+07	\N	\N	\N
+9	ORD20251213132616	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	5	\N	2025-12-13 13:26:16.672794+07	2025-12-19 12:20:08.753292+07	\N	\N	\N
+10	ORD20251213132632	1	\N	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	0	30000	406000	0	4	\N	2025-12-13 13:26:32.040974+07	2025-12-19 13:25:39.287671+07	1	2025-12-19 13:25:04.351648+07	2025-12-19 13:25:39.287671+07
+19	ORD20251213174553	1	2	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	20000	30000	386000	0	5	\N	2025-12-13 17:45:53.752219+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+20	ORD20251213175115	1	2	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	20000	30000	386000	0	5	\N	2025-12-13 17:51:15.484637+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
+21	ORD20251213175126	1	2	Mỹ Linh 123	0857348952	Hẻm 45/2 Nhiêu Tứ, Phường Cầu Kiệu, Thành phố Thủ Đức	376000	20000	30000	386000	0	5	\N	2025-12-13 17:51:26.679268+07	2025-12-19 01:48:31.142868+07	\N	\N	\N
 \.
 
 
 --
--- TOC entry 5223 (class 0 OID 36125)
+-- TOC entry 5225 (class 0 OID 36125)
 -- Dependencies: 261
 -- Data for Name: payment_transactions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.payment_transactions (id, order_id, payment_id, payment_method, transaction_id, amount, currency, status, request_data, response_data, callback_data, error_message, paid_at, refunded_at, created_at, updated_at) FROM stdin;
+1	15	\N	MOMO	MOMO1520251213174323	406000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 17:43:23.691923+07	2025-12-13 17:43:23.691923+07
+3	16	\N	MOMO	MOMO1620251213174327	406000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 17:43:27.463566+07	2025-12-13 17:43:27.463566+07
+5	17	\N	MOMO	MOMO1720251213174331	406000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 17:43:31.873515+07	2025-12-13 17:43:31.873515+07
+7	18	\N	MOMO	MOMO1820251213174550	386000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 17:45:50.439949+07	2025-12-13 17:45:50.439949+07
+9	19	\N	MOMO	MOMO1920251213174553	386000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 17:45:53.768269+07	2025-12-13 17:45:53.768269+07
+11	20	\N	MOMO	MOMO2020251213175115	386000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 17:51:15.639362+07	2025-12-13 17:51:15.639362+07
+12	21	\N	MOMO	MOMO2120251213175126	386000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 17:51:26.699113+07	2025-12-13 17:51:26.699113+07
+13	22	\N	MOMO	MOMO2220251213180340	386000	VND	pending	\N	\N	\N	\N	\N	\N	2025-12-13 18:03:40.866841+07	2025-12-13 18:03:40.866841+07
+14	22	\N	MOMO	\N	386000	VND	pending	{"requestId": "MOMO2220251213180340977"}	\N	\N	\N	\N	\N	2025-12-13 18:03:40.978905+07	2025-12-13 18:03:40.978905+07
 \.
 
 
 --
--- TOC entry 5193 (class 0 OID 17805)
+-- TOC entry 5195 (class 0 OID 17805)
 -- Dependencies: 231
 -- Data for Name: product_options; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1293,26 +1421,26 @@ COPY public.product_options (id, product_id, name, type, price, created_at, upda
 
 
 --
--- TOC entry 5205 (class 0 OID 17898)
+-- TOC entry 5207 (class 0 OID 17898)
 -- Dependencies: 243
 -- Data for Name: product_reviews; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.product_reviews (id, product_id, user_id, rating, comment, status, created_at, updated_at) FROM stdin;
+COPY public.product_reviews (id, product_id, user_id, rating, comment, status, created_at, updated_at, order_id) FROM stdin;
+1	1	1	3	cũng được	1	2025-12-19 13:26:18.148487+07	2025-12-19 14:42:12.426154+07	10
+2	3	1	3	cũng được	1	2025-12-19 13:26:18.148487+07	2025-12-19 14:42:12.426154+07	10
+3	4	1	3	cũng được	1	2025-12-19 13:26:18.148487+07	2025-12-19 14:42:12.426154+07	10
+4	2	1	3	cũng được	1	2025-12-19 13:26:18.148487+07	2025-12-19 14:42:12.426154+07	10
 \.
 
 
 --
--- TOC entry 5211 (class 0 OID 35955)
+-- TOC entry 5213 (class 0 OID 35955)
 -- Dependencies: 249
 -- Data for Name: product_stock; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.product_stock (id, product_id, quantity, reserved, low_stock_threshold, status, created_at, updated_at) FROM stdin;
-1	1	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
-2	2	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
-3	3	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
-4	4	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
 5	5	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
 6	6	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
 7	7	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
@@ -1369,11 +1497,15 @@ COPY public.product_stock (id, product_id, quantity, reserved, low_stock_thresho
 59	59	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
 60	60	100	0	0	1	2025-12-12 00:06:57.693224+07	2025-12-12 00:06:57.693224+07
 42	42	130	0	20	1	2025-12-12 00:06:57.693224+07	2025-12-12 18:25:57.49807+07
+1	1	95	12	0	1	2025-12-12 00:06:57.693224+07	2025-12-19 13:25:39.287671+07
+2	2	95	12	0	1	2025-12-12 00:06:57.693224+07	2025-12-19 13:25:39.287671+07
+3	3	95	12	0	1	2025-12-12 00:06:57.693224+07	2025-12-19 13:25:39.287671+07
+4	4	95	12	0	1	2025-12-12 00:06:57.693224+07	2025-12-19 13:25:39.287671+07
 \.
 
 
 --
--- TOC entry 5191 (class 0 OID 17786)
+-- TOC entry 5193 (class 0 OID 17786)
 -- Dependencies: 229
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1443,7 +1575,7 @@ COPY public.products (id, category_id, name, slug, images, description, price, s
 
 
 --
--- TOC entry 5207 (class 0 OID 17917)
+-- TOC entry 5209 (class 0 OID 17917)
 -- Dependencies: 245
 -- Data for Name: reports_daily; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1453,7 +1585,7 @@ COPY public.reports_daily (id, report_date, orders_count, revenue_total, custome
 
 
 --
--- TOC entry 5209 (class 0 OID 35930)
+-- TOC entry 5211 (class 0 OID 35930)
 -- Dependencies: 247
 -- Data for Name: shipping_zones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1465,7 +1597,7 @@ COPY public.shipping_zones (id, code, name, base_fee, free_minimum, status, crea
 
 
 --
--- TOC entry 5187 (class 0 OID 17755)
+-- TOC entry 5189 (class 0 OID 17755)
 -- Dependencies: 225
 -- Data for Name: user_addresses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1475,7 +1607,7 @@ COPY public.user_addresses (id, user_id, name, phone, address, is_default, statu
 
 
 --
--- TOC entry 5185 (class 0 OID 17738)
+-- TOC entry 5187 (class 0 OID 17738)
 -- Dependencies: 223
 -- Data for Name: user_wallets; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1485,19 +1617,20 @@ COPY public.user_wallets (id, user_id, provider, card_holder_name, card_number, 
 
 
 --
--- TOC entry 5183 (class 0 OID 17720)
+-- TOC entry 5185 (class 0 OID 17720)
 -- Dependencies: 221
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.users (id, name, email, phone, password, avatar, role, status, created_at, updated_at) FROM stdin;
-1	Mỹ Linh	Linhbuithimy14@gmail.com	0987654322	$2a$12$2MzbrUGIYTCbupY0ZI0.LOAV.X3F6rIKBpcJ.O8bo5gMa18qLyjmu	default.png	admin	1	2025-11-06 15:41:22.252877+07	2025-12-12 18:25:02.760546+07
-4	Nguyễn Văn Taixe	drivera@yumfast.com	0901234567	$2a$12$HASH_PASSWORD	driver_a.jpg	driver	1	2025-12-13 00:52:41.886407+07	2025-12-13 00:52:41.886407+07
+4	Nguyễn Thúy Tiên	driver@gmail.com	0901234567	$2a$12$2MzbrUGIYTCbupY0ZI0.LOAV.X3F6rIKBpcJ.O8bo5gMa18qLyjmu	driver_a.jpg	driver	1	2025-12-13 00:52:41.886407+07	2025-12-17 18:18:39.917887+07
+5	Lê Thu Khương	user@gmail.com	0987654333	$2a$12$2MzbrUGIYTCbupY0ZI0.LOAV.X3F6rIKBpcJ.O8bo5gMa18qLyjmu	default.png	user	1	2025-11-06 15:41:22.252877+07	2025-12-17 18:18:52.146517+07
+1	Mỹ Linh 2	admin@gmail.com	0987654322	$2a$12$2MzbrUGIYTCbupY0ZI0.LOAV.X3F6rIKBpcJ.O8bo5gMa18qLyjmu	default.png	admin	1	2025-11-06 15:41:22.252877+07	2025-12-17 20:23:38.312839+07
 \.
 
 
 --
--- TOC entry 5235 (class 0 OID 0)
+-- TOC entry 5237 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: banners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1506,7 +1639,7 @@ SELECT pg_catalog.setval('public.banners_id_seq', 6, true);
 
 
 --
--- TOC entry 5236 (class 0 OID 0)
+-- TOC entry 5238 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: carts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1515,7 +1648,7 @@ SELECT pg_catalog.setval('public.carts_id_seq', 1, false);
 
 
 --
--- TOC entry 5237 (class 0 OID 0)
+-- TOC entry 5239 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1524,7 +1657,7 @@ SELECT pg_catalog.setval('public.categories_id_seq', 10, true);
 
 
 --
--- TOC entry 5238 (class 0 OID 0)
+-- TOC entry 5240 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: coupons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1533,7 +1666,7 @@ SELECT pg_catalog.setval('public.coupons_id_seq', 12, true);
 
 
 --
--- TOC entry 5239 (class 0 OID 0)
+-- TOC entry 5241 (class 0 OID 0)
 -- Dependencies: 254
 -- Name: drivers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1542,7 +1675,7 @@ SELECT pg_catalog.setval('public.drivers_id_seq', 1, true);
 
 
 --
--- TOC entry 5240 (class 0 OID 0)
+-- TOC entry 5242 (class 0 OID 0)
 -- Dependencies: 252
 -- Name: inventory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1551,16 +1684,16 @@ SELECT pg_catalog.setval('public.inventory_id_seq', 60, true);
 
 
 --
--- TOC entry 5241 (class 0 OID 0)
+-- TOC entry 5243 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: order_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.order_items_id_seq', 1, false);
+SELECT pg_catalog.setval('public.order_items_id_seq', 84, true);
 
 
 --
--- TOC entry 5242 (class 0 OID 0)
+-- TOC entry 5244 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: order_payments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1569,25 +1702,25 @@ SELECT pg_catalog.setval('public.order_payments_id_seq', 1, false);
 
 
 --
--- TOC entry 5243 (class 0 OID 0)
+-- TOC entry 5245 (class 0 OID 0)
 -- Dependencies: 258
 -- Name: order_reviews_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.order_reviews_id_seq', 1, false);
+SELECT pg_catalog.setval('public.order_reviews_id_seq', 6, true);
 
 
 --
--- TOC entry 5244 (class 0 OID 0)
+-- TOC entry 5246 (class 0 OID 0)
 -- Dependencies: 250
 -- Name: order_status_history_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.order_status_history_id_seq', 1, false);
+SELECT pg_catalog.setval('public.order_status_history_id_seq', 12, true);
 
 
 --
--- TOC entry 5245 (class 0 OID 0)
+-- TOC entry 5247 (class 0 OID 0)
 -- Dependencies: 256
 -- Name: order_status_logs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1596,25 +1729,25 @@ SELECT pg_catalog.setval('public.order_status_logs_id_seq', 1, false);
 
 
 --
--- TOC entry 5246 (class 0 OID 0)
+-- TOC entry 5248 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 1, false);
+SELECT pg_catalog.setval('public.orders_id_seq', 23, true);
 
 
 --
--- TOC entry 5247 (class 0 OID 0)
+-- TOC entry 5249 (class 0 OID 0)
 -- Dependencies: 260
 -- Name: payment_transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.payment_transactions_id_seq', 1, false);
+SELECT pg_catalog.setval('public.payment_transactions_id_seq', 14, true);
 
 
 --
--- TOC entry 5248 (class 0 OID 0)
+-- TOC entry 5250 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: product_options_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1623,16 +1756,16 @@ SELECT pg_catalog.setval('public.product_options_id_seq', 14, true);
 
 
 --
--- TOC entry 5249 (class 0 OID 0)
+-- TOC entry 5251 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: product_reviews_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.product_reviews_id_seq', 1, false);
+SELECT pg_catalog.setval('public.product_reviews_id_seq', 4, true);
 
 
 --
--- TOC entry 5250 (class 0 OID 0)
+-- TOC entry 5252 (class 0 OID 0)
 -- Dependencies: 248
 -- Name: product_stock_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1641,7 +1774,7 @@ SELECT pg_catalog.setval('public.product_stock_id_seq', 62, true);
 
 
 --
--- TOC entry 5251 (class 0 OID 0)
+-- TOC entry 5253 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1650,7 +1783,7 @@ SELECT pg_catalog.setval('public.products_id_seq', 60, true);
 
 
 --
--- TOC entry 5252 (class 0 OID 0)
+-- TOC entry 5254 (class 0 OID 0)
 -- Dependencies: 244
 -- Name: reports_daily_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1659,7 +1792,7 @@ SELECT pg_catalog.setval('public.reports_daily_id_seq', 1, false);
 
 
 --
--- TOC entry 5253 (class 0 OID 0)
+-- TOC entry 5255 (class 0 OID 0)
 -- Dependencies: 246
 -- Name: shipping_zones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1668,7 +1801,7 @@ SELECT pg_catalog.setval('public.shipping_zones_id_seq', 4, true);
 
 
 --
--- TOC entry 5254 (class 0 OID 0)
+-- TOC entry 5256 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: user_addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1677,7 +1810,7 @@ SELECT pg_catalog.setval('public.user_addresses_id_seq', 1, false);
 
 
 --
--- TOC entry 5255 (class 0 OID 0)
+-- TOC entry 5257 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: user_wallets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1686,16 +1819,16 @@ SELECT pg_catalog.setval('public.user_wallets_id_seq', 1, false);
 
 
 --
--- TOC entry 5256 (class 0 OID 0)
+-- TOC entry 5258 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
+SELECT pg_catalog.setval('public.users_id_seq', 5, true);
 
 
 --
--- TOC entry 4879 (class 2606 OID 17706)
+-- TOC entry 4881 (class 2606 OID 17706)
 -- Name: __EFMigrationsHistory PK___EFMigrationsHistory; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1704,7 +1837,7 @@ ALTER TABLE ONLY public."__EFMigrationsHistory"
 
 
 --
--- TOC entry 4881 (class 2606 OID 17717)
+-- TOC entry 4883 (class 2606 OID 17717)
 -- Name: banners PK_banners; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1713,7 +1846,7 @@ ALTER TABLE ONLY public.banners
 
 
 --
--- TOC entry 4912 (class 2606 OID 17824)
+-- TOC entry 4914 (class 2606 OID 17824)
 -- Name: carts carts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1722,7 +1855,7 @@ ALTER TABLE ONLY public.carts
 
 
 --
--- TOC entry 4897 (class 2606 OID 17781)
+-- TOC entry 4899 (class 2606 OID 17781)
 -- Name: categories categories_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1731,7 +1864,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4899 (class 2606 OID 17779)
+-- TOC entry 4901 (class 2606 OID 17779)
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1740,7 +1873,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4901 (class 2606 OID 17783)
+-- TOC entry 4903 (class 2606 OID 17783)
 -- Name: categories categories_slug_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1749,7 +1882,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4930 (class 2606 OID 17893)
+-- TOC entry 4932 (class 2606 OID 17893)
 -- Name: coupons coupons_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1758,7 +1891,7 @@ ALTER TABLE ONLY public.coupons
 
 
 --
--- TOC entry 4932 (class 2606 OID 17891)
+-- TOC entry 4934 (class 2606 OID 17891)
 -- Name: coupons coupons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1767,7 +1900,7 @@ ALTER TABLE ONLY public.coupons
 
 
 --
--- TOC entry 4963 (class 2606 OID 36050)
+-- TOC entry 4965 (class 2606 OID 36050)
 -- Name: drivers drivers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1776,7 +1909,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 4965 (class 2606 OID 36052)
+-- TOC entry 4967 (class 2606 OID 36052)
 -- Name: drivers drivers_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1785,7 +1918,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 4959 (class 2606 OID 36031)
+-- TOC entry 4961 (class 2606 OID 36031)
 -- Name: inventory inventory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1794,7 +1927,7 @@ ALTER TABLE ONLY public.inventory
 
 
 --
--- TOC entry 4961 (class 2606 OID 36033)
+-- TOC entry 4963 (class 2606 OID 36033)
 -- Name: inventory inventory_product_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1803,7 +1936,7 @@ ALTER TABLE ONLY public.inventory
 
 
 --
--- TOC entry 4924 (class 2606 OID 17860)
+-- TOC entry 4926 (class 2606 OID 17860)
 -- Name: order_items order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1812,7 +1945,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4927 (class 2606 OID 17873)
+-- TOC entry 4929 (class 2606 OID 17873)
 -- Name: order_payments order_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1821,7 +1954,7 @@ ALTER TABLE ONLY public.order_payments
 
 
 --
--- TOC entry 4976 (class 2606 OID 36102)
+-- TOC entry 4978 (class 2606 OID 36102)
 -- Name: order_reviews order_reviews_order_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1830,7 +1963,7 @@ ALTER TABLE ONLY public.order_reviews
 
 
 --
--- TOC entry 4978 (class 2606 OID 36100)
+-- TOC entry 4980 (class 2606 OID 36100)
 -- Name: order_reviews order_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1839,7 +1972,7 @@ ALTER TABLE ONLY public.order_reviews
 
 
 --
--- TOC entry 4957 (class 2606 OID 35987)
+-- TOC entry 4959 (class 2606 OID 35987)
 -- Name: order_status_history order_status_history_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1848,7 +1981,7 @@ ALTER TABLE ONLY public.order_status_history
 
 
 --
--- TOC entry 4970 (class 2606 OID 36070)
+-- TOC entry 4972 (class 2606 OID 36070)
 -- Name: order_status_logs order_status_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1857,7 +1990,7 @@ ALTER TABLE ONLY public.order_status_logs
 
 
 --
--- TOC entry 4918 (class 2606 OID 17846)
+-- TOC entry 4920 (class 2606 OID 17846)
 -- Name: orders orders_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1866,7 +1999,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4920 (class 2606 OID 17844)
+-- TOC entry 4922 (class 2606 OID 17844)
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1875,7 +2008,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4984 (class 2606 OID 36137)
+-- TOC entry 4986 (class 2606 OID 36137)
 -- Name: payment_transactions payment_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1884,7 +2017,7 @@ ALTER TABLE ONLY public.payment_transactions
 
 
 --
--- TOC entry 4986 (class 2606 OID 36139)
+-- TOC entry 4988 (class 2606 OID 36139)
 -- Name: payment_transactions payment_transactions_transaction_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1893,7 +2026,7 @@ ALTER TABLE ONLY public.payment_transactions
 
 
 --
--- TOC entry 4910 (class 2606 OID 17813)
+-- TOC entry 4912 (class 2606 OID 17813)
 -- Name: product_options product_options_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1902,7 +2035,7 @@ ALTER TABLE ONLY public.product_options
 
 
 --
--- TOC entry 4938 (class 2606 OID 17909)
+-- TOC entry 4940 (class 2606 OID 17909)
 -- Name: product_reviews product_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1911,7 +2044,7 @@ ALTER TABLE ONLY public.product_reviews
 
 
 --
--- TOC entry 4951 (class 2606 OID 35969)
+-- TOC entry 4953 (class 2606 OID 35969)
 -- Name: product_stock product_stock_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1920,7 +2053,7 @@ ALTER TABLE ONLY public.product_stock
 
 
 --
--- TOC entry 4953 (class 2606 OID 35971)
+-- TOC entry 4955 (class 2606 OID 35971)
 -- Name: product_stock product_stock_product_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1929,7 +2062,7 @@ ALTER TABLE ONLY public.product_stock
 
 
 --
--- TOC entry 4905 (class 2606 OID 17798)
+-- TOC entry 4907 (class 2606 OID 17798)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1938,7 +2071,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4907 (class 2606 OID 17800)
+-- TOC entry 4909 (class 2606 OID 17800)
 -- Name: products products_slug_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1947,7 +2080,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4941 (class 2606 OID 17929)
+-- TOC entry 4943 (class 2606 OID 17929)
 -- Name: reports_daily reports_daily_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1956,7 +2089,7 @@ ALTER TABLE ONLY public.reports_daily
 
 
 --
--- TOC entry 4943 (class 2606 OID 17931)
+-- TOC entry 4945 (class 2606 OID 17931)
 -- Name: reports_daily reports_daily_report_date_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1965,7 +2098,7 @@ ALTER TABLE ONLY public.reports_daily
 
 
 --
--- TOC entry 4946 (class 2606 OID 35944)
+-- TOC entry 4948 (class 2606 OID 35944)
 -- Name: shipping_zones shipping_zones_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1974,7 +2107,7 @@ ALTER TABLE ONLY public.shipping_zones
 
 
 --
--- TOC entry 4948 (class 2606 OID 35942)
+-- TOC entry 4950 (class 2606 OID 35942)
 -- Name: shipping_zones shipping_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1983,7 +2116,7 @@ ALTER TABLE ONLY public.shipping_zones
 
 
 --
--- TOC entry 4895 (class 2606 OID 17765)
+-- TOC entry 4897 (class 2606 OID 17765)
 -- Name: user_addresses user_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1992,7 +2125,7 @@ ALTER TABLE ONLY public.user_addresses
 
 
 --
--- TOC entry 4891 (class 2606 OID 17750)
+-- TOC entry 4893 (class 2606 OID 17750)
 -- Name: user_wallets user_wallets_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2001,7 +2134,7 @@ ALTER TABLE ONLY public.user_wallets
 
 
 --
--- TOC entry 4885 (class 2606 OID 17734)
+-- TOC entry 4887 (class 2606 OID 17734)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2010,7 +2143,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4887 (class 2606 OID 17732)
+-- TOC entry 4889 (class 2606 OID 17732)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2019,7 +2152,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4882 (class 1259 OID 17914)
+-- TOC entry 4884 (class 1259 OID 17914)
 -- Name: idx_banners_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2027,7 +2160,7 @@ CREATE INDEX idx_banners_status ON public.banners USING btree (status);
 
 
 --
--- TOC entry 4913 (class 1259 OID 17825)
+-- TOC entry 4915 (class 1259 OID 17825)
 -- Name: idx_carts_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2035,7 +2168,7 @@ CREATE INDEX idx_carts_user ON public.carts USING btree (user_id);
 
 
 --
--- TOC entry 4933 (class 1259 OID 17894)
+-- TOC entry 4935 (class 1259 OID 17894)
 -- Name: idx_coupons_product; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2043,7 +2176,7 @@ CREATE INDEX idx_coupons_product ON public.coupons USING btree (product_id);
 
 
 --
--- TOC entry 4934 (class 1259 OID 17895)
+-- TOC entry 4936 (class 1259 OID 17895)
 -- Name: idx_coupons_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2051,7 +2184,7 @@ CREATE INDEX idx_coupons_status ON public.coupons USING btree (status);
 
 
 --
--- TOC entry 4966 (class 1259 OID 36059)
+-- TOC entry 4968 (class 1259 OID 36059)
 -- Name: idx_drivers_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2059,7 +2192,7 @@ CREATE INDEX idx_drivers_status ON public.drivers USING btree (status);
 
 
 --
--- TOC entry 4967 (class 1259 OID 36058)
+-- TOC entry 4969 (class 1259 OID 36058)
 -- Name: idx_drivers_user_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2067,7 +2200,7 @@ CREATE INDEX idx_drivers_user_id ON public.drivers USING btree (user_id);
 
 
 --
--- TOC entry 4921 (class 1259 OID 17861)
+-- TOC entry 4923 (class 1259 OID 17861)
 -- Name: idx_order_items_order; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2075,7 +2208,7 @@ CREATE INDEX idx_order_items_order ON public.order_items USING btree (order_id);
 
 
 --
--- TOC entry 4922 (class 1259 OID 17862)
+-- TOC entry 4924 (class 1259 OID 17862)
 -- Name: idx_order_items_prod; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2083,7 +2216,7 @@ CREATE INDEX idx_order_items_prod ON public.order_items USING btree (product_id)
 
 
 --
--- TOC entry 4925 (class 1259 OID 17874)
+-- TOC entry 4927 (class 1259 OID 17874)
 -- Name: idx_order_payments_order; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2091,7 +2224,7 @@ CREATE INDEX idx_order_payments_order ON public.order_payments USING btree (orde
 
 
 --
--- TOC entry 4971 (class 1259 OID 36121)
+-- TOC entry 4973 (class 1259 OID 36121)
 -- Name: idx_order_reviews_created_at; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2099,7 +2232,7 @@ CREATE INDEX idx_order_reviews_created_at ON public.order_reviews USING btree (c
 
 
 --
--- TOC entry 4972 (class 1259 OID 36120)
+-- TOC entry 4974 (class 1259 OID 36120)
 -- Name: idx_order_reviews_driver_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2107,7 +2240,7 @@ CREATE INDEX idx_order_reviews_driver_id ON public.order_reviews USING btree (dr
 
 
 --
--- TOC entry 4973 (class 1259 OID 36118)
+-- TOC entry 4975 (class 1259 OID 36118)
 -- Name: idx_order_reviews_order_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2115,7 +2248,7 @@ CREATE INDEX idx_order_reviews_order_id ON public.order_reviews USING btree (ord
 
 
 --
--- TOC entry 4974 (class 1259 OID 36119)
+-- TOC entry 4976 (class 1259 OID 36119)
 -- Name: idx_order_reviews_user_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2123,7 +2256,7 @@ CREATE INDEX idx_order_reviews_user_id ON public.order_reviews USING btree (user
 
 
 --
--- TOC entry 4954 (class 1259 OID 35998)
+-- TOC entry 4956 (class 1259 OID 35998)
 -- Name: idx_order_status_history_order; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2131,7 +2264,7 @@ CREATE INDEX idx_order_status_history_order ON public.order_status_history USING
 
 
 --
--- TOC entry 4955 (class 1259 OID 35999)
+-- TOC entry 4957 (class 1259 OID 35999)
 -- Name: idx_order_status_history_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2139,7 +2272,7 @@ CREATE INDEX idx_order_status_history_status ON public.order_status_history USIN
 
 
 --
--- TOC entry 4968 (class 1259 OID 36081)
+-- TOC entry 4970 (class 1259 OID 36081)
 -- Name: idx_order_status_logs_order_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2147,7 +2280,7 @@ CREATE INDEX idx_order_status_logs_order_id ON public.order_status_logs USING bt
 
 
 --
--- TOC entry 4914 (class 1259 OID 36087)
+-- TOC entry 4916 (class 1259 OID 36087)
 -- Name: idx_orders_driver_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2155,7 +2288,7 @@ CREATE INDEX idx_orders_driver_id ON public.orders USING btree (driver_id);
 
 
 --
--- TOC entry 4915 (class 1259 OID 17848)
+-- TOC entry 4917 (class 1259 OID 17848)
 -- Name: idx_orders_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2163,7 +2296,7 @@ CREATE INDEX idx_orders_status ON public.orders USING btree (status);
 
 
 --
--- TOC entry 4916 (class 1259 OID 17847)
+-- TOC entry 4918 (class 1259 OID 17847)
 -- Name: idx_orders_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2171,7 +2304,7 @@ CREATE INDEX idx_orders_user ON public.orders USING btree (user_id);
 
 
 --
--- TOC entry 4979 (class 1259 OID 36150)
+-- TOC entry 4981 (class 1259 OID 36150)
 -- Name: idx_payment_transactions_order_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2179,7 +2312,7 @@ CREATE INDEX idx_payment_transactions_order_id ON public.payment_transactions US
 
 
 --
--- TOC entry 4980 (class 1259 OID 36151)
+-- TOC entry 4982 (class 1259 OID 36151)
 -- Name: idx_payment_transactions_payment_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2187,7 +2320,7 @@ CREATE INDEX idx_payment_transactions_payment_id ON public.payment_transactions 
 
 
 --
--- TOC entry 4981 (class 1259 OID 36153)
+-- TOC entry 4983 (class 1259 OID 36153)
 -- Name: idx_payment_transactions_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2195,7 +2328,7 @@ CREATE INDEX idx_payment_transactions_status ON public.payment_transactions USIN
 
 
 --
--- TOC entry 4982 (class 1259 OID 36152)
+-- TOC entry 4984 (class 1259 OID 36152)
 -- Name: idx_payment_transactions_transaction_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2203,7 +2336,7 @@ CREATE INDEX idx_payment_transactions_transaction_id ON public.payment_transacti
 
 
 --
--- TOC entry 4908 (class 1259 OID 17814)
+-- TOC entry 4910 (class 1259 OID 17814)
 -- Name: idx_product_options_product; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2211,7 +2344,7 @@ CREATE INDEX idx_product_options_product ON public.product_options USING btree (
 
 
 --
--- TOC entry 4949 (class 1259 OID 35977)
+-- TOC entry 4951 (class 1259 OID 35977)
 -- Name: idx_product_stock_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2219,7 +2352,7 @@ CREATE INDEX idx_product_stock_status ON public.product_stock USING btree (statu
 
 
 --
--- TOC entry 4902 (class 1259 OID 17801)
+-- TOC entry 4904 (class 1259 OID 17801)
 -- Name: idx_products_category; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2227,7 +2360,7 @@ CREATE INDEX idx_products_category ON public.products USING btree (category_id);
 
 
 --
--- TOC entry 4903 (class 1259 OID 17802)
+-- TOC entry 4905 (class 1259 OID 17802)
 -- Name: idx_products_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2235,7 +2368,7 @@ CREATE INDEX idx_products_status ON public.products USING btree (status);
 
 
 --
--- TOC entry 4935 (class 1259 OID 17911)
+-- TOC entry 4937 (class 1259 OID 17911)
 -- Name: idx_reviews_product; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2243,7 +2376,7 @@ CREATE INDEX idx_reviews_product ON public.product_reviews USING btree (product_
 
 
 --
--- TOC entry 4936 (class 1259 OID 17912)
+-- TOC entry 4938 (class 1259 OID 17912)
 -- Name: idx_reviews_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2251,7 +2384,7 @@ CREATE INDEX idx_reviews_user ON public.product_reviews USING btree (user_id);
 
 
 --
--- TOC entry 4944 (class 1259 OID 35945)
+-- TOC entry 4946 (class 1259 OID 35945)
 -- Name: idx_shipping_zones_status; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2259,7 +2392,7 @@ CREATE INDEX idx_shipping_zones_status ON public.shipping_zones USING btree (sta
 
 
 --
--- TOC entry 4892 (class 1259 OID 17766)
+-- TOC entry 4894 (class 1259 OID 17766)
 -- Name: idx_user_addresses_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2267,7 +2400,7 @@ CREATE INDEX idx_user_addresses_user ON public.user_addresses USING btree (user_
 
 
 --
--- TOC entry 4893 (class 1259 OID 35952)
+-- TOC entry 4895 (class 1259 OID 35952)
 -- Name: idx_user_addresses_zone; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2275,7 +2408,7 @@ CREATE INDEX idx_user_addresses_zone ON public.user_addresses USING btree (zone_
 
 
 --
--- TOC entry 4888 (class 1259 OID 17752)
+-- TOC entry 4890 (class 1259 OID 17752)
 -- Name: idx_user_wallets_provider; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2283,7 +2416,7 @@ CREATE INDEX idx_user_wallets_provider ON public.user_wallets USING btree (provi
 
 
 --
--- TOC entry 4889 (class 1259 OID 17751)
+-- TOC entry 4891 (class 1259 OID 17751)
 -- Name: idx_user_wallets_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2291,7 +2424,7 @@ CREATE INDEX idx_user_wallets_user ON public.user_wallets USING btree (user_id);
 
 
 --
--- TOC entry 4883 (class 1259 OID 17735)
+-- TOC entry 4885 (class 1259 OID 17735)
 -- Name: idx_users_phone; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2299,7 +2432,7 @@ CREATE INDEX idx_users_phone ON public.users USING btree (phone);
 
 
 --
--- TOC entry 4928 (class 1259 OID 36004)
+-- TOC entry 4930 (class 1259 OID 36004)
 -- Name: ux_order_payments_provider_txn; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -2307,15 +2440,7 @@ CREATE UNIQUE INDEX ux_order_payments_provider_txn ON public.order_payments USIN
 
 
 --
--- TOC entry 4939 (class 1259 OID 17910)
--- Name: ux_reviews_product_user; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX ux_reviews_product_user ON public.product_reviews USING btree (product_id, user_id);
-
-
---
--- TOC entry 5014 (class 2620 OID 17915)
+-- TOC entry 5016 (class 2620 OID 17915)
 -- Name: banners trg_banners_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2323,7 +2448,7 @@ CREATE TRIGGER trg_banners_updated_at BEFORE UPDATE ON public.banners FOR EACH R
 
 
 --
--- TOC entry 5018 (class 2620 OID 17784)
+-- TOC entry 5020 (class 2620 OID 17784)
 -- Name: categories trg_categories_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2331,7 +2456,7 @@ CREATE TRIGGER trg_categories_updated_at BEFORE UPDATE ON public.categories FOR 
 
 
 --
--- TOC entry 5026 (class 2620 OID 17896)
+-- TOC entry 5028 (class 2620 OID 17896)
 -- Name: coupons trg_coupons_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2339,7 +2464,7 @@ CREATE TRIGGER trg_coupons_updated_at BEFORE UPDATE ON public.coupons FOR EACH R
 
 
 --
--- TOC entry 5031 (class 2620 OID 36060)
+-- TOC entry 5033 (class 2620 OID 36060)
 -- Name: drivers trg_drivers_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2347,7 +2472,7 @@ CREATE TRIGGER trg_drivers_updated_at BEFORE UPDATE ON public.drivers FOR EACH R
 
 
 --
--- TOC entry 5021 (class 2620 OID 36016)
+-- TOC entry 5023 (class 2620 OID 36016)
 -- Name: orders trg_order_cancel_restore_stock; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2355,7 +2480,7 @@ CREATE TRIGGER trg_order_cancel_restore_stock AFTER UPDATE OF status ON public.o
 
 
 --
--- TOC entry 5024 (class 2620 OID 36010)
+-- TOC entry 5026 (class 2620 OID 36010)
 -- Name: order_items trg_order_items_reserve_stock; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2363,7 +2488,7 @@ CREATE TRIGGER trg_order_items_reserve_stock AFTER INSERT ON public.order_items 
 
 
 --
--- TOC entry 5022 (class 2620 OID 36013)
+-- TOC entry 5024 (class 2620 OID 36013)
 -- Name: orders trg_order_paid_deduct_stock; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2371,7 +2496,7 @@ CREATE TRIGGER trg_order_paid_deduct_stock AFTER UPDATE OF status ON public.orde
 
 
 --
--- TOC entry 5025 (class 2620 OID 36008)
+-- TOC entry 5027 (class 2620 OID 36008)
 -- Name: order_payments trg_order_payments_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2379,7 +2504,7 @@ CREATE TRIGGER trg_order_payments_updated_at BEFORE UPDATE ON public.order_payme
 
 
 --
--- TOC entry 5032 (class 2620 OID 36122)
+-- TOC entry 5034 (class 2620 OID 36122)
 -- Name: order_reviews trg_order_reviews_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2387,7 +2512,7 @@ CREATE TRIGGER trg_order_reviews_updated_at BEFORE UPDATE ON public.order_review
 
 
 --
--- TOC entry 5023 (class 2620 OID 17849)
+-- TOC entry 5025 (class 2620 OID 17849)
 -- Name: orders trg_orders_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2395,7 +2520,7 @@ CREATE TRIGGER trg_orders_updated_at BEFORE UPDATE ON public.orders FOR EACH ROW
 
 
 --
--- TOC entry 5033 (class 2620 OID 36154)
+-- TOC entry 5035 (class 2620 OID 36154)
 -- Name: payment_transactions trg_payment_transactions_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2403,7 +2528,7 @@ CREATE TRIGGER trg_payment_transactions_updated_at BEFORE UPDATE ON public.payme
 
 
 --
--- TOC entry 5020 (class 2620 OID 17815)
+-- TOC entry 5022 (class 2620 OID 17815)
 -- Name: product_options trg_product_options_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2411,7 +2536,7 @@ CREATE TRIGGER trg_product_options_updated_at BEFORE UPDATE ON public.product_op
 
 
 --
--- TOC entry 5027 (class 2620 OID 17913)
+-- TOC entry 5029 (class 2620 OID 17913)
 -- Name: product_reviews trg_product_reviews_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2419,7 +2544,7 @@ CREATE TRIGGER trg_product_reviews_updated_at BEFORE UPDATE ON public.product_re
 
 
 --
--- TOC entry 5030 (class 2620 OID 35979)
+-- TOC entry 5032 (class 2620 OID 35979)
 -- Name: product_stock trg_product_stock_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2427,7 +2552,7 @@ CREATE TRIGGER trg_product_stock_updated_at BEFORE UPDATE ON public.product_stoc
 
 
 --
--- TOC entry 5019 (class 2620 OID 17803)
+-- TOC entry 5021 (class 2620 OID 17803)
 -- Name: products trg_products_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2435,7 +2560,7 @@ CREATE TRIGGER trg_products_updated_at BEFORE UPDATE ON public.products FOR EACH
 
 
 --
--- TOC entry 5028 (class 2620 OID 17932)
+-- TOC entry 5030 (class 2620 OID 17932)
 -- Name: reports_daily trg_reports_daily_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2443,7 +2568,7 @@ CREATE TRIGGER trg_reports_daily_updated_at BEFORE UPDATE ON public.reports_dail
 
 
 --
--- TOC entry 5029 (class 2620 OID 35953)
+-- TOC entry 5031 (class 2620 OID 35953)
 -- Name: shipping_zones trg_shipping_zones_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2451,7 +2576,7 @@ CREATE TRIGGER trg_shipping_zones_updated_at BEFORE UPDATE ON public.shipping_zo
 
 
 --
--- TOC entry 5017 (class 2620 OID 17767)
+-- TOC entry 5019 (class 2620 OID 17767)
 -- Name: user_addresses trg_user_addresses_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2459,7 +2584,7 @@ CREATE TRIGGER trg_user_addresses_updated_at BEFORE UPDATE ON public.user_addres
 
 
 --
--- TOC entry 5016 (class 2620 OID 17753)
+-- TOC entry 5018 (class 2620 OID 17753)
 -- Name: user_wallets trg_user_wallets_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2467,7 +2592,7 @@ CREATE TRIGGER trg_user_wallets_updated_at BEFORE UPDATE ON public.user_wallets 
 
 
 --
--- TOC entry 5015 (class 2620 OID 17736)
+-- TOC entry 5017 (class 2620 OID 17736)
 -- Name: users trg_users_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -2475,7 +2600,7 @@ CREATE TRIGGER trg_users_updated_at BEFORE UPDATE ON public.users FOR EACH ROW E
 
 
 --
--- TOC entry 5006 (class 2606 OID 36053)
+-- TOC entry 5008 (class 2606 OID 36053)
 -- Name: drivers drivers_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2484,7 +2609,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 4992 (class 2606 OID 17953)
+-- TOC entry 4994 (class 2606 OID 17953)
 -- Name: carts fk_carts_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2493,7 +2618,7 @@ ALTER TABLE ONLY public.carts
 
 
 --
--- TOC entry 4999 (class 2606 OID 17963)
+-- TOC entry 5001 (class 2606 OID 17963)
 -- Name: coupons fk_coupons_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2502,7 +2627,7 @@ ALTER TABLE ONLY public.coupons
 
 
 --
--- TOC entry 4996 (class 2606 OID 17973)
+-- TOC entry 4998 (class 2606 OID 17973)
 -- Name: order_items fk_order_items_order; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2511,7 +2636,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4997 (class 2606 OID 17978)
+-- TOC entry 4999 (class 2606 OID 17978)
 -- Name: order_items fk_order_items_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2520,7 +2645,7 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- TOC entry 4998 (class 2606 OID 17983)
+-- TOC entry 5000 (class 2606 OID 17983)
 -- Name: order_payments fk_order_payments_order; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2529,7 +2654,7 @@ ALTER TABLE ONLY public.order_payments
 
 
 --
--- TOC entry 4993 (class 2606 OID 17968)
+-- TOC entry 4995 (class 2606 OID 17968)
 -- Name: orders fk_orders_coupon; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2538,7 +2663,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4994 (class 2606 OID 17958)
+-- TOC entry 4996 (class 2606 OID 17958)
 -- Name: orders fk_orders_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2547,7 +2672,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 4991 (class 2606 OID 17948)
+-- TOC entry 4993 (class 2606 OID 17948)
 -- Name: product_options fk_product_options_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2556,7 +2681,7 @@ ALTER TABLE ONLY public.product_options
 
 
 --
--- TOC entry 4990 (class 2606 OID 17943)
+-- TOC entry 4992 (class 2606 OID 17943)
 -- Name: products fk_products_category; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2565,7 +2690,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 5000 (class 2606 OID 17988)
+-- TOC entry 5002 (class 2606 OID 17988)
 -- Name: product_reviews fk_reviews_product; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2574,7 +2699,7 @@ ALTER TABLE ONLY public.product_reviews
 
 
 --
--- TOC entry 5001 (class 2606 OID 17993)
+-- TOC entry 5003 (class 2606 OID 17993)
 -- Name: product_reviews fk_reviews_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2583,7 +2708,7 @@ ALTER TABLE ONLY public.product_reviews
 
 
 --
--- TOC entry 4988 (class 2606 OID 17938)
+-- TOC entry 4990 (class 2606 OID 17938)
 -- Name: user_addresses fk_user_addresses_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2592,7 +2717,7 @@ ALTER TABLE ONLY public.user_addresses
 
 
 --
--- TOC entry 4989 (class 2606 OID 35947)
+-- TOC entry 4991 (class 2606 OID 35947)
 -- Name: user_addresses fk_user_addresses_zone; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2601,7 +2726,7 @@ ALTER TABLE ONLY public.user_addresses
 
 
 --
--- TOC entry 4987 (class 2606 OID 17933)
+-- TOC entry 4989 (class 2606 OID 17933)
 -- Name: user_wallets fk_user_wallets_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2610,7 +2735,7 @@ ALTER TABLE ONLY public.user_wallets
 
 
 --
--- TOC entry 5005 (class 2606 OID 36034)
+-- TOC entry 5007 (class 2606 OID 36034)
 -- Name: inventory inventory_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2619,7 +2744,7 @@ ALTER TABLE ONLY public.inventory
 
 
 --
--- TOC entry 5009 (class 2606 OID 36113)
+-- TOC entry 5011 (class 2606 OID 36113)
 -- Name: order_reviews order_reviews_driver_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2628,7 +2753,7 @@ ALTER TABLE ONLY public.order_reviews
 
 
 --
--- TOC entry 5010 (class 2606 OID 36103)
+-- TOC entry 5012 (class 2606 OID 36103)
 -- Name: order_reviews order_reviews_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2637,7 +2762,7 @@ ALTER TABLE ONLY public.order_reviews
 
 
 --
--- TOC entry 5011 (class 2606 OID 36108)
+-- TOC entry 5013 (class 2606 OID 36108)
 -- Name: order_reviews order_reviews_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2646,7 +2771,7 @@ ALTER TABLE ONLY public.order_reviews
 
 
 --
--- TOC entry 5003 (class 2606 OID 35993)
+-- TOC entry 5005 (class 2606 OID 35993)
 -- Name: order_status_history order_status_history_created_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2655,7 +2780,7 @@ ALTER TABLE ONLY public.order_status_history
 
 
 --
--- TOC entry 5004 (class 2606 OID 35988)
+-- TOC entry 5006 (class 2606 OID 35988)
 -- Name: order_status_history order_status_history_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2664,7 +2789,7 @@ ALTER TABLE ONLY public.order_status_history
 
 
 --
--- TOC entry 5007 (class 2606 OID 36076)
+-- TOC entry 5009 (class 2606 OID 36076)
 -- Name: order_status_logs order_status_logs_changed_by_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2673,7 +2798,7 @@ ALTER TABLE ONLY public.order_status_logs
 
 
 --
--- TOC entry 5008 (class 2606 OID 36071)
+-- TOC entry 5010 (class 2606 OID 36071)
 -- Name: order_status_logs order_status_logs_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2682,7 +2807,7 @@ ALTER TABLE ONLY public.order_status_logs
 
 
 --
--- TOC entry 4995 (class 2606 OID 36082)
+-- TOC entry 4997 (class 2606 OID 36082)
 -- Name: orders orders_driver_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2691,7 +2816,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 5012 (class 2606 OID 36140)
+-- TOC entry 5014 (class 2606 OID 36140)
 -- Name: payment_transactions payment_transactions_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2700,7 +2825,7 @@ ALTER TABLE ONLY public.payment_transactions
 
 
 --
--- TOC entry 5013 (class 2606 OID 36145)
+-- TOC entry 5015 (class 2606 OID 36145)
 -- Name: payment_transactions payment_transactions_payment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2709,7 +2834,7 @@ ALTER TABLE ONLY public.payment_transactions
 
 
 --
--- TOC entry 5002 (class 2606 OID 35972)
+-- TOC entry 5004 (class 2606 OID 35972)
 -- Name: product_stock product_stock_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2717,11 +2842,11 @@ ALTER TABLE ONLY public.product_stock
     ADD CONSTRAINT product_stock_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id) ON DELETE CASCADE;
 
 
--- Completed on 2025-12-13 00:54:38
+-- Completed on 2025-12-19 14:57:27
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Z3ttpXUgkV9kHOL9OrbmkBWhDh2eZZLipqACeg1kePud9fgIWLa512Wsya6LVTC
+\unrestrict 8Vcvbm3nE9hF2WbKcENveXX0Ci9lFfmR5zJHDVJMPknR1Q0DBbaHA9gSCe3i5Ch
 

@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between align-items-center d-md-none py-4">
                     <h3 class="fs-5 mb-0">Quản lý địa chỉ</h3>
                     <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3" type="button"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
                         <i class="bi bi-text-indent-left fs-3"></i>
                     </button>
                 </div>
@@ -20,25 +20,25 @@
                 <div class="pt-10 pe-lg-10">
                     <ul class="nav flex-column nav-pills nav-pills-dark">
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Orders", "User")">
+                            <a class="nav-link" href="/user/orders">
                                 <i class="feather-icon icon-shopping-bag me-2"></i>
                                 @ViewBag.MyOrders
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Settings", "User")">
+                            <a class="nav-link" href="/user/settings">
                                 <i class="feather-icon icon-settings me-2"></i>
                                 @ViewBag.Settings
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="@Url.Action("Address", "User")">
+                            <a class="nav-link active" aria-current="page" href="/user/address">
                                 <i class="feather-icon icon-map-pin me-2"></i>
                                 @ViewBag.AddressTitle
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("PaymentMethod", "User")">
+                            <a class="nav-link" href="/user/paymentmethod">
                                 <i class="feather-icon icon-credit-card me-2"></i>
                                 @ViewBag.PaymentMethodTitle
                             </a>
@@ -62,11 +62,21 @@
                                 <div class="card">
                                     <div class="card-body p-6">
                                         <div class="form-check mb-4">
-                                            <input class="form-check-input" type="radio" name="defaultAddress" :checked="it.isDefault" x-on:change="setDefault(it.id)" />
+                                            <input class="form-check-input" type="radio" name="defaultAddress"
+                                                   :checked="it.isDefault"
+                                                   x-on:change="setDefault(it.id)" />
                                             <label class="form-check-label text-dark fw-semibold" x-text="it.name"></label>
                                         </div>
-                                        <p class="mb-6"><span x-text="it.address"></span><br/><span x-text="it.phone"></span></p>
-                                        <span class="badge bg-light-info text-dark-info" x-show="it.isDefault">@ViewBag.DefaultAddressBadge</span>
+
+                                        <p class="mb-6">
+                                            <span x-text="it.address"></span><br />
+                                            <span x-text="it.phone"></span>
+                                        </p>
+
+                                        <span class="badge bg-light-info text-dark-info" x-show="it.isDefault">
+                                            @ViewBag.DefaultAddressBadge
+                                        </span>
+
                                         <div class="mt-4">
                                             <a href="#" class="text-inherit" x-on:click.prevent="edit(it)">@ViewBag.Edit</a>
                                             <a href="#" class="text-danger ms-3" x-on:click.prevent="remove(it.id)">@ViewBag.Delete</a>
@@ -75,8 +85,13 @@
                                 </div>
                             </div>
                         </template>
-                        <div class="col-12 text-center text-muted py-6" x-show="!loading && addresses.length===0">@ViewBag.NoAddressesMessage</div>
-                        <div class="col-12 text-center text-danger py-6" x-show="error">@ViewBag.LoadAddressesError</div>
+
+                        <div class="col-12 text-center text-muted py-6" x-show="!loading && addresses.length===0">
+                            @ViewBag.NoAddressesMessage
+                        </div>
+                        <div class="col-12 text-center text-danger py-6" x-show="error">
+                            @ViewBag.LoadAddressesError
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,6 +107,7 @@
                 <h5 class="modal-title" id="addAddressModalLabel">@ViewBag.AddressModalTitle</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
                 <form id="addressForm">
                     <div class="mb-3">
@@ -102,14 +118,17 @@
                             <option value="3">@ViewBag.AddressTypeOther</option>
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="addrFullName" class="form-label">@ViewBag.FullNameLabel</label>
                         <input type="text" class="form-control" id="addrFullName" x-model="form.fullName" />
                     </div>
+
                     <div class="mb-3">
                         <label for="addrStreet" class="form-label">@ViewBag.StreetAddressLabel</label>
                         <input type="text" class="form-control" id="addrStreet" x-model="form.streetAddress" />
                     </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="addrCity" class="form-label">@ViewBag.CityLabel</label>
@@ -120,6 +139,7 @@
                             <input type="text" class="form-control" id="addrState" x-model="form.state" />
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="addrZip" class="form-label">@ViewBag.ZipCodeLabel</label>
@@ -130,13 +150,16 @@
                             <input type="tel" class="form-control" id="addrPhone" x-model="form.phone" />
                         </div>
                     </div>
+
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="addrDefault" x-model="form.isDefault" />
                         <label class="form-check-label" for="addrDefault">@ViewBag.SetDefaultAddress</label>
                     </div>
+
                     <input type="hidden" id="addrId" x-model="form.id" />
                 </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@ViewBag.Cancel</button>
                 <button type="button" class="btn btn-primary" id="btnSaveAddress">@ViewBag.SaveAddressButton</button>
@@ -146,24 +169,206 @@
 </div>
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 <script>
 function addressManager(){
   return {
     addresses: [],
     loading: false,
     error: false,
+
     form: { id: 0, addressType: '1', fullName: '', phone: '', streetAddress: '', city: '', state: '', zipCode: '', isDefault: false },
     isSubmitting: false,
-    init(){ this.loadAddresses(); const btn=document.getElementById('btnSaveAddress'); if(btn){ btn.addEventListener('click', ()=>{ this.save(); }); } },
-    composeAddress(){ const parts=[this.form.streetAddress,this.form.city,this.form.state,this.form.zipCode].map(s=>String(s||'').trim()).filter(Boolean); return parts.join(', '); },
-    parseAddress(a){ const parts=String(a||'').split(',').map(s=>s.trim()); this.form.streetAddress=parts[0]||''; this.form.city=parts[1]||''; this.form.state=parts[2]||''; this.form.zipCode=parts[3]||''; },
-    resetForm(){ this.form={ id: 0, addressType: '1', fullName:'', phone:'', streetAddress:'', city:'', state:'', zipCode:'', isDefault:false }; },
-    async loadAddresses(){ this.loading=true; this.error=false; try { const res=await fetch('/api/user/addresses'); const json=await res.json(); this.addresses=json.data||[]; } catch(e){ this.error=true; } finally { this.loading=false; } },
-    openCreateModal(){ this.resetForm(); bootstrap.Modal.getOrCreateInstance(document.getElementById('addAddressModal')).show(); },
-    edit(it){ this.form.id=Number(it.id||0); this.form.fullName=it.name||''; this.form.phone=it.phone||''; this.form.isDefault=!!it.isDefault; this.parseAddress(it.address||''); bootstrap.Modal.getOrCreateInstance(document.getElementById('addAddressModal')).show(); },
-    async remove(id){ if(!confirm('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.DeleteAddressConfirm)')) return; try { const r=await fetch(`/api/user/addresses/${id}`,{method:'DELETE', credentials:'same-origin'}); if(r.ok){ await this.loadAddresses(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } },
-    async setDefault(id){ try { const r=await fetch(`/api/user/addresses/${id}/default`,{method:'POST', credentials:'same-origin'}); if(r.ok){ await this.loadAddresses(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } },
-    async save(){ if(this.isSubmitting) return; this.isSubmitting=true; const name=(this.form.fullName||document.getElementById('addrFullName')?.value||'').trim(); const phone=(this.form.phone||document.getElementById('addrPhone')?.value||'').trim(); const street=(this.form.streetAddress||document.getElementById('addrStreet')?.value||'').trim(); const city=(this.form.city||document.getElementById('addrCity')?.value||'').trim(); const state=(this.form.state||document.getElementById('addrState')?.value||'').trim(); const zip=(this.form.zipCode||document.getElementById('addrZip')?.value||'').trim(); const isDefault=this.form.isDefault || !!document.getElementById('addrDefault')?.checked; if(!name||!phone||!street||!city||!state||!zip){ this.isSubmitting=false; alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)'); return; } const address=[street,city,state,zip].filter(Boolean).join(', '); const payload={ name, phone, address, isDefault }; const id=Number(this.form.id||0); try { let r; if(id>0){ r=await fetch(`/api/user/addresses/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'}, credentials:'same-origin',body:JSON.stringify(payload)}); } else { r=await fetch('/api/user/addresses',{method:'POST',headers:{'Content-Type':'application/json'}, credentials:'same-origin',body:JSON.stringify(payload)}); } if(r.ok){ bootstrap.Modal.getOrCreateInstance(document.getElementById('addAddressModal')).hide(); this.resetForm(); await this.loadAddresses(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } finally { this.isSubmitting=false; } }
+    _bound: false,
+
+    init(){
+      this.loadAddresses();
+
+      if (this._bound) return;
+      const btn = document.getElementById('btnSaveAddress');
+      if (btn){
+        btn.addEventListener('click', () => { this.save(); });
+        this._bound = true;
+      }
+    },
+
+    composeAddress(){
+      const parts = [this.form.streetAddress, this.form.city, this.form.state, this.form.zipCode]
+        .map(s => String(s || '').trim())
+        .filter(Boolean);
+      return parts.join(', ');
+    },
+
+    parseAddress(a){
+      const parts = String(a || '').split(',').map(s => s.trim());
+      this.form.streetAddress = parts[0] || '';
+      this.form.city = parts[1] || '';
+      this.form.state = parts[2] || '';
+      this.form.zipCode = parts[3] || '';
+    },
+
+    resetForm(){
+      this.form = { id: 0, addressType: '1', fullName:'', phone:'', streetAddress:'', city:'', state:'', zipCode:'', isDefault:false };
+    },
+
+    // =========================
+    // LOAD (HARD-CODE ONLY)
+    // =========================
+    async loadAddresses(){
+      this.loading = true;
+      this.error = false;
+
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // const res = await fetch('/api/user/addresses');
+        // const json = await res.json();
+        // this.addresses = json.data || [];
+        // =====================================================
+
+        // HARD-CODE DATA (demo)
+        this.addresses = [
+          {
+            id: 1,
+            name: 'Mỹ Linh',
+            phone: '0901 234 567',
+            address: '12 Nguyễn Trãi, Phường 7, Quận 5, 700000',
+            isDefault: true
+          },
+          {
+            id: 2,
+            name: 'Mỹ Linh(Công ty)',
+            phone: '0901 234 567',
+            address: '99 Lê Lợi, Bến Nghé, Quận 1, 700000',
+            isDefault: false
+          },
+          {
+            id: 3,
+            name: 'Mỹ Linh',
+            phone: '0901 234 567',
+            address: '25 Võ Văn Tần, Phường 6, Quận 3, 700000',
+            isDefault: false
+          }
+        ];
+      } catch(e){
+        this.error = true;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    openCreateModal(){
+      this.resetForm();
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('addAddressModal')).show();
+    },
+
+    edit(it){
+      this.form.id = Number(it.id || 0);
+      this.form.fullName = it.name || '';
+      this.form.phone = it.phone || '';
+      this.form.isDefault = !!it.isDefault;
+      this.parseAddress(it.address || '');
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('addAddressModal')).show();
+    },
+
+    // =========================
+    // REMOVE (CLIENT ONLY)
+    // =========================
+    async remove(id){
+      if(!confirm('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.DeleteAddressConfirm)')) return;
+
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // const r = await fetch(`/api/user/addresses/${id}`,{ method:'DELETE', credentials:'same-origin' });
+        // if(r.ok){ await this.loadAddresses(); }
+        // =====================================================
+
+        // CLIENT ONLY
+        this.addresses = this.addresses.filter(x => Number(x.id) !== Number(id));
+      } catch {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      }
+    },
+
+    // =========================
+    // SET DEFAULT (CLIENT ONLY)
+    // =========================
+    async setDefault(id){
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // const r = await fetch(`/api/user/addresses/${id}/default`,{ method:'POST', credentials:'same-origin' });
+        // if(r.ok){ await this.loadAddresses(); }
+        // =====================================================
+
+        // CLIENT ONLY
+        const targetId = Number(id);
+        this.addresses = this.addresses.map(x => ({ ...x, isDefault: Number(x.id) === targetId }));
+      } catch {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      }
+    },
+
+    // =========================
+    // SAVE (CLIENT ONLY)
+    // =========================
+    async save(){
+      if(this.isSubmitting) return;
+      this.isSubmitting = true;
+
+      const name  = (this.form.fullName || document.getElementById('addrFullName')?.value || '').trim();
+      const phone = (this.form.phone || document.getElementById('addrPhone')?.value || '').trim();
+      const street= (this.form.streetAddress || document.getElementById('addrStreet')?.value || '').trim();
+      const city  = (this.form.city || document.getElementById('addrCity')?.value || '').trim();
+      const state = (this.form.state || document.getElementById('addrState')?.value || '').trim();
+      const zip   = (this.form.zipCode || document.getElementById('addrZip')?.value || '').trim();
+      const isDefault = this.form.isDefault || !!document.getElementById('addrDefault')?.checked;
+
+      if(!name || !phone || !street || !city || !state || !zip){
+        this.isSubmitting = false;
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)');
+        return;
+      }
+
+      const address = [street, city, state, zip].filter(Boolean).join(', ');
+      const payload = { name, phone, address, isDefault };
+      const id = Number(this.form.id || 0);
+
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // let r;
+        // if(id>0){
+        //   r=await fetch(`/api/user/addresses/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'}, credentials:'same-origin',body:JSON.stringify(payload)});
+        // } else {
+        //   r=await fetch('/api/user/addresses',{method:'POST',headers:{'Content-Type':'application/json'}, credentials:'same-origin',body:JSON.stringify(payload)});
+        // }
+        // if(r.ok){ bootstrap.Modal...hide(); this.resetForm(); await this.loadAddresses(); }
+        // =====================================================
+
+        // CLIENT ONLY
+        if (payload.isDefault) {
+          this.addresses = this.addresses.map(x => ({ ...x, isDefault: false }));
+        }
+
+        if (id > 0) {
+          // update
+          this.addresses = this.addresses.map(x => Number(x.id) === id ? { ...x, ...payload, id } : x);
+        } else {
+          // create
+          const newId = this.addresses.length ? Math.max(...this.addresses.map(x => Number(x.id))) + 1 : 1;
+          this.addresses = [{ ...payload, id: newId }, ...this.addresses];
+        }
+
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('addAddressModal')).hide();
+        this.resetForm();
+      } catch {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      } finally {
+        this.isSubmitting = false;
+      }
+    }
   }
 }
 </script>

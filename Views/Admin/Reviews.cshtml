@@ -2,546 +2,389 @@
     ViewData["Title"] = ViewBag.ReviewTitle;
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
-					<div class="row mb-8">
-						<div class="col-md-12">
-							<div>
-								<!-- page header -->
-								<h2>@ViewBag.ReviewTitle</h2>
-								<!-- breacrumb -->
-								<nav aria-label="breadcrumb">
-									<ol class="breadcrumb mb-0">
-										<li class="breadcrumb-item"><a href="#" class="text-inherit">@ViewBag.Dashboard</a></li>
-										<li class="breadcrumb-item active" aria-current="page">@ViewBag.ReviewTitle</li>
-									</ol>
-								</nav>
-							</div>
-						</div>
-					</div>
-					<!-- row -->
-					<div class="row">
-						<div class="col-xl-12 col-12 mb-5">
-							<!-- card -->
-							<div class="card h-100 card-lg">
-								<div class="p-6">
-									<div class="row justify-content-between">
-										<div class="col-md-4 col-12 mb-2 mb-md-0">
-											<!-- form -->
-											<form class="d-flex" role="search">
-												<input class="form-control" type="search" placeholder="Search Reviews" aria-label="Search" />
-											</form>
-										</div>
-										<div class="col-lg-2 col-md-4 col-12">
-											<!-- main -->
-											<select class="form-select">
-												<option selected>Select Rating</option>
-												<option value="1">One</option>
-												<option value="2">Two</option>
-												<option value="3">Three</option>
-												<option value="4">Four</option>
-												<option value="5">Five</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<!-- card body -->
-								<div class="card-body p-0">
-									<!-- table -->
-									<div class="table-responsive">
-										<table class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
-											<thead class="bg-light">
-												<tr>
-													<th>
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="checkAll" />
-															<label class="form-check-label" for="checkAll"></label>
-														</div>
-													</th>
-													<th>@ViewBag.ReviewProduct</th>
-													<th>Name</th>
-													<th>@ViewBag.ReviewTitle</th>
-													<th>@ViewBag.ReviewRating</th>
-													<th>@ViewBag.ReviewDate</th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewOne" />
-															<label class="form-check-label" for="reviewOne"></label>
-														</div>
-													</td>
+<div class="p-6">
+    <div class="row justify-content-between">
+        <div class="col-md-4 col-12 mb-2 mb-md-0">
+            <!-- form -->
+            <form class="d-flex" role="search">
+                <input class="form-control" type="search" placeholder="Tìm kiếm đánh giá..." aria-label="Tìm kiếm" />
+            </form>
+        </div>
+        <div class="col-lg-2 col-md-4 col-12">
+            <!-- main -->
+            <select class="form-select">
+                <option selected>Chọn số sao</option>
+                <option value="1">1 sao</option>
+                <option value="2">2 sao</option>
+                <option value="3">3 sao</option>
+                <option value="4">4 sao</option>
+                <option value="5">5 sao</option>
+            </select>
+        </div>
+    </div>
+</div>
 
-													<td><a href="#" class="text-reset">Haldiram's Sev Bhujia</a></td>
-													<td>Barry McKenzie</td>
+<!-- table -->
+<div class="table-responsive">
+    <table class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
+        <thead class="bg-light">
+            <tr>
+                <th>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="checkAll" />
+                        <label class="form-check-label" for="checkAll"></label>
+                    </div>
+                </th>
+                <th>@ViewBag.ReviewProduct</th>
+                <th>Người đánh giá</th>
+                <th>@ViewBag.ReviewTitle</th>
+                <th>@ViewBag.ReviewRating</th>
+                <th>@ViewBag.ReviewDate</th>
+                <th></th>
+            </tr>
+        </thead>
 
-													<td>
-														<span class="text-truncate">Nice & fresh oranges with value for money..</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewTwo" />
-															<label class="form-check-label" for="reviewTwo"></label>
-														</div>
-													</td>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewOne" />
+                        <label class="form-check-label" for="reviewOne"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Burger Gà + Pepsi</a></td>
+                <td>Nguyễn Minh An</td>
+                <td><span class="text-truncate">Burger gà giòn, khoai nóng, Pepsi lạnh. Rất đáng tiền.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                    </div>
+                </td>
+                <td>12/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td><a href="#" class="text-reset">NutriChoice Digestive</a></td>
-													<td>Dale Jenkins</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewTwo" />
+                        <label class="form-check-label" for="reviewTwo"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Burger Bò + Khoai</a></td>
+                <td>Trần Thuỳ Linh</td>
+                <td><span class="text-truncate">Burger bò đậm vị, khoai hơi mềm một chút nhưng vẫn ổn.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-light"></i></span>
+                    </div>
+                </td>
+                <td>13/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td>
-														<span class="text-truncate">Nice product 👌 quality 👌...</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="checkAllThree" />
-															<label class="form-check-label" for="checkAllThree"></label>
-														</div>
-													</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewThree" />
+                        <label class="form-check-label" for="reviewThree"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Gà Rán (2 miếng) + Pepsi</a></td>
+                <td>Lê Quốc Huy</td>
+                <td><span class="text-truncate">Gà rán giòn, ít dầu, ăn kèm khoai và Pepsi rất hợp.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                    </div>
+                </td>
+                <td>14/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td><a href="#" class="text-reset">Cadbury 5 Star Chocolate</a></td>
-													<td>Michael Phillips</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewFour" />
+                        <label class="form-check-label" for="reviewFour"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Mì Ý Bò + 7Up</a></td>
+                <td>Phạm Ngọc Mai</td>
+                <td><span class="text-truncate">Sốt bò bằm ngon, phần mì vừa đủ, 7Up uống mát.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-light"></i></span>
+                    </div>
+                </td>
+                <td>15/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td>
-														<span class="text-truncate">Good quality product delivered...</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewFour" />
-															<label class="form-check-label" for="reviewFour"></label>
-														</div>
-													</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewFive" />
+                        <label class="form-check-label" for="reviewFive"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Cơm Gà Nước Mắm</a></td>
+                <td>Võ Thanh Tâm</td>
+                <td><span class="text-truncate">Cơm gà nước mắm thơm, hơi mặn nhẹ nhưng ăn rất bắt miệng.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-light"></i></span>
+                    </div>
+                </td>
+                <td>16/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td><a href="#" class="text-reset">Onion Flavour Potato</a></td>
-													<td>James Parker</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewSix" />
+                        <label class="form-check-label" for="reviewSix"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Burger Tôm + Khoai</a></td>
+                <td>Nguyễn Gia Bảo</td>
+                <td><span class="text-truncate">Burger tôm ổn, nhưng miếng tôm hơi nhỏ. Khoai giòn.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-light"></i></span>
+                        <span><i class="bi bi-star-fill text-light"></i></span>
+                    </div>
+                </td>
+                <td>17/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td>
-														<span class="text-truncate">Excellent Quality by an Indian company..</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewFive" />
-															<label class="form-check-label" for="reviewFive"></label>
-														</div>
-													</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewSeven" />
+                        <label class="form-check-label" for="reviewSeven"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Double Burger Bò</a></td>
+                <td>Đặng Khánh Vy</td>
+                <td><span class="text-truncate">2 lớp bò ăn rất đã, no lâu. Phần khoai + nước hợp lý.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                    </div>
+                </td>
+                <td>18/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td><a href="#" class="text-reset">Salted Instant Popcorn</a></td>
-													<td>William Hansen</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewEight" />
+                        <label class="form-check-label" for="reviewEight"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Gà Cay Hàn + Khoai</a></td>
+                <td>Bùi Đức Thành</td>
+                <td><span class="text-truncate">Cay vừa, vị kiểu Hàn dễ ăn. Khoai nóng giòn.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-light"></i></span>
+                    </div>
+                </td>
+                <td>19/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td>
-														<span class="text-truncate">Very expensive. Cheaper at local stores...</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewSix" />
-															<label class="form-check-label" for="reviewSix"></label>
-														</div>
-													</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewNine" />
+                        <label class="form-check-label" for="reviewNine"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Cánh Gà + Pepsi</a></td>
+                <td>Hồ Mỹ Duyên</td>
+                <td><span class="text-truncate">Cánh gà mật ong thơm, hơi ngọt nhưng ăn cuốn. Pepsi hợp.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-light"></i></span>
+                    </div>
+                </td>
+                <td>20/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
 
-													<td><a href="#" class="text-reset">Blueberry Greek Yogurt</a></td>
-													<td>Helen Speller</td>
+            <tr>
+                <td class="pe-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="reviewTen" />
+                        <label class="form-check-label" for="reviewTen"></label>
+                    </div>
+                </td>
+                <td><a href="#" class="text-reset">Combo Gia Đình 2 Người</a></td>
+                <td>Nguyễn Tuấn Kiệt</td>
+                <td><span class="text-truncate">Phù hợp 2 người, phần khoai lớn và 2 nước uống đủ dùng.</span></td>
+                <td>
+                    <div>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                        <span><i class="bi bi-star-fill text-warning"></i></span>
+                    </div>
+                </td>
+                <td>21/10/2025</td>
+                <td>
+                    <div class="dropdown">
+                        <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Xoá</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3"></i>Sửa</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-													<td>
-														<span class="text-truncate">Etiam in felis eget eros dictum</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewSeven" />
-															<label class="form-check-label" for="reviewSeven"></label>
-														</div>
-													</td>
-
-													<td><a href="#" class="text-reset">Britannia Cheese Slices</a></td>
-													<td>Larry Anderson</td>
-
-													<td>
-														<span class="text-truncate">is good but had to wait for a late delivery.</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewEight" />
-															<label class="form-check-label" for="reviewEight"></label>
-														</div>
-													</td>
-
-													<td><a href="#" class="text-reset">Kellogg's Original Cereals</a></td>
-													<td>William McCulloch</td>
-
-													<td>
-														<span class="text-truncate">Very expensive. Cheaper at local stores</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewNine" />
-															<label class="form-check-label" for="reviewNine"></label>
-														</div>
-													</td>
-
-													<td><a href="#" class="text-reset">Slurrp Millet Chocolate</a></td>
-													<td>Louise Brown</td>
-
-													<td>
-														<span class="text-truncate">My toddler loved the flavor and enjoys...</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<td class="pe-0">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox" value="" id="reviewTen" />
-															<label class="form-check-label" for="reviewTen"></label>
-														</div>
-													</td>
-
-													<td><a href="#" class="text-reset">Amul Butter - 500 g</a></td>
-													<td>John Meyer</td>
-
-													<td>
-														<span class="text-truncate">Good Product but packaging needs...</span>
-													</td>
-													<td>
-														<div>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-warning"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-															<span><i class="bi bi-star-fill text-light"></i></span>
-														</div>
-													</td>
-													<td>23 Nov,2022</td>
-													<td>
-														<div class="dropdown">
-															<a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-																<i class="feather-icon icon-more-vertical fs-5"></i>
-															</a>
-															<ul class="dropdown-menu">
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-trash me-3"></i>
-																		Delete
-																	</a>
-																</li>
-																<li>
-																	<a class="dropdown-item" href="#">
-																		<i class="bi bi-pencil-square me-3"></i>
-																		Edit
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-
-									<div class="border-top d-md-flex justify-content-between align-items-center p-6">
-										<span>Showing 1 to 8 of 12 entries</span>
-										<nav class="mt-2 mt-md-0">
-											<ul class="pagination mb-0">
-												<li class="page-item disabled"><a class="page-link" href="#!">Previous</a></li>
-												<li class="page-item"><a class="page-link active" href="#!">1</a></li>
-												<li class="page-item"><a class="page-link" href="#!">2</a></li>
-												<li class="page-item"><a class="page-link" href="#!">3</a></li>
-												<li class="page-item"><a class="page-link" href="#!">Next</a></li>
-											</ul>
-										</nav>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+<div class="border-top d-md-flex justify-content-between align-items-center p-6">
+    <span>Hiển thị 1 đến 10 của 10 mục</span>
+    <nav class="mt-2 mt-md-0">
+        <ul class="pagination mb-0">
+            <li class="page-item disabled"><a class="page-link" href="#!">Trước</a></li>
+            <li class="page-item"><a class="page-link active" href="#!">1</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#!">Sau</a></li>
+        </ul>
+    </nav>
+</div>

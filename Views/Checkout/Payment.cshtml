@@ -221,11 +221,11 @@
                                                          x-text="coupon.description"></div>
                                                     <div class="small mt-1" 
                                                          :class="selectedCoupon?.id === coupon.id ? 'text-dark' : 'text-muted'">
-                                                        <span x-show="coupon.discountType === 'percentage'">
-                                                            Giảm <span x-text="coupon.discountValue"></span>%
+                                                        <span x-show="coupon.type === 1">
+                                                            Giảm <span x-text="coupon.value"></span>%
                                                         </span>
-                                                        <span x-show="coupon.discountType === 'fixed'">
-                                                            Giảm <span x-text="formatMoney(coupon.discountValue)"></span>
+                                                        <span x-show="coupon.type === 2">
+                                                            Giảm <span x-text="formatMoney(coupon.value)"></span>
                                                         </span>
                                                         <span x-show="coupon.minOrderValue > 0">
                                                             - Đơn tối thiểu <span x-text="formatMoney(coupon.minOrderValue)"></span>
@@ -491,16 +491,12 @@
 
                 async loadAvailableCoupons() {
                     try {
-                        const response = await fetch('/api/coupons/available');
+                        const response = await fetch('/api/coupons/active');
                         if (!response.ok) throw new Error('Failed to load coupons');
                         
                         const result = await response.json();
-                        if (result.success) {
-                            // Filter coupons that meet minimum order value
-                            this.availableCoupons = (result.data || []).filter(coupon => 
-                                !coupon.minOrderValue || this.subtotal >= coupon.minOrderValue
-                            );
-                        }
+                        // API trả về { data: [...] } không có success field
+                        this.availableCoupons = result.data || [];
                     } catch (error) {
                         console.error('Load coupons error:', error);
                         // Không hiển thị lỗi để không làm phiền user
@@ -520,7 +516,7 @@
                 applyCoupon() {
                     if (!this.selectedCoupon) return;
 
-                    // Check minimum order value
+                    // Check minimum order value (if exists)
                     if (this.selectedCoupon.minOrderValue && this.subtotal < this.selectedCoupon.minOrderValue) {
                         this.showToast(`Đơn hàng tối thiểu ${this.formatMoney(this.selectedCoupon.minOrderValue)}`, 'error');
                         this.clearCoupon();
@@ -528,14 +524,21 @@
                     }
 
                     // Calculate discount
-                    if (this.selectedCoupon.discountType === 'percentage') {
-                        this.discount = Math.round(this.subtotal * this.selectedCoupon.discountValue / 100);
+                    // Type: 1 = percentage, 2 = fixed (theo database schema)
+                    const couponType = this.selectedCoupon.type || this.selectedCoupon.discountType;
+                    const couponValue = this.selectedCoupon.value || this.selectedCoupon.discountValue || 0;
+                    
+                    if (couponType === 1 || couponType === 'percentage') {
+                        // Percentage discount
+                        this.discount = Math.round(this.subtotal * couponValue / 100);
                         // Max discount if specified
-                        if (this.selectedCoupon.maxDiscountValue && this.discount > this.selectedCoupon.maxDiscountValue) {
-                            this.discount = this.selectedCoupon.maxDiscountValue;
+                        const maxDiscount = this.selectedCoupon.maxDiscountValue || this.selectedCoupon.maxDiscount;
+                        if (maxDiscount && this.discount > maxDiscount) {
+                            this.discount = maxDiscount;
                         }
-                    } else if (this.selectedCoupon.discountType === 'fixed') {
-                        this.discount = this.selectedCoupon.discountValue;
+                    } else if (couponType === 2 || couponType === 'fixed') {
+                        // Fixed amount discount
+                        this.discount = Math.min(couponValue, this.subtotal); // Không vượt quá subtotal
                     }
 
                     this.calculateTotal();

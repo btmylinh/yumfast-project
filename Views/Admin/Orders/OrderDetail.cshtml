@@ -253,3 +253,219 @@
 							</div>
 						</div>
 					</div>
+
+					<!-- Review Section -->
+					<div class="row mt-5" x-data="orderReviewApp()" x-init="init()">
+						<div class="col-xl-12 col-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="mb-0">Đánh giá đơn hàng</h4>
+								</div>
+								
+								<!-- Loading -->
+								<template x-if="loading">
+									<div class="card-body text-center py-5">
+										<div class="spinner-border text-primary" role="status">
+											<span class="visually-hidden">Đang tải...</span>
+										</div>
+									</div>
+								</template>
+								
+								<!-- No Review -->
+								<template x-if="!loading && !reviewData">
+									<div class="card-body text-center py-5 text-muted">
+										<i class="bi bi-chat-left-text fs-1 mb-3"></i>
+										<p>Chưa có đánh giá cho đơn hàng này</p>
+									</div>
+								</template>
+								
+								<!-- Review Content -->
+								<template x-if="!loading && reviewData">
+									<div class="card-body p-6">
+										<!-- Stats Overview -->
+										<div class="row mb-4">
+											<div class="col-md-3 mb-3">
+												<div class="text-center p-3 bg-light rounded">
+													<h3 class="mb-1" x-text="reviewData.orderReview.orderRating"></h3>
+													<div>
+														<template x-for="i in 5" :key="i">
+															<i class="bi" :class="i <= reviewData.orderReview.orderRating ? 'bi-star-fill text-warning' : 'bi-star text-muted'"></i>
+														</template>
+													</div>
+													<small class="text-muted">Đánh giá đơn hàng</small>
+												</div>
+											</div>
+											<div class="col-md-3 mb-3" x-show="reviewData.orderReview.driverRating">
+												<div class="text-center p-3 bg-light rounded">
+													<h3 class="mb-1" x-text="reviewData.orderReview.driverRating"></h3>
+													<div>
+														<template x-for="i in 5" :key="i">
+															<i class="bi" :class="i <= reviewData.orderReview.driverRating ? 'bi-star-fill text-info' : 'bi-star text-muted'"></i>
+														</template>
+													</div>
+													<small class="text-muted">Đánh giá tài xế</small>
+												</div>
+											</div>
+											<div class="col-md-3 mb-3">
+												<div class="text-center p-3 bg-light rounded">
+													<h3 class="mb-1" x-text="reviewData.stats.averageProductRating"></h3>
+													<div>
+														<template x-for="i in 5" :key="i">
+															<i class="bi" :class="i <= Math.round(reviewData.stats.averageProductRating) ? 'bi-star-fill text-warning' : 'bi-star text-muted'"></i>
+														</template>
+													</div>
+													<small class="text-muted">TB sản phẩm</small>
+												</div>
+											</div>
+											<div class="col-md-3 mb-3">
+												<div class="text-center p-3 bg-light rounded">
+													<h3 class="mb-1" x-text="reviewData.stats.totalProducts"></h3>
+													<small class="text-muted">Sản phẩm đã đánh giá</small>
+												</div>
+											</div>
+										</div>
+										
+										<!-- Order Review Detail -->
+										<div class="mb-4">
+											<h5 class="mb-3">Đánh giá tổng quan</h5>
+											<div class="d-flex mb-3">
+												<img :src="reviewData.orderReview.userAvatar || '/assets/images/avatar-default.jpg'" 
+													 class="rounded-circle me-3" 
+													 style="width: 50px; height: 50px; object-fit: cover;">
+												<div class="flex-grow-1">
+													<h6 class="mb-1" x-text="reviewData.orderReview.userName"></h6>
+													<small class="text-muted" x-text="formatDate(reviewData.orderReview.createdAt)"></small>
+												</div>
+											</div>
+											<p class="mb-3" x-text="reviewData.orderReview.comment || 'Không có nhận xét'"></p>
+											
+											<!-- Review Images -->
+											<template x-if="reviewData.orderReview.images && reviewData.orderReview.images.length > 0">
+												<div class="mb-3">
+													<div class="row g-2">
+														<template x-for="(img, index) in reviewData.orderReview.images" :key="index">
+															<div class="col-auto">
+																<img :src="img" 
+																	 class="rounded" 
+																	 style="width: 100px; height: 100px; object-fit: cover; cursor: pointer;"
+																	 @@click="viewImage(img)">
+															</div>
+														</template>
+													</div>
+												</div>
+											</template>
+											
+											<!-- Admin Reply -->
+											<template x-if="reviewData.orderReview.adminReply">
+												<div class="alert alert-info">
+													<strong>Phản hồi từ Admin:</strong>
+													<p class="mb-0 mt-2" x-text="reviewData.orderReview.adminReply"></p>
+													<small class="text-muted" x-text="'Phản hồi lúc: ' + formatDate(reviewData.orderReview.adminRepliedAt)"></small>
+												</div>
+											</template>
+										</div>
+										
+										<!-- Product Reviews -->
+										<template x-if="reviewData.productReviews && reviewData.productReviews.length > 0">
+											<div>
+												<h5 class="mb-3">Đánh giá sản phẩm</h5>
+												<template x-for="(review, index) in reviewData.productReviews" :key="review.id">
+													<div class="border rounded p-3 mb-3">
+														<div class="d-flex align-items-start">
+															<img :src="getProductImage(review.productImages)" 
+																 class="rounded me-3" 
+																 style="width: 60px; height: 60px; object-fit: cover;">
+															<div class="flex-grow-1">
+																<h6 class="mb-1" x-text="review.productName"></h6>
+																<div class="mb-2">
+																	<template x-for="i in 5" :key="i">
+																		<i class="bi" :class="i <= review.rating ? 'bi-star-fill text-warning' : 'bi-star text-muted'"></i>
+																	</template>
+																	<span class="ms-2 text-muted" x-text="review.rating + '/5'"></span>
+																</div>
+																<p class="mb-1" x-text="review.comment || 'Không có nhận xét'"></p>
+																<small class="text-muted" x-text="formatDate(review.createdAt)"></small>
+																<span class="badge ms-2" 
+																	  :class="review.status === 1 ? 'bg-success' : 'bg-warning'"
+																	  x-text="review.status === 1 ? 'Đã duyệt' : 'Chờ duyệt'"></span>
+															</div>
+														</div>
+													</div>
+												</template>
+											</div>
+										</template>
+									</div>
+								</template>
+							</div>
+						</div>
+					</div>
+
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script>
+	function orderReviewApp() {
+		return {
+			loading: false,
+			reviewData: null,
+			orderId: null,
+
+			async init() {
+				// Lấy orderId từ URL params hoặc element attribute
+				const urlParams = new URLSearchParams(window.location.search);
+				this.orderId = urlParams.get('orderId') || urlParams.get('id');
+				
+				if (this.orderId) {
+					await this.loadReview();
+				}
+			},
+
+			async loadReview() {
+				this.loading = true;
+				try {
+					const response = await fetch(`/api/orderreviews/order/${this.orderId}/details`);
+					if (response.ok) {
+						const result = await response.json();
+						if (result.success) {
+							this.reviewData = result.data;
+							console.log('Review data loaded:', this.reviewData);
+						}
+					}
+				} catch (error) {
+					console.error('Load review error:', error);
+				} finally {
+					this.loading = false;
+				}
+			},
+
+			formatDate(dateStr) {
+				if (!dateStr) return '';
+				const date = new Date(dateStr);
+				return date.toLocaleDateString('vi-VN', {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour: '2-digit',
+					minute: '2-digit'
+				});
+			},
+
+			getProductImage(images) {
+				if (!images) return '/assets/images/product-default.jpg';
+				if (Array.isArray(images) && images.length > 0) return images[0];
+				if (typeof images === 'string') {
+					try {
+						const parsed = JSON.parse(images);
+						return parsed[0] || '/assets/images/product-default.jpg';
+					} catch {
+						return images;
+					}
+				}
+				return '/assets/images/product-default.jpg';
+			},
+
+			viewImage(src) {
+				// Open image in modal or new tab
+				window.open(src, '_blank');
+			}
+		};
+	}
+</script>

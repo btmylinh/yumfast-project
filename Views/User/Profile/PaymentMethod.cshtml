@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = "Phương thức thanh toán";
-      Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <section x-data="paymentManager()" x-init="init()">
@@ -10,7 +10,7 @@
                 <div class="d-flex justify-content-between align-items-center d-md-none py-4">
                     <h3 class="fs-5 mb-0">Phương thức thanh toán</h3>
                     <button class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3" type="button"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasAccount" aria-controls="offcanvasAccount">
                         <i class="bi bi-text-indent-left fs-3"></i>
                     </button>
                 </div>
@@ -20,25 +20,25 @@
                 <div class="pt-10 pe-lg-10">
                     <ul class="nav flex-column nav-pills nav-pills-dark">
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Orders", "User")">
+                            <a class="nav-link" href="/Order/MyOrders">
                                 <i class="feather-icon icon-shopping-bag me-2"></i>
                                 @ViewBag.MyOrders
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Settings", "User")">
+                            <a class="nav-link" href="/user/settings">
                                 <i class="feather-icon icon-settings me-2"></i>
                                 @ViewBag.Settings
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Address", "User")">
+                            <a class="nav-link" href="/user/address">
                                 <i class="feather-icon icon-map-pin me-2"></i>
                                 @ViewBag.AddressTitle
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="@Url.Action("PaymentMethod", "User")">
+                            <a class="nav-link active" aria-current="page" href="/user/paymentmethod">
                                 <i class="feather-icon icon-credit-card me-2"></i>
                                 @ViewBag.PaymentMethodTitle
                             </a>
@@ -68,11 +68,16 @@
                                                 </div>
                                                 <div>
                                                     <h5 class="mb-1 h6" x-text="it.label"></h5>
-                                                    <p class="mb-0 small"><span x-text="it.account"></span> <span x-show="it.expiry">• <span x-text="it.expiry"></span></span></p>
+                                                    <p class="mb-0 small">
+                                                        <span x-text="it.account"></span>
+                                                        <span x-show="it.expiry">• <span x-text="it.expiry"></span></span>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <span class="badge bg-light-info text-dark-info me-2" x-show="it.isDefault">@ViewBag.PaymentDefaultBadge</span>
+                                                <span class="badge bg-light-info text-dark-info me-2" x-show="it.isDefault">
+                                                    @ViewBag.PaymentDefaultBadge
+                                                </span>
                                                 <div class="dropdown">
                                                     <a href="#" class="text-muted" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="bi bi-three-dots-vertical"></i>
@@ -89,8 +94,14 @@
                                 </div>
                             </div>
                         </template>
-                        <div class="col-12 text-center text-muted py-6" x-show="!loading && methods.length===0">@ViewBag.NoPaymentMethodsMessage</div>
-                        <div class="col-12 text-center text-danger py-6" x-show="error">@ViewBag.LoadPaymentError</div>
+
+                        <div class="col-12 text-center text-muted py-6" x-show="!loading && methods.length===0">
+                            @ViewBag.NoPaymentMethodsMessage
+                        </div>
+
+                        <div class="col-12 text-center text-danger py-6" x-show="error">
+                            @ViewBag.LoadPaymentError
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,6 +117,7 @@
                 <h5 class="modal-title" id="addPaymentModalLabel">@ViewBag.Add</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
                 <form id="paymentForm">
                     <div class="mb-3">
@@ -119,26 +131,39 @@
                             <option value="paypal">PayPal</option>
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="pmLabel" class="form-label">@ViewBag.PaymentLabelLabel</label>
-                        <input type="text" class="form-control" id="pmLabel" x-bind:placeholder="form.type==='card' ? 'Card holder name' : (form.type==='bank' ? 'Bank name' : 'Wallet/PayPal')" x-model="form.label" />
+                        <input type="text" class="form-control" id="pmLabel"
+                               x-bind:placeholder="form.type==='card' ? 'Card holder name' : (form.type==='bank' ? 'Bank name' : 'Wallet/PayPal')"
+                               x-model="form.label" />
                     </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="pmExpiry" class="form-label">@ViewBag.PaymentExpiryLabel</label>
-                            <input type="text" class="form-control" id="pmExpiry" placeholder="MM/YY" x-model="form.expiry" x-show="form.type==='card'" />
+                            <input type="text" class="form-control" id="pmExpiry" placeholder="MM/YY"
+                                   x-model="form.expiry" x-show="form.type==='card'" />
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="pmAccount" class="form-label">@ViewBag.PaymentAccountLabel</label>
-                            <input type="text" class="form-control" id="pmAccount" x-bind:placeholder="form.type==='card' ? '**** 1234' : (form.type==='bank' ? 'Account number' : 'Email/Phone')" x-model="form.account" />
+                            <input type="text" class="form-control" id="pmAccount"
+                                   x-bind:placeholder="form.type==='card' ? '**** 1234' : (form.type==='bank' ? 'Account number' : 'Email/Phone')"
+                                   x-model="form.account" />
                         </div>
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label"><input class="form-check-input me-2" type="checkbox" x-model="form.isDefault" /> @ViewBag.SetDefaultPayment</label>
+                        <label class="form-label">
+                            <input class="form-check-input me-2" type="checkbox" x-model="form.isDefault" />
+                            @ViewBag.SetDefaultPayment
+                        </label>
                     </div>
+
                     <input type="hidden" x-model="form.id" />
                 </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@ViewBag.Cancel</button>
                 <button type="button" class="btn btn-primary" id="btnSavePayment">@ViewBag.Save</button>
@@ -148,19 +173,186 @@
 </div>
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 <script>
-function paymentManager(){
+function paymentManager() {
   return {
-    items:[], loading:false, error:false,
+    methods: [],
+    loading: false,
+    error: false,
+
     form: { id: 0, type: 'card', label: '', account: '', expiry: '', isDefault: false },
-    isSubmitting:false, _bound:false,
-    init(){ this.load(); if(this._bound) return; const btn=document.getElementById('btnSavePayment'); if(btn){ btn.addEventListener('click', ()=>{ this.save(); }); this._bound=true; } },
-    async load(){ this.loading=true; this.error=false; try { const r=await fetch('/api/user/payment-methods'); const j=await r.json(); this.methods=j.data||[]; } catch(e){ this.error=true; } finally { this.loading=false; } },
-    openCreateModal(){ this.form={ id:0, type:'card', label:'', account:'', expiry:'', isDefault:false }; bootstrap.Modal.getOrCreateInstance(document.getElementById('addPaymentModal')).show(); },
-    edit(it){ this.form={ id:Number(it.id||0), type:it.type||'card', label:it.label||'', account:it.account||'', expiry:it.expiry||'', isDefault:!!it.isDefault }; bootstrap.Modal.getOrCreateInstance(document.getElementById('addPaymentModal')).show(); },
-    async remove(id){ if(!confirm('Xóa phương thức thanh toán?')) return; try { const r=await fetch(`/api/user/payment-methods/${id}`,{method:'DELETE', credentials:'same-origin'}); if(r.ok){ await this.load(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } },
-    async setDefault(id){ try { const r=await fetch(`/api/user/payment-methods/${id}/default`,{method:'POST', credentials:'same-origin'}); if(r.ok){ await this.load(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } },
-    async save(){ if(this.isSubmitting) return; this.isSubmitting=true; const t=(this.form.type||document.getElementById('paymentType')?.value||'').trim(); const l=(this.form.label||document.getElementById('pmLabel')?.value||'').trim(); const a=(this.form.account||document.getElementById('pmAccount')?.value||'').trim(); const needExp=t==='card'; const exp=(this.form.expiry||document.getElementById('pmExpiry')?.value||'').trim(); const isDefault=this.form.isDefault || !!document.querySelector('#addPaymentModal input[type=checkbox]')?.checked; if(!t||!l||!a||(needExp && !exp)){ this.isSubmitting=false; alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)'); return; } const payload={ type:t, label:l, account:a, expiry:exp, isDefault }; const id=Number(this.form.id||0); try { let r; if(id>0){ r=await fetch(`/api/user/payment-methods/${id}`,{method:'PUT',headers:{'Content-Type':'application/json'}, credentials:'same-origin',body:JSON.stringify(payload)});} else { r=await fetch('/api/user/payment-methods',{method:'POST',headers:{'Content-Type':'application/json'}, credentials:'same-origin',body:JSON.stringify(payload)});} if(r.ok){ bootstrap.Modal.getOrCreateInstance(document.getElementById('addPaymentModal')).hide(); await this.load(); } else { const j=await r.json().catch(()=>({})); alert(j.message||'@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } } catch{ alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)'); } finally { this.isSubmitting=false; } }
-  }
+    isSubmitting: false,
+    _bound: false,
+
+    init() {
+      this.load();
+
+      if (this._bound) return;
+      const btn = document.getElementById('btnSavePayment');
+      if (btn) {
+        btn.addEventListener('click', () => this.save());
+        this._bound = true;
+      }
+    },
+
+    // =========================
+    // LOAD (HARD-CODE ONLY)
+    // =========================
+    async load() {
+      this.loading = true;
+      this.error = false;
+
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // const r = await fetch('/api/user/payment-methods');
+        // const j = await r.json();
+        // this.methods = j.data || [];
+        // =====================================================
+
+        // HARD-CODE DATA (demo)
+        this.methods = [
+          { id: 1, type: 'card',  label: 'Thẻ Visa - Nguyễn Văn Linh', account: '**** 1234', expiry: '12/27', isDefault: true },
+          { id: 2, type: 'bank',  label: 'Vietcombank',           account: '0123 456 789', expiry: '',      isDefault: false },
+          { id: 3, type: 'momo',  label: 'Ví MoMo',               account: '0901 234 567',  expiry: '',      isDefault: false },
+          { id: 4, type: 'zalopay', label: 'ZaloPay',             account: '0909 888 777',  expiry: '',      isDefault: false }
+        ];
+      } catch (e) {
+        this.error = true;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    openCreateModal() {
+      this.form = { id: 0, type: 'card', label: '', account: '', expiry: '', isDefault: false };
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('addPaymentModal')).show();
+    },
+
+    edit(it) {
+      this.form = {
+        id: Number(it.id || 0),
+        type: it.type || 'card',
+        label: it.label || '',
+        account: it.account || '',
+        expiry: it.expiry || '',
+        isDefault: !!it.isDefault
+      };
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('addPaymentModal')).show();
+    },
+
+    // =========================
+    // REMOVE (CLIENT ONLY)
+    // =========================
+    async remove(id) {
+      if (!confirm('Xóa phương thức thanh toán?')) return;
+
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // const r = await fetch(`/api/user/payment-methods/${id}`, {
+        //   method: 'DELETE',
+        //   credentials: 'same-origin'
+        // });
+        // if (r.ok) { await this.load(); }
+        // =====================================================
+
+        // CLIENT ONLY
+        this.methods = this.methods.filter(x => Number(x.id) !== Number(id));
+      } catch (e) {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      }
+    },
+
+    // =========================
+    // SET DEFAULT (CLIENT ONLY)
+    // =========================
+    async setDefault(id) {
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // const r = await fetch(`/api/user/payment-methods/${id}/default`, {
+        //   method: 'POST',
+        //   credentials: 'same-origin'
+        // });
+        // if (r.ok) { await this.load(); }
+        // =====================================================
+
+        // CLIENT ONLY
+        const targetId = Number(id);
+        this.methods = this.methods.map(x => ({ ...x, isDefault: Number(x.id) === targetId }));
+      } catch (e) {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      }
+    },
+
+    // =========================
+    // SAVE (CLIENT ONLY)
+    // =========================
+    async save() {
+      if (this.isSubmitting) return;
+      this.isSubmitting = true;
+
+      const t = (this.form.type || document.getElementById('paymentType')?.value || '').trim();
+      const l = (this.form.label || document.getElementById('pmLabel')?.value || '').trim();
+      const a = (this.form.account || document.getElementById('pmAccount')?.value || '').trim();
+      const needExp = t === 'card';
+      const exp = (this.form.expiry || document.getElementById('pmExpiry')?.value || '').trim();
+      const isDefault = !!this.form.isDefault;
+
+      if (!t || !l || !a || (needExp && !exp)) {
+        this.isSubmitting = false;
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.ValidationFillAll)');
+        return;
+      }
+
+      const payload = { type: t, label: l, account: a, expiry: exp, isDefault };
+      const id = Number(this.form.id || 0);
+
+      try {
+        // =====================================================
+        // COMMENT API CALL - GIỮ HARD CODE
+        // let r;
+        // if (id > 0) {
+        //   r = await fetch(`/api/user/payment-methods/${id}`, {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     credentials: 'same-origin',
+        //     body: JSON.stringify(payload)
+        //   });
+        // } else {
+        //   r = await fetch('/api/user/payment-methods', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     credentials: 'same-origin',
+        //     body: JSON.stringify(payload)
+        //   });
+        // }
+        // if (r.ok) { bootstrap.Modal.getOrCreateInstance(...).hide(); await this.load(); }
+        // =====================================================
+
+        // CLIENT ONLY
+        if (payload.isDefault) {
+          this.methods = this.methods.map(x => ({ ...x, isDefault: false }));
+        }
+
+        if (id > 0) {
+          // update
+          this.methods = this.methods.map(x => Number(x.id) === id ? { ...x, ...payload, id } : x);
+        } else {
+          // create
+          const newId = this.methods.length ? Math.max(...this.methods.map(x => Number(x.id))) + 1 : 1;
+          this.methods = [{ ...payload, id: newId }, ...this.methods];
+        }
+
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('addPaymentModal')).hide();
+      } catch (e) {
+        alert('@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.GenericError)');
+      } finally {
+        this.isSubmitting = false;
+      }
+    }
+  };
 }
 </script>
