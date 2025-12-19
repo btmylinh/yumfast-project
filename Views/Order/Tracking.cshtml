@@ -235,28 +235,6 @@
                             </div>
                         </div>
 
-                        <!-- History Timeline -->
-                        <div class="card mb-4">
-                            <div class="card-header bg-white">
-                                <h5 class="mb-0">
-                                    <i class="bi bi-clock-history text-info me-2"></i>
-                                    Lịch sử thay đổi
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <template x-for="log in history" :key="log.id">
-                                    <div class="d-flex mb-3">
-                                        <div class="text-muted small" style="min-width: 80px;" 
-                                             x-text="new Date(log.changedAt).toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'})"></div>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-semibold small" x-text="getStatusText(log.status)"></div>
-                                            <div x-show="log.notes" class="text-muted small" x-text="log.notes"></div>
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-
                         <!-- Action Buttons -->
                         <div class="d-grid gap-2">
                             <button x-show="order.canCancel" 

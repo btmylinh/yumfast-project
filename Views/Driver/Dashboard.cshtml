@@ -24,17 +24,155 @@
         transform: translateY(-2px);
     }
     
+    /* Mobile Responsive Styles */
     @@media (max-width: 768px) {
-        .order-card {
-            margin-bottom: 1rem;
+        /* Container padding */
+        .container {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
         }
         
+        /* Header responsive */
+        .d-flex.align-items-center.justify-content-between {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1rem;
+        }
+        
+        .d-flex.align-items-center.justify-content-between .btn {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+        
+        /* Stats cards - full width on mobile */
+        .row.g-3 .col-md-4 {
+            margin-bottom: 0.75rem;
+        }
+        
+        .card-body {
+            padding: 1rem;
+        }
+        
+        .fs-5 {
+            font-size: 1.25rem !important;
+        }
+        
+        /* Rating stars - smaller on mobile */
+        .bi-star, .bi-star-fill {
+            font-size: 1rem;
+        }
+        
+        /* Tabs responsive */
+        .nav-tabs {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-tabs .nav-link {
+            white-space: nowrap;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+        }
+        
+        .nav-tabs .badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        /* Order cards */
+        .order-card {
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .order-card .card-body {
+            padding: 1rem;
+        }
+        
+        .order-card h5 {
+            font-size: 1.1rem;
+        }
+        
+        .order-card .small {
+            font-size: 0.85rem;
+        }
+        
+        /* Buttons full width on mobile */
         .d-flex.gap-2 {
             flex-direction: column;
         }
         
         .d-flex.gap-2 .btn {
             width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+        }
+        
+        /* Order info spacing */
+        .d-flex.align-items-start.mb-2 {
+            margin-bottom: 0.75rem !important;
+        }
+        
+        /* Badge sizes */
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.35rem 0.65rem;
+        }
+        
+        /* Toast notification - bottom center on mobile */
+        .position-fixed.bottom-0.end-0 {
+            left: 0.5rem !important;
+            right: 0.5rem !important;
+            bottom: 1rem !important;
+        }
+        
+        .toast {
+            max-width: 100%;
+        }
+        
+        /* Loading spinner */
+        .spinner-border {
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+        }
+    }
+    
+    /* Extra small devices (phones, less than 576px) */
+    @@media (max-width: 575px) {
+        h2 {
+            font-size: 1.25rem;
+        }
+        
+        .card-body {
+            padding: 0.75rem;
+        }
+        
+        .fs-5 {
+            font-size: 1.1rem !important;
+        }
+        
+        .order-card h5 {
+            font-size: 1rem;
+        }
+        
+        .btn {
+            padding: 0.65rem 0.85rem;
+            font-size: 0.9rem;
         }
     }
 </style>
@@ -43,16 +181,16 @@
     <div class="container my-5" style="max-width: 1200px;" x-data="driverApp()" x-init="init()" x-cloak>
         
         <!-- Page Header -->
-        <div class="row mb-4">
+        <div class="row mb-3 mb-md-4">
             <div class="col-12">
-                <div class="d-flex align-items-center justify-content-between mt-3">
-                    <div>
-                        <h2 class="mb-0"><i class="bi bi-bicycle me-2 text-success"></i>Tài xế--</h2>
-                        <p class="text-muted small mt-1">Quản lý đơn hàng và trạng thái</p>
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <div class="flex-grow-1">
+                        <h2 class="mb-0 mb-md-1"><i class="bi bi-bicycle me-2 text-success"></i>Tài xế</h2>
+                        <p class="text-muted small d-none d-md-block mt-1">Quản lý đơn hàng và trạng thái</p>
                     </div>
                     <button x-on:click="toggleStatus()"
                             :class="driverStatus === 'available' ? 'btn-success' : 'btn-secondary'"
-                            class="btn">
+                            class="btn mt-2 mt-md-0">
                         <i class="bi" :class="driverStatus === 'available' ? 'bi-check-circle' : 'bi-pause-circle'"></i>
                         <span x-text="driverStatus === 'available' ? 'Sẵn sàng' : 'Nghỉ'"></span>
                     </button>
@@ -61,27 +199,36 @@
         </div>
 
         <!-- Quick Stats -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="fs-5 fw-bold text-primary" x-text="stats.todayOrders"></div>
+        <div class="row g-2 g-md-3 mb-3 mb-md-4">
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center py-3 py-md-4">
+                        <div class="fs-5 fw-bold text-primary mb-1" x-text="stats.todayOrders || 0"></div>
                         <div class="small text-muted">Đơn hôm nay</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="fs-5 fw-bold text-warning" x-text="stats.rating"></div>
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center py-3 py-md-4">
+                        <div class="d-flex justify-content-center align-items-center gap-1 mb-1">
+                            <template x-for="i in 5">
+                                <i class="bi"
+                                   :class="i <= Math.round(stats.rating || 0) ? 'bi-star-fill text-warning' : 'bi-star text-muted'"
+                                   style="font-size: 1.1rem;"></i>
+                            </template>
+                        </div>
+                        <div class="small text-muted mb-1">
+                            <span x-text="(stats.rating || 0).toFixed ? (stats.rating || 0).toFixed(1) : (stats.rating || 0)"></span>/5
+                        </div>
                         <div class="small text-muted">Đánh giá</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="fs-5 fw-bold text-success" x-text="formatMoney(stats.todayEarnings)"></div>
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center py-3 py-md-4">
+                        <div class="fs-5 fw-bold text-success mb-1" x-text="formatMoney(stats.todayEarnings || 0)"></div>
                         <div class="small text-muted">Thu nhập</div>
                     </div>
                 </div>
@@ -89,16 +236,16 @@
         </div>
 
         <!-- Tabs -->
-        <ul class="nav nav-tabs mb-4" role="tablist">
+        <ul class="nav nav-tabs mb-3 mb-md-4" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link" :class="activeTab === 'available' ? 'active' : ''" x-on:click="activeTab = 'available'" role="tab">
-                    Đơn mới
+                    <span>Đơn mới</span>
                     <span class="badge bg-danger ms-2" x-text="availableOrders.length"></span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" :class="activeTab === 'myOrders' ? 'active' : ''" x-on:click="activeTab = 'myOrders'" role="tab">
-                    Đơn của tôi
+                    <span>Đơn của tôi</span>
                     <span class="badge bg-info ms-2" x-text="myOrders.length"></span>
                 </button>
             </li>
@@ -126,27 +273,27 @@
             <!-- Order Cards -->
             <template x-for="order in availableOrders" :key="order.orderId">
                 <div class="card order-card mb-3" style="border-left-color: #28a745;">
-                    <div class="card-body">
+                    <div class="card-body p-3 p-md-4">
                         <!-- Header -->
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                                <span class="small text-muted">#<span x-text="order.orderCode"></span></span>
+                            <div class="flex-grow-1 pe-2">
+                                <span class="small text-muted d-block mb-1">#<span x-text="order.orderCode"></span></span>
                                 <h5 class="fw-bold mb-0" x-text="order.shipName"></h5>
                             </div>
-                            <span class="badge bg-success">Đơn mới</span>
+                            <span class="badge bg-success flex-shrink-0">Đơn mới</span>
                         </div>
                         
                         <!-- Info -->
                         <div class="mb-3">
                             <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-telephone text-muted me-2" style="margin-top: 2px;"></i>
-                                <a :href="'tel:' + order.shipPhone" class="text-primary fw-medium" x-text="order.shipPhone"></a>
+                                <i class="bi bi-telephone text-muted me-2 flex-shrink-0" style="margin-top: 2px;"></i>
+                                <a :href="'tel:' + order.shipPhone" class="text-primary fw-medium text-break" x-text="order.shipPhone"></a>
                             </div>
                             <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-geo-alt text-muted me-2" style="margin-top: 2px;"></i>
-                                <span class="text-muted" x-text="order.shipAddress"></span>
+                                <i class="bi bi-geo-alt text-muted me-2 flex-shrink-0" style="margin-top: 2px;"></i>
+                                <span class="text-muted text-break" x-text="order.shipAddress"></span>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                            <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-3">
                                 <span class="text-muted">Tổng tiền:</span>
                                 <span class="fs-5 fw-bold text-success" x-text="formatMoney(order.totalPrice)"></span>
                             </div>
@@ -154,8 +301,11 @@
                         
                         <!-- Actions -->
                         <button x-on:click="acceptOrder(order.orderId)"
-                                class="btn btn-success w-100">
-                            <i class="bi bi-check-circle me-2"></i>Nhận đơn ngay
+                                :disabled="!canAcceptOrder"
+                                :class="canAcceptOrder ? 'btn btn-success w-100' : 'btn btn-secondary w-100'"
+                                :title="!canAcceptOrder ? 'Bạn đang có đơn hàng đang xử lý' : ''">
+                            <i class="bi bi-check-circle me-2"></i>
+                            <span x-text="canAcceptOrder ? 'Nhận đơn ngay' : 'Đang xử lý đơn khác'"></span>
                         </button>
                     </div>
                 </div>
@@ -175,27 +325,27 @@
             <!-- Order Cards -->
             <template x-for="order in myOrders" :key="order.orderId">
                 <div class="card order-card mb-3" :style="'border-left-color: ' + getOrderBorderColor(order.status)">
-                    <div class="card-body">
+                    <div class="card-body p-3 p-md-4">
                         <!-- Header -->
                         <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div>
-                                <span class="small text-muted">#<span x-text="order.orderCode"></span></span>
+                            <div class="flex-grow-1 pe-2">
+                                <span class="small text-muted d-block mb-1">#<span x-text="order.orderCode"></span></span>
                                 <h5 class="fw-bold mb-0" x-text="order.shipName"></h5>
                             </div>
-                            <span class="badge" :class="getStatusBadgeClass(order.status)" x-text="getStatusText(order.status)"></span>
+                            <span class="badge flex-shrink-0" :class="getStatusBadgeClass(order.status)" x-text="getStatusText(order.status)"></span>
                         </div>
                         
                         <!-- Info -->
                         <div class="mb-3">
                             <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-telephone text-muted me-2" style="margin-top: 2px;"></i>
-                                <a :href="'tel:' + order.shipPhone" class="text-primary fw-medium" x-text="order.shipPhone"></a>
+                                <i class="bi bi-telephone text-muted me-2 flex-shrink-0" style="margin-top: 2px;"></i>
+                                <a :href="'tel:' + order.shipPhone" class="text-primary fw-medium text-break" x-text="order.shipPhone"></a>
                             </div>
                             <div class="d-flex align-items-start mb-2">
-                                <i class="bi bi-geo-alt text-muted me-2" style="margin-top: 2px;"></i>
-                                <span class="text-muted" x-text="order.shipAddress"></span>
+                                <i class="bi bi-geo-alt text-muted me-2 flex-shrink-0" style="margin-top: 2px;"></i>
+                                <span class="text-muted text-break" x-text="order.shipAddress"></span>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                            <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-3">
                                 <span class="text-muted">Tổng tiền:</span>
                                 <span class="fs-5 fw-bold text-success" x-text="formatMoney(order.totalPrice)"></span>
                             </div>
@@ -203,7 +353,7 @@
                         
                         <!-- Actions based on status -->
                         <div class="d-flex gap-2 flex-wrap">
-                            <!-- Status 2: Đang lấy đồ ăn → Bắt đầu giao -->
+                            <!-- Status 2: Đang lấy đồ ăn → Bắt đầu giao (chuyển sang status 3: Đang giao hàng) -->
                             <template x-if="order.status === 2">
                                 <button x-on:click="startDelivery(order.orderId)"
                                         class="btn btn-primary flex-grow-1">
@@ -211,7 +361,7 @@
                                 </button>
                             </template>
                             
-                            <!-- Status 3: Đang giao → Hoàn thành -->
+                            <!-- Status 3: Đang giao hàng → Hoàn thành (status 4) -->
                             <template x-if="order.status === 3">
                                 <button x-on:click="completeOrder(order.orderId)"
                                         class="btn btn-success flex-grow-1">
@@ -222,9 +372,9 @@
                             <!-- Google Maps - luôn hiển thị -->
                             <a :href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(order.shipAddress)"
                                target="_blank"
-                               class="btn btn-outline-secondary">
+                               class="btn btn-outline-secondary w-100 w-md-auto">
                                 <i class="bi bi-map me-1"></i>
-                                <span class="d-none d-sm-inline">Bản đồ</span>
+                                <span>Bản đồ</span>
                             </a>
                         </div>
                     </div>
@@ -268,9 +418,47 @@
                     message: '',
                     type: 'success'
                 },
+                signalRConnection: null,
+                joinedOrderGroups: [], // Track các order IDs đã join SignalR groups
+
+                // Helpers: Auth
+                // Lấy JWT token lưu ở localStorage sau khi đăng nhập (/api/auth/login)
+                getAuthToken() {
+                    return localStorage.getItem('token') || localStorage.getItem('auth_token');
+                },
+
+                // Tạo headers kèm Authorization: Bearer <token>
+                getAuthHeaders(includeContentType = true) {
+                    const headers = {};
+                    if (includeContentType) {
+                        headers['Content-Type'] = 'application/json';
+                    }
+                    const token = this.getAuthToken();
+                    if (token) {
+                        headers['Authorization'] = `Bearer ${token}`;
+                    }
+                    return headers;
+                },
+
+                // Computed: Kiểm tra driver có thể nhận đơn mới không
+                canAcceptOrder() {
+                    // Không thể nhận đơn nếu:
+                    // 1. Driver status là 'busy' hoặc 'offline'
+                    // 2. Đang có đơn hàng đang xử lý (status 2,4)
+                    if (this.driverStatus === 'busy' || this.driverStatus === 'offline') {
+                        return false;
+                    }
+                    
+                    // Kiểm tra có đơn đang xử lý không (status 2=Đang lấy, 3=Đang giao)
+                    const activeOrders = this.myOrders.filter(o => o.status === 2 || o.status === 3);
+                    return activeOrders.length === 0;
+                },
 
                 // Init
                 async init() {
+                    // Setup SignalR trước (cần connection để join groups)
+                    await this.setupSignalR();
+                    
                     await this.loadStats();
                     await this.loadAvailableOrders();
                     await this.loadMyOrders();
@@ -283,28 +471,50 @@
                             this.loadMyOrders();
                         }
                     }, 30000);
-
-                    // Setup SignalR (để nhận thông báo đơn mới)
-                    this.setupSignalR();
                 },
 
                 // Load stats
                 async loadStats() {
                     try {
-                        const response = await fetch('/api/drivers/stats');
+                        const response = await fetch('/api/drivers/stats', {
+                            headers: this.getAuthHeaders(false)
+                        });
+                        
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                console.error('Unauthorized: Vui lòng đăng nhập lại');
+                                this.showToast('Vui lòng đăng nhập lại', 'error');
+                                return;
+                            }
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
                         const result = await response.json();
-                        if (result.success) {
+                        if (result.success && result.data) {
                             this.stats = result.data;
+                            this.driverStatus = result.data.status || 'available';
                         }
                     } catch (error) {
                         console.error('Load stats error:', error);
+                        // Giữ nguyên driverStatus mặc định nếu có lỗi
                     }
                 },
 
                 // Load available orders
                 async loadAvailableOrders() {
                     try {
-                        const response = await fetch('/api/drivers/available-orders');
+                        const response = await fetch('/api/drivers/available-orders', {
+                            headers: this.getAuthHeaders(false)
+                        });
+                        
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                console.error('Unauthorized: Vui lòng đăng nhập lại');
+                                return;
+                            }
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
                         const result = await response.json();
                         if (result.success) {
                             this.availableOrders = result.data;
@@ -314,13 +524,27 @@
                     }
                 },
 
-                // Load đơn của tôi: status 2,3,4 (Đang lấy, Đang giao, Hoàn thành)
+                // Load đơn của tôi: status 2,3 (Đang lấy đồ ăn, Đang giao hàng)
                 async loadMyOrders() {
                     try {
-                        const response = await fetch('/api/drivers/my-orders?status=2,3,4');
+                        const response = await fetch('/api/drivers/my-orders?status=2,3', {
+                            headers: this.getAuthHeaders(false)
+                        });
+                        
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                console.error('Unauthorized: Vui lòng đăng nhập lại');
+                                return;
+                            }
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
                         const result = await response.json();
                         if (result.success) {
                             this.myOrders = result.data;
+                            
+                            // Quản lý SignalR groups: join orders mới, leave orders không còn trong danh sách
+                            await this.updateOrderGroups();
                         }
                     } catch (error) {
                         console.error('Load my orders error:', error);
@@ -333,9 +557,18 @@
                     try {
                         const response = await fetch('/api/drivers/status', {
                             method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: this.getAuthHeaders(true),
                             body: JSON.stringify({ status: newStatus })
                         });
+                        
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                this.showToast('Vui lòng đăng nhập lại', 'error');
+                                return;
+                            }
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
                         const result = await response.json();
                         if (result.success) {
                             this.driverStatus = newStatus;
@@ -349,37 +582,75 @@
                     }
                 },
 
-                // Nhận đơn: 1→2 (Chờ tài xế → Đang lấy đồ ăn)
+                // Nhận đơn: 1→2 (Chờ tài xế → Đang lấy đồ ăn) - Status mapping mới
                 async acceptOrder(orderId) {
+                    // Kiểm tra validation ở frontend trước
+                    if (!this.canAcceptOrder) {
+                        this.showToast('Bạn đang có đơn hàng đang xử lý. Vui lòng hoàn thành đơn hiện tại trước khi nhận đơn mới.', 'error');
+                        return;
+                    }
+                    
                     if (!confirm('Bạn muốn nhận đơn hàng này?')) return;
                     
                     try {
                         const response = await fetch(`/api/drivers/orders/${orderId}/accept`, {
-                            method: 'POST'
+                            method: 'POST',
+                            headers: this.getAuthHeaders(false)
                         });
-                        const result = await response.json();
                         
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                this.showToast('Vui lòng đăng nhập lại', 'error');
+                                return;
+                            }
+                            // Try to parse error message from response
+                            try {
+                                const errorResult = await response.json();
+                                if (errorResult.message) {
+                                    this.showToast(errorResult.message, 'error');
+                                    return;
+                                }
+                            } catch (e) {
+                                // If response is not JSON, continue with generic error
+                            }
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
+                        const result = await response.json();
                         if (result.success) {
                             this.showToast('Đã nhận đơn thành công!', 'success');
+                            // Cập nhật driver status thành busy
+                            this.driverStatus = 'busy';
                             await this.loadAvailableOrders();
+                            // loadMyOrders sẽ tự động join group cho order mới
                             await this.loadMyOrders();
                             this.activeTab = 'myOrders';
                         } else {
                             this.showToast(result.message || 'Không thể nhận đơn', 'error');
                         }
                     } catch (error) {
+                        console.error('Error accepting order:', error);
                         this.showToast('Lỗi khi nhận đơn', 'error');
                     }
                 },
 
-                // Bắt đầu giao hàng: 2→3 (Đang lấy → Đang giao)
+                // Bắt đầu giao hàng: 2→3 (Đang lấy đồ ăn → Đang giao hàng)
                 async startDelivery(orderId) {
                     try {
                         const response = await fetch(`/api/drivers/orders/${orderId}/start-delivery`, {
-                            method: 'POST'
+                            method: 'POST',
+                            headers: this.getAuthHeaders(false)
                         });
-                        const result = await response.json();
                         
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                this.showToast('Vui lòng đăng nhập lại', 'error');
+                                return;
+                            }
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
+                        const result = await response.json();
                         if (result.success) {
                             this.showToast('Đã bắt đầu giao hàng!', 'success');
                             await this.loadMyOrders();
@@ -391,20 +662,32 @@
                     }
                 },
 
-                // Hoàn thành đơn: 3→4 (Đang giao → Hoàn thành)
+                // Hoàn thành đơn: 3→4 (Đang giao hàng → Hoàn thành)
                 async completeOrder(orderId) {
                     if (!confirm('Xác nhận đã giao hàng thành công?')) return;
                     
                     try {
                         const response = await fetch(`/api/drivers/orders/${orderId}/complete`, {
-                            method: 'POST'
+                            method: 'POST',
+                            headers: this.getAuthHeaders(false)
                         });
-                        const result = await response.json();
                         
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                this.showToast('Vui lòng đăng nhập lại', 'error');
+                                return;
+                            }
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
+                        const result = await response.json();
                         if (result.success) {
                             this.showToast('🎉 Hoàn thành đơn hàng!', 'success');
+                            // Leave group khi đơn hoàn thành
+                            await this.leaveOrderGroup(orderId);
+                            // Reload data để cập nhật driver status từ server
                             await this.loadMyOrders();
-                            await this.loadStats();
+                            await this.loadStats(); // loadStats sẽ cập nhật driverStatus từ server
                         } else {
                             this.showToast(result.message, 'error');
                         }
@@ -414,8 +697,100 @@
                 },
 
                 // Setup SignalR
-                setupSignalR() {
-                    // TODO: Implement SignalR để nhận notification đơn mới
+                async setupSignalR() {
+                    try {
+                        const connection = new signalR.HubConnectionBuilder()
+                            .withUrl("/hubs/order")
+                            .build();
+
+                        // Listen event khi có đơn mới
+                        connection.on("NewOrderAvailable", (data) => {
+                            console.log("New order available:", data);
+                            // Reload danh sách đơn mới
+                            if (this.activeTab === 'available') {
+                                this.loadAvailableOrders();
+                            }
+                            // Hiển thị toast notification
+                            this.showToast('Có đơn hàng mới cần tài xế!', 'success');
+                        });
+
+                        // Listen event khi trạng thái đơn hàng thay đổi (real-time update)
+                        connection.on("OrderStatusUpdated", (data) => {
+                            console.log("Order status updated:", data);
+                            
+                            // Cập nhật order trong danh sách myOrders
+                            const orderIndex = this.myOrders.findIndex(o => o.orderId === data.orderId);
+                            if (orderIndex !== -1) {
+                                // Update status của order
+                                this.myOrders[orderIndex].status = data.status;
+                                this.myOrders[orderIndex].statusText = data.statusText || this.getStatusText(data.status);
+                                
+                                // Nếu đơn đã hoàn thành (status = 4), remove khỏi danh sách và leave group
+                                if (data.status === 4) {
+                                    this.myOrders = this.myOrders.filter(o => o.orderId !== data.orderId);
+                                    this.leaveOrderGroup(data.orderId);
+                                }
+                                
+                                // Hiển thị thông báo
+                                this.showToast(`Đơn #${data.orderId}: ${data.message || data.statusText}`, 'success');
+                            }
+                        });
+
+                        // Start connection
+                        await connection.start();
+                                console.log("SignalR connected for driver dashboard");
+
+                        // Lưu connection để có thể disconnect sau
+                        this.signalRConnection = connection;
+                    } catch (error) {
+                        console.error("Failed to setup SignalR:", error);
+                    }
+                },
+
+                // Quản lý SignalR groups: join orders mới, leave orders đã hoàn thành hoặc không còn
+                async updateOrderGroups() {
+                    if (!this.signalRConnection || this.signalRConnection.state !== signalR.HubConnectionState.Connected) {
+                        return;
+                    }
+
+                    const currentOrderIds = this.myOrders.map(o => o.orderId);
+                    
+                    // Join groups cho orders mới (chưa join)
+                    for (const order of this.myOrders) {
+                        // Chỉ join orders chưa hoàn thành (status < 5) và chưa join group
+                        if (order.status < 5 && !this.joinedOrderGroups.includes(order.orderId)) {
+                            try {
+                                await this.signalRConnection.invoke("JoinOrderGroup", order.orderId);
+                                this.joinedOrderGroups.push(order.orderId);
+                                console.log(`Joined order group: Order_${order.orderId}`);
+                            } catch (error) {
+                                console.error(`Failed to join order group ${order.orderId}:`, error);
+                            }
+                        }
+                    }
+                    
+                    // Leave groups cho orders không còn trong danh sách hoặc đã hoàn thành
+                    const ordersToLeave = this.joinedOrderGroups.filter(orderId => !currentOrderIds.includes(orderId));
+                    for (const orderId of ordersToLeave) {
+                        await this.leaveOrderGroup(orderId);
+                    }
+                },
+
+                // Leave một order group
+                async leaveOrderGroup(orderId) {
+                    if (!this.signalRConnection || this.signalRConnection.state !== signalR.HubConnectionState.Connected) {
+                        return;
+                    }
+
+                    if (this.joinedOrderGroups.includes(orderId)) {
+                        try {
+                            await this.signalRConnection.invoke("LeaveOrderGroup", orderId);
+                            this.joinedOrderGroups = this.joinedOrderGroups.filter(id => id !== orderId);
+                            console.log(`Left order group: Order_${orderId}`);
+                        } catch (error) {
+                            console.error(`Failed to leave order group ${orderId}:`, error);
+                        }
+                    }
                 },
 
                 // Helpers
@@ -426,9 +801,10 @@
                     }).format(amount);
                 },
 
-                // Status mapping: 1=Chờ tài xế, 2=Đang lấy, 3=Đang giao, 4=Hoàn thành, 5=Hủy, 6=Hoàn tiền
+                // Dùng trực tiếp status theo OrderStatusHelper: 1=Chờ tài xế, 2=Đang lấy, 3=Đang giao, 4=Hoàn thành, 5=Đã hủy, 6=Đã hoàn tiền
                 getStatusText(status) {
-                    const statusMap = {
+                    // Status từ backend đã đúng theo OrderStatusHelper
+                    const texts = {
                         1: 'Chờ tài xế',
                         2: 'Đang lấy đồ ăn',
                         3: 'Đang giao hàng',
@@ -436,31 +812,33 @@
                         5: 'Đã hủy',
                         6: 'Đã hoàn tiền'
                     };
-                    return statusMap[status] || 'Không xác định';
+                    return texts[status] || 'Không xác định';
                 },
 
                 getStatusBadgeClass(status) {
-                    const classMap = {
-                        1: 'bg-warning text-dark',
-                        2: 'bg-info',
-                        3: 'bg-primary',
-                        4: 'bg-success',
-                        5: 'bg-danger',
-                        6: 'bg-secondary'
+                    // Màu sắc theo OrderStatusHelper.GetStatusColor()
+                    const classes = {
+                        1: 'bg-info text-white',      // info - Chờ tài xế
+                        2: 'bg-primary text-white',   // primary - Đang lấy đồ ăn
+                        3: 'bg-primary text-white',   // primary - Đang giao hàng
+                        4: 'bg-success text-white',   // success - Hoàn thành
+                        5: 'bg-danger text-white',    // danger - Đã hủy
+                        6: 'bg-warning text-dark'     // warning - Đã hoàn tiền
                     };
-                    return classMap[status] || 'bg-secondary';
+                    return classes[status] || 'bg-secondary';
                 },
 
                 getOrderBorderColor(status) {
-                    const colorMap = {
-                        1: '#ffc107',  // warning - Chờ tài xế
-                        2: '#0dcaf0',  // info - Đang lấy
-                        3: '#0d6efd',  // primary - Đang giao
-                        4: '#198754',  // success - Hoàn thành
-                        5: '#dc3545',  // danger - Hủy
-                        6: '#6c757d'   // secondary - Hoàn tiền
+                    // Màu border theo status
+                    const colors = {
+                        1: '#0dcaf0',  // info
+                        2: '#0d6efd',  // primary
+                        3: '#0d6efd',  // primary
+                        4: '#198754',  // success
+                        5: '#dc3545',  // danger
+                        6: '#ffc107'   // warning
                     };
-                    return colorMap[status] || '#6c757d';
+                    return colors[status] || '#6c757d';
                 },
 
                 showToast(message, type = 'success') {

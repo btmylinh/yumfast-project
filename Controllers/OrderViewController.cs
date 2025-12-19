@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Services;
 
 namespace WebApp.Controllers
 {
@@ -8,8 +9,12 @@ namespace WebApp.Controllers
     /// Khác với OrdersController (API), controller này trả về Views
     /// </summary>
     [Authorize]
-    public class OrderViewController : Controller
+    public class OrderViewController : BaseController
     {
+        public OrderViewController(IJsonLocalizationService localizationService) : base(localizationService)
+        {
+        }
+
         /// <summary>
         /// Trang tracking đơn hàng realtime
         /// GET /OrderView/Tracking/{id}

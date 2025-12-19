@@ -3,9 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<style>
-    [x-cloak] { display: none !important; }
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
     
     .order-card {
         transition: all 0.2s;
@@ -28,7 +28,7 @@
     .nav-pills .nav-link:hover {
         color: #0aad0a;
     }
-</style>
+    </style>
 
 <!-- Container giống trang Payment - max width -->
 <div class="container py-4" style="max-width: 1200px;" x-data="myOrdersApp()" x-init="init()" x-cloak>
@@ -80,29 +80,29 @@
                 </button>
             </li>
         </ul>
-    </div>
+        </div>
 
-    <!-- Loading State -->
+        <!-- Loading State -->
     <div x-show="loading" class="text-center py-5">
         <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
             <span class="visually-hidden">Đang tải...</span>
         </div>
         <p class="mt-3 text-muted">Đang tải đơn hàng...</p>
-    </div>
+        </div>
 
-    <!-- Empty State -->
+        <!-- Empty State -->
     <div x-show="!loading && orders.length === 0" class="text-center py-5">
         <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
         <h5 class="mt-3 text-muted">Chưa có đơn hàng nào</h5>
         <p class="text-muted mb-4">Hãy bắt đầu mua sắm để tạo đơn hàng đầu tiên!</p>
         <a href="/Shop" class="btn btn-success">
             <i class="bi bi-shop me-2"></i>Khám phá sản phẩm
-        </a>
-    </div>
+            </a>
+        </div>
 
     <!-- Orders List - Responsive Grid -->
     <div x-show="!loading && orders.length > 0" class="row g-3">
-        <template x-for="order in orders" :key="order.orderId">
+            <template x-for="order in orders" :key="order.orderId">
             <div class="col-12 col-lg-6">
                 <div class="card order-card h-100">
                     <!-- Order Header -->
@@ -110,6 +110,12 @@
                         <div class="d-flex align-items-center">
                             <i class="bi bi-receipt text-success me-2"></i>
                             <span class="fw-semibold small" x-text="order.orderCode"></span>
+                            <!-- Review Badge -->
+                            <span x-show="order.hasReview && order.status === 4" 
+                                  class="badge bg-warning text-dark ms-2" 
+                                  title="Đơn hàng đã được đánh giá">
+                                <i class="bi bi-star-fill me-1"></i>Đã đánh giá
+                            </span>
                         </div>
                         <span class="badge" :class="getStatusBadgeClass(order.status)" x-text="getStatusText(order.status)"></span>
                     </div>
@@ -138,7 +144,7 @@
                                 <template x-for="item in order.items.slice(1)" :key="item.productId">
                                     <div class="d-flex align-items-center mb-2">
                                         <img :src="item.imageUrl || '/assets/images/products/product-img-1.jpg'" 
-                                             :alt="item.productName"
+                                         :alt="item.productName"
                                              class="rounded me-3"
                                              style="width: 60px; height: 60px; object-fit: cover;">
                                         <div class="flex-grow-1">
@@ -150,7 +156,7 @@
                                         </div>
                                     </div>
                                 </template>
-                            </div>
+                                </div>
                             
                             <!-- Toggle button -->
                             <div x-show="order.items.length > 1" class="text-center">
@@ -176,43 +182,51 @@
                         <!-- Action Buttons - Stack on mobile -->
                         <div class="d-grid gap-2">
                             <div class="d-flex gap-2">
-                                <!-- View Tracking -->
+                            <!-- View Tracking -->
                                 <button x-on:click="viewTracking(order.orderId)"
                                         class="btn btn-success btn-sm flex-fill">
                                     <i class="bi bi-geo-alt me-1"></i>Theo dõi
-                                </button>
+                            </button>
 
-                                <!-- Cancel Order -->
-                                <button x-show="order.canCancel"
+                            <!-- Cancel Order -->
+                            <button x-show="order.canCancel"
                                         x-on:click="showCancelModal(order)"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#cancelModal"
                                         class="btn btn-outline-danger btn-sm flex-fill">
                                     <i class="bi bi-x-circle me-1"></i>Hủy
-                                </button>
+                            </button>
 
-                                <!-- Review Order -->
-                                <button x-show="order.canReview"
+                            <!-- Review Order -->
+                            <button x-show="order.canReview"
                                         x-on:click="reviewOrder(order.orderId)"
                                         class="btn btn-warning btn-sm flex-fill">
                                     <i class="bi bi-star me-1"></i>Đánh giá
-                                </button>
+                            </button>
+                            
+                            <!-- Already Reviewed Indicator -->
+                            <button x-show="order.hasReview && order.status === 4"
+                                        disabled
+                                        class="btn btn-outline-warning btn-sm flex-fill"
+                                        title="Đơn hàng đã được đánh giá">
+                                    <i class="bi bi-star-fill me-1"></i>Đã đánh giá
+                            </button>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </template>
-    </div>
+            </template>
+        </div>
 
-    <!-- Load More -->
+        <!-- Load More -->
     <div x-show="hasMore && !loading" class="text-center mt-4">
         <button x-on:click="loadMore" class="btn btn-outline-success">
             <i class="bi bi-chevron-down me-2"></i>Xem thêm đơn hàng
-        </button>
-    </div>
+            </button>
+        </div>
 
-    <!-- Cancel Modal -->
+        <!-- Cancel Modal -->
     <div class="modal fade" id="cancelModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -227,11 +241,11 @@
                     <div class="alert alert-warning">
                         <strong>Đơn hàng:</strong> <span x-text="cancelModal.order?.orderCode"></span>
                     </div>
-                    
+                
                     <label class="form-label fw-semibold">Lý do hủy đơn:</label>
-                    <textarea x-model="cancelModal.reason" 
+                <textarea x-model="cancelModal.reason" 
                               class="form-control" 
-                              rows="3"
+                          rows="3"
                               placeholder="Vui lòng cho chúng tôi biết lý do bạn hủy đơn..."></textarea>
                     <small class="text-muted">Thông tin này giúp chúng tôi cải thiện dịch vụ tốt hơn.</small>
                 </div>
@@ -246,13 +260,13 @@
                         </span>
                     </button>
                 </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Toast Notification -->
-    <div x-show="toast.show" 
-         x-transition
+        <!-- Toast Notification -->
+        <div x-show="toast.show" 
+             x-transition
          class="position-fixed bottom-0 end-0 p-3" 
          style="z-index: 9999;">
         <div class="toast show shadow-lg" role="alert">
@@ -268,7 +282,7 @@
 </div>
 <!-- End Container -->
 
-<script>
+    <script>
         function myOrdersApp() {
             return {
                 orders: [],

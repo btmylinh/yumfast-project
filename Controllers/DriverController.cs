@@ -1,17 +1,19 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Services;
 
 namespace WebApp.Controllers;
 
 /// <summary>
-/// Controller cho giao diện Driver (MVC Views)
-/// </summary>
-[Authorize(Roles = "driver")]
-public class DriverController : Controller
+
+public class DriverController : BaseController
 {
     private readonly ILogger<DriverController> _logger;
 
-    public DriverController(ILogger<DriverController> logger)
+    public DriverController(
+        ILogger<DriverController> logger,
+        IJsonLocalizationService localizationService
+    ) : base(localizationService)
     {
         _logger = logger;
     }

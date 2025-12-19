@@ -34,8 +34,9 @@ public class OrderReviewService : IOrderReviewService
             if (result == null)
                 return false;
             
-            // Validate: order completed (status=5), belongs to user, not reviewed yet
-            bool isCompleted = result.status == 5;
+            // Validate: order completed (status=4 theo OrderStatusHelper), belongs to user, not reviewed yet
+            // OrderStatusHelper: 1=Chờ tài xế, 2=Đang lấy, 3=Đang giao, 4=Hoàn thành, 5=Đã hủy, 6=Đã hoàn tiền
+            bool isCompleted = result.status == 4; // Status 4 = Hoàn thành
             bool isOwner = result.user_id == userId;
             bool hasReview = result.has_review;
             
@@ -50,6 +51,11 @@ public class OrderReviewService : IOrderReviewService
     
     public async Task<ServiceResult> CreateReviewAsync(CreateReviewViewModel dto, long userId)
     {
+        if (_connection.State != System.Data.ConnectionState.Open)
+        {
+            await _connection.OpenAsync();
+        }
+        
         await using var transaction = await _connection.BeginTransactionAsync();
         
         try
@@ -86,6 +92,9 @@ public class OrderReviewService : IOrderReviewService
             {
                 await UpdateDriverRatingAsync(driverId.Value, transaction);
             }
+            
+            // Tự động tạo ProductReview cho từng sản phẩm trong đơn
+            await CreateProductReviewsFromOrderAsync(dto.OrderId, userId, dto.OrderRating, dto.Comment, transaction);
             
             await transaction.CommitAsync();
             
@@ -177,5 +186,67 @@ public class OrderReviewService : IOrderReviewService
             WHERE id = @driverId";
         
         await _connection.ExecuteAsync(sql, new { driverId }, transaction);
+    }
+    
+    /// <summary>
+    /// Tự động tạo ProductReview cho từng sản phẩm trong đơn khi user đánh giá đơn
+    /// </summary>
+    private async Task CreateProductReviewsFromOrderAsync(
+        long orderId, 
+        long userId, 
+        int orderRating, 
+        string? orderComment, 
+        NpgsqlTransaction transaction)
+    {
+        try
+        {
+            // Lấy danh sách sản phẩm trong đơn
+            var productsSql = @"
+                SELECT DISTINCT oi.product_id
+                FROM order_items oi
+                WHERE oi.order_id = @orderId";
+            
+            var productIds = await _connection.QueryAsync<long>(productsSql, new { orderId }, transaction);
+            
+            // Tạo ProductReview cho từng sản phẩm
+            foreach (var productId in productIds)
+            {
+                // Kiểm tra xem đã có review chưa (tránh duplicate)
+                var checkSql = @"
+                    SELECT EXISTS(
+                        SELECT 1 FROM product_reviews 
+                        WHERE product_id = @productId AND user_id = @userId
+                    )";
+                
+                var hasReview = await _connection.QueryFirstOrDefaultAsync<bool>(checkSql, new { productId, userId }, transaction);
+                
+                if (!hasReview)
+                {
+                    // Tạo ProductReview với rating từ OrderReview
+                    // Status = 1 (approved) vì đã được review qua order
+                    var insertProductReviewSql = @"
+                        INSERT INTO product_reviews 
+                            (product_id, user_id, rating, comment, status, created_at, updated_at)
+                        VALUES 
+                            (@productId, @userId, @rating, @comment, 1, NOW(), NOW())
+                        ON CONFLICT DO NOTHING";
+                    
+                    await _connection.ExecuteAsync(insertProductReviewSql, new
+                    {
+                        productId,
+                        userId,
+                        rating = orderRating, // Dùng rating từ order review
+                        comment = orderComment // Có thể để null hoặc dùng comment từ order
+                    }, transaction);
+                    
+                    _logger.LogInformation("Auto-created product review for product {ProductId} from order {OrderId}", productId, orderId);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating product reviews from order {OrderId}", orderId);
+            // Không throw để không rollback order review nếu product review fail
+        }
     }
 }

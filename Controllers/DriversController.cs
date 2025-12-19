@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebApp.Services.Interfaces;
@@ -10,7 +11,7 @@ namespace WebApp.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "driver")] // Chỉ driver mới truy cập được
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "driver")] // Chỉ driver (JWT Bearer) mới truy cập được
 public class DriversController : ControllerBase
 {
     private readonly IDriverService _driverService;
@@ -124,8 +125,9 @@ public class DriversController : ControllerBase
     }
 
     /// <summary>
-    /// Nhận đơn hàng (chuyển từ status 1 → 2)
+    /// Nhận đơn hàng (chuyển từ status 1 → 2: Chờ tài xế → Đang lấy đồ ăn)
     /// POST /api/drivers/orders/{id}/accept
+    /// Validation: Order phải ở status 1, driver không busy, không có đơn đang xử lý (status 2,3)
     /// </summary>
     [HttpPost("orders/{id}/accept")]
     public async Task<IActionResult> AcceptOrder(long id)
@@ -156,8 +158,9 @@ public class DriversController : ControllerBase
     }
 
     /// <summary>
-    /// Bắt đầu giao hàng (chuyển từ status 2 → 3: Đang lấy → Đang giao)
+    /// Bắt đầu giao hàng (chuyển từ status 2 → 3: Đang lấy đồ ăn → Đang giao hàng)
     /// POST /api/drivers/orders/{id}/start-delivery
+    /// Validation: Order phải ở status 2, driver phải là người được assign
     /// </summary>
     [HttpPost("orders/{id}/start-delivery")]
     public async Task<IActionResult> StartDelivery(long id)
@@ -188,8 +191,9 @@ public class DriversController : ControllerBase
     }
 
     /// <summary>
-    /// Hoàn thành đơn hàng (chuyển từ status 3 → 4: Đang giao → Hoàn thành)
+    /// Hoàn thành đơn hàng (chuyển từ status 3 → 4: Đang giao hàng → Hoàn thành)
     /// POST /api/drivers/orders/{id}/complete
+    /// Validation: Order phải ở status 3, driver phải là người được assign
     /// </summary>
     [HttpPost("orders/{id}/complete")]
     public async Task<IActionResult> CompleteOrder(long id)
@@ -292,16 +296,21 @@ public class DriversController : ControllerBase
     // ==================== PRIVATE HELPERS ====================
 
     /// <summary>
-    /// Lấy Driver ID từ JWT claims
-    /// </summary>
-    /// <summary>
-    /// Lấy driver_id từ user_id trong JWT token
+    /// Lấy driver_id từ user_id trong authentication claims (hỗ trợ cả Cookie và JWT Bearer)
+    /// - JWT token: claim "uid" (từ AuthController.GenerateJwtToken)
+    /// - Cookie auth: claim ClaimTypes.NameIdentifier
     /// </summary>
     private long? GetDriverId()
     {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // Tìm user ID từ claims (hỗ trợ cả JWT và Cookie auth)
+        var userIdClaim = User.FindFirst("uid")?.Value 
+                       ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
         if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out var userId))
         {
+            _logger.LogWarning("Cannot find user ID in claims. User authenticated: {IsAuthenticated}, Claims: {Claims}", 
+                User.Identity?.IsAuthenticated,
+                string.Join(", ", User.Claims.Select(c => $"{c.Type}={c.Value}")));
             return null;
         }
 
@@ -309,10 +318,19 @@ public class DriversController : ControllerBase
         try
         {
             var driverId = _driverService.GetDriverIdByUserId(userId);
+            
+            if (driverId == null)
+            {
+                _logger.LogWarning("User {UserId} is not a driver. Role: {Role}", 
+                    userId, 
+                    User.FindFirst(ClaimTypes.Role)?.Value ?? "unknown");
+            }
+            
             return driverId;
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Error getting driver ID for user {UserId}", userId);
             return null;
         }
     }

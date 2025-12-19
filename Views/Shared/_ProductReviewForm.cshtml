@@ -1,0 +1,161 @@
+@{
+    var productId = ViewBag.ProductId ?? 0;
+    var canReview = ViewBag.CanReview ?? false;
+}
+
+@if (canReview)
+{
+    <div x-data="productReviewForm(@productId)" class="border-top pt-4 mt-4">
+        <h3 class="mb-4">Viết đánh giá</h3>
+        
+        <!-- Rating Selection -->
+        <div class="mb-4">
+            <h5 class="mb-3">Đánh giá của bạn</h5>
+            <div class="d-flex justify-content-start gap-2 mb-2">
+                <template x-for="star in 5" :key="star">
+                    <i class="bi bi-star-fill star-rating"
+                       :class="star <= rating ? 'text-warning' : 'text-muted'"
+                       style="font-size: 2rem; cursor: pointer;"
+                       @@click="rating = star"></i>
+                </template>
+            </div>
+            <div class="text-muted small">
+                <span x-show="rating === 0">Chưa đánh giá</span>
+                <span x-show="rating === 1">Rất tệ</span>
+                <span x-show="rating === 2">Tệ</span>
+                <span x-show="rating === 3">Trung bình</span>
+                <span x-show="rating === 4">Tốt</span>
+                <span x-show="rating === 5">Rất tốt</span>
+            </div>
+        </div>
+        
+        <!-- Comment -->
+        <div class="mb-4">
+            <h5 class="mb-3">Nhận xét</h5>
+            <textarea x-model="comment"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."></textarea>
+            <div class="text-muted small mt-1" x-text="`${comment.length}/500 ký tự`"></div>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-end">
+            <button @@click="submitReview"
+                    :disabled="submitting || rating === 0"
+                    class="btn btn-warning"
+                    :class="{'opacity-50': submitting || rating === 0}">
+                <span x-show="!submitting">
+                    <i class="bi bi-send me-2"></i>Gửi đánh giá
+                </span>
+                <span x-show="submitting">
+                    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                    Đang gửi...
+                </span>
+            </button>
+        </div>
+        
+        <!-- Toast Notification -->
+        <div x-show="toast.show" 
+             x-transition
+             class="position-fixed top-0 end-0 p-3"
+             style="z-index: 9999;">
+            <div class="toast show" 
+                 :class="toast.type === 'success' ? 'bg-success text-white' : 'bg-danger text-white'"
+                 role="alert">
+                <div class="toast-body d-flex align-items-center">
+                    <i :class="toast.type === 'success' ? 'bi bi-check-circle-fill me-2' : 'bi bi-exclamation-triangle-fill me-2'"></i>
+                    <span x-text="toast.message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="border-top pt-4 mt-4 text-center">
+        <p class="text-muted">Bạn cần mua sản phẩm này để có thể đánh giá.</p>
+    </div>
+}
+
+<style>
+    .star-rating {
+        transition: all 0.2s;
+    }
+    .star-rating:hover {
+        transform: scale(1.1);
+    }
+</style>
+
+<script>
+    function productReviewForm(productId) {
+        return {
+            productId: productId,
+            rating: 0,
+            comment: '',
+            submitting: false,
+            toast: { show: false, message: '', type: 'success' },
+            
+            async submitReview() {
+                if (this.rating === 0) {
+                    this.showToast('Vui lòng chọn đánh giá', 'error');
+                    return;
+                }
+                
+                if (this.comment.length > 500) {
+                    this.showToast('Nhận xét không được vượt quá 500 ký tự', 'error');
+                    return;
+                }
+                
+                this.submitting = true;
+                
+                try {
+                    const token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+                    const headers = {
+                        'Content-Type': 'application/json',
+                        ...(token ? { 'Authorization': 'Bearer ' + token } : {})
+                    };
+                    
+                    const response = await fetch('/api/productreviews', {
+                        method: 'POST',
+                        headers: headers,
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            productId: this.productId,
+                            rating: this.rating,
+                            comment: this.comment
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.showToast('Đánh giá đã được gửi và đang chờ phê duyệt', 'success');
+                        // Reset form
+                        this.rating = 0;
+                        this.comment = '';
+                        // Reload reviews after 1 second
+                        setTimeout(() => {
+                            window.dispatchEvent(new Event('reviews:reload'));
+                        }, 1000);
+                    } else {
+                        this.showToast(result.message || 'Không thể gửi đánh giá', 'error');
+                    }
+                } catch (error) {
+                    console.error('Submit review error:', error);
+                    this.showToast('Không thể gửi đánh giá', 'error');
+                } finally {
+                    this.submitting = false;
+                }
+            },
+            
+            showToast(message, type = 'success') {
+                this.toast = { show: true, message, type };
+                setTimeout(() => {
+                    this.toast.show = false;
+                }, 3000);
+            }
+        };
+    }
+</script>
+

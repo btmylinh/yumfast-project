@@ -91,4 +91,34 @@ public class HomeController : BaseController
     {
         return View("~/Views/Auth/Verify.cshtml");
     }
+    
+    /// <summary>
+    /// Render Product Review Form partial view
+    /// GET /Product/GetReviewForm?productId=123
+    /// </summary>
+    [HttpGet("/Product/GetReviewForm")]
+    public async Task<IActionResult> GetReviewForm([FromQuery] long productId)
+    {
+        if (productId <= 0)
+        {
+            return NotFound();
+        }
+        
+        ViewBag.ProductId = productId;
+        
+        // Check if user can review (if logged in)
+        var userIdClaim = User.FindFirst("uid")?.Value ?? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (!string.IsNullOrEmpty(userIdClaim) && long.TryParse(userIdClaim, out var userId))
+        {
+            var reviewService = HttpContext.RequestServices.GetRequiredService<Services.Interfaces.IProductReviewService>();
+            var canReview = await reviewService.CanReviewProductAsync(productId, userId);
+            ViewBag.CanReview = canReview;
+        }
+        else
+        {
+            ViewBag.CanReview = false;
+        }
+        
+        return PartialView("~/Views/Shared/_ProductReviewForm.cshtml");
+    }
 }

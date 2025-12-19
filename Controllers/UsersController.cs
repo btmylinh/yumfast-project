@@ -52,7 +52,8 @@ namespace WebApp.Controllers
         [Route("~/user/settings")]
         public IActionResult Settings()
         {
-            return View();
+            ViewBag.PageType = "Settings";
+            return View("~/Views/User/Profile/Settings.cshtml");
         }
 
         /// <summary>
@@ -77,7 +78,8 @@ namespace WebApp.Controllers
         [Route("~/user/address")]
         public IActionResult Address()
         {
-            return View();
+            ViewBag.PageType = "Address";
+            return View("~/Views/User/Profile/Settings.cshtml");
         }
 
         /// <summary>
@@ -86,7 +88,8 @@ namespace WebApp.Controllers
         [Route("~/user/paymentmethod")]
         public IActionResult PaymentMethod()
         {
-            return View();
+            ViewBag.PageType = "PaymentMethod";
+            return View("~/Views/User/Profile/Settings.cshtml");
         }
 
         #endregion

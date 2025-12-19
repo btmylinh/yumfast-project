@@ -93,7 +93,7 @@ public class OrderTrackingService : IOrderTrackingService
                     
                     var recentOrders = await _connection.QueryAsync("SELECT id, code, user_id FROM orders ORDER BY id DESC LIMIT 10");
                     _logger.LogInformation("Recent orders: {Orders}", string.Join("; ", recentOrders.Select(o => $"ID={o.id} Code={o.code} UserId={o.user_id}")));
-                    
+                
                     throw new KeyNotFoundException($"Order {orderId} not found in database");
                 }
             }
@@ -113,7 +113,7 @@ public class OrderTrackingService : IOrderTrackingService
                 OrderId = orderData.OrderId,
                 OrderCode = orderData.OrderCode,
                 Status = orderData.Status,
-                StatusText = GetStatusText(orderData.Status),
+                StatusText = OrderStatusHelper.GetStatusText(orderData.Status),
                 ShipName = orderData.ShipName ?? string.Empty,
                 ShipPhone = orderData.ShipPhone ?? string.Empty,
                 ShipAddress = orderData.ShipAddress ?? string.Empty,
@@ -196,7 +196,7 @@ public class OrderTrackingService : IOrderTrackingService
             
             foreach (var log in logs)
             {
-                log.StatusText = GetStatusText(log.Status);
+                log.StatusText = OrderStatusHelper.GetStatusText(log.Status);
             }
             
             return logs.ToList();
@@ -363,7 +363,7 @@ public class OrderTrackingService : IOrderTrackingService
     public async Task SendStatusNotificationAsync(long orderId, int status)
     {
         // Sử dụng NotificationService để gửi thông báo
-        var statusText = GetStatusText(status);
+        var statusText = OrderStatusHelper.GetStatusText(status);
         await _notificationService.NotifyOrderStatusChangedAsync(orderId, status, statusText);
         
         _logger.LogInformation("Notification sent for order {OrderId} status {Status}", orderId, status);

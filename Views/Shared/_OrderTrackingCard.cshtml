@@ -1,0 +1,405 @@
+@* Order Tracking Card Component - Mobile-first Design
+   Hiển thị tiến trình đơn hàng với real-time updates
+   Trạng thái đồng bộ với OrderTrackingService:
+   1=Chờ tài xế, 2=Đang lấy đồ ăn, 3=Đang giao hàng, 4=Hoàn thành, 5=Đã hủy, 6=Đã hoàn tiền
+*@
+
+@model dynamic
+
+@using WebApp.Services
+@{
+    var order = Model?.Order as dynamic;
+    var driver = Model?.Driver as dynamic;
+    var restaurant = Model?.Restaurant as dynamic;
+    
+    if (order == null) { return; }
+    
+    var status = (int)(order.Status ?? 1);
+    var orderId = order.Id ?? order.OrderId ?? 0;
+    var orderCode = order.OrderCode ?? order.Code ?? "";
+    var estimatedTime = order.EstimatedDeliveryTime ?? "";
+    var driverName = driver?.FullName ?? driver?.Name ?? "";
+    var driverPhone = driver?.Phone ?? "";
+    var restaurantName = restaurant?.Name ?? "";
+    var restaurantPhone = restaurant?.Phone ?? "";
+    
+    // Dùng OrderStatusHelper để lấy thông tin status
+    var statusText = OrderStatusHelper.GetStatusText(status);
+    var statusColor = OrderStatusHelper.GetStatusColor(status);
+    var statusIcon = OrderStatusHelper.GetStatusIcon(status);
+    
+    // Xác định bước hiện tại trong timeline
+    int currentStep = status switch
+    {
+        1 => 2, // Chờ tài xế
+        2 => 3, // Đang lấy đồ ăn
+        3 => 4, // Đang giao hàng
+        4 => 5, // Hoàn thành
+        5 => 0, // Đã hủy (không hiển thị trên timeline)
+        6 => 0, // Đã hoàn tiền (không hiển thị trên timeline)
+        _ => 1
+    };
+}
+
+<div class="order-tracking-card card shadow-sm border-2 mb-3" data-order-id="@orderId" id="orderTrackingCard_@orderId">
+    <!-- Header: Trạng thái hiện tại -->
+    <div class="card-header bg-white border-bottom-0 pb-2 pt-3 px-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2 flex-grow-1">
+                <div class="status-icon status-@statusColor">
+                    <i class="bi @statusIcon fs-5"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="mb-0 fw-bold text-@statusColor">@statusText</h6>
+                    <small class="text-muted">Mã đơn: <strong>#@orderCode</strong></small>
+                </div>
+            </div>
+            @if (status == 4 || status == 5 || status == 6) {
+                <button class="btn btn-sm btn-outline-secondary" onclick="closeTrackingCard(@orderId)">
+                    <i class="bi bi-x"></i>
+                </button>
+            }
+        </div>
+    </div>
+    
+    <div class="card-body px-3 py-3">
+        <!-- Progress Timeline: 5 bước -->
+        <div class="order-timeline mb-3">
+            <div class="timeline-steps">
+                <!-- Bước 1: Đã đặt hàng -->
+                <div class="timeline-step @(currentStep >= 1 ? "completed" : "") @(currentStep == 1 ? "active" : "")">
+                    <div class="timeline-step-icon">
+                        <i class="bi @(currentStep >= 1 ? "bi-check-circle-fill" : "bi-circle")"></i>
+                    </div>
+                    <div class="timeline-step-label">
+                        <small class="d-block fw-bold">Đã đặt hàng</small>
+                        @if (currentStep >= 1 && order.CreatedAt != null) {
+                            <small class="text-muted">@(((DateTime)order.CreatedAt).ToString("HH:mm"))</small>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Bước 2: Chờ tài xế (status 1) -->
+                <div class="timeline-step @(currentStep >= 2 ? "completed" : "") @(currentStep == 2 ? "active" : "")">
+                    <div class="timeline-step-icon">
+                        <i class="bi @(currentStep >= 2 ? "bi-check-circle-fill" : "bi-circle")"></i>
+                    </div>
+                    <div class="timeline-step-label">
+                        <small class="d-block fw-bold">Chờ tài xế</small>
+                        @if (currentStep >= 2 && order.ConfirmedAt != null) {
+                            <small class="text-muted">@(((DateTime)order.ConfirmedAt).ToString("HH:mm"))</small>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Bước 3: Tài xế nhận đơn (status 2: Đang lấy đồ ăn) -->
+                <div class="timeline-step @(currentStep >= 3 ? "completed" : "") @(currentStep == 3 ? "active" : "")">
+                    <div class="timeline-step-icon">
+                        <i class="bi @(currentStep >= 3 ? "bi-check-circle-fill" : "bi-circle")"></i>
+                    </div>
+                    <div class="timeline-step-label">
+                        <small class="d-block fw-bold">Đang lấy đồ ăn</small>
+                        @if (currentStep >= 3 && order.DriverAcceptedAt != null) {
+                            <small class="text-muted">@(((DateTime)order.DriverAcceptedAt).ToString("HH:mm"))</small>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Bước 4: Đang giao hàng (status 3) -->
+                <div class="timeline-step @(currentStep >= 4 ? "completed" : "") @(currentStep == 4 ? "active" : "")">
+                    <div class="timeline-step-icon">
+                        <i class="bi @(currentStep >= 4 ? "bi-check-circle-fill" : "bi-circle")"></i>
+                    </div>
+                    <div class="timeline-step-label">
+                        <small class="d-block fw-bold">Đang giao hàng</small>
+                        @if (currentStep >= 4 && order.DeliveryStartedAt != null) {
+                            <small class="text-muted">@(((DateTime)order.DeliveryStartedAt).ToString("HH:mm"))</small>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Bước 5: Hoàn thành (status 4) -->
+                <div class="timeline-step @(currentStep >= 5 ? "completed" : "") @(currentStep == 5 ? "active" : "")">
+                    <div class="timeline-step-icon">
+                        <i class="bi @(currentStep >= 5 ? "bi-check-circle-fill" : "bi-circle")"></i>
+                    </div>
+                    <div class="timeline-step-label">
+                        <small class="d-block fw-bold">Hoàn thành</small>
+                        @if (currentStep >= 5 && order.CompletedAt != null) {
+                            <small class="text-muted">@(((DateTime)order.CompletedAt).ToString("HH:mm"))</small>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Thông tin động theo từng giai đoạn -->
+        <div class="order-dynamic-info mb-3">
+            @if (status == 1) {
+                
+            } else if (status == 2 || status == 3) {
+                <!-- Đang lấy đồ ăn (2) hoặc Đang giao hàng (3): Hiển thị thông tin tài xế -->
+                <div class="d-flex align-items-center justify-content-between p-2 bg-light rounded">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="driver-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block">Tài xế</small>
+                            <strong class="small">@(string.IsNullOrEmpty(driverName) ? "Đang tìm tài xế..." : driverName)</strong>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(driverPhone)) {
+                        <a href="tel:@driverPhone" class="btn btn-sm btn-primary">
+                            <i class="bi bi-telephone"></i>
+                        </a>
+                    }
+                </div>
+            } else if (status == 4) {
+                <!-- Hoàn thành -->
+                <div class="alert alert-success mb-0 py-2">
+                    <small><i class="bi bi-check-circle me-1"></i>Đơn hàng đã được giao thành công!</small>
+                </div>
+            } else if (status == 5) {
+                <!-- Đã hủy -->
+                <div class="alert alert-danger mb-0 py-2">
+                    <small><i class="bi bi-x-circle me-1"></i>Đơn hàng đã bị hủy</small>
+                    @if (!string.IsNullOrEmpty(order.CancelReason as string)) {
+                        <div class="mt-1"><small>Lý do: @order.CancelReason</small></div>
+                    }
+                </div>
+            } else if (status == 6) {
+                <!-- Đã hoàn tiền -->
+                <div class="alert alert-warning mb-0 py-2">
+                    <small><i class="bi bi-arrow-counterclockwise me-1"></i>Đơn hàng đã được hoàn tiền</small>
+                    @if (!string.IsNullOrEmpty(order.RefundReason as string)) {
+                        <div class="mt-1"><small>Lý do: @order.RefundReason</small></div>
+                    }
+                </div>
+            }
+        </div>
+        
+        <!-- Link xem chi tiết đơn hàng -->
+        <div class="order-actions d-grid gap-2">
+            <a href="@Url.Action("Tracking", "Order", new { id = orderId })" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-eye me-1"></i>Xem chi tiết đơn hàng
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Order Tracking Card Styles - Mobile-first */
+    .order-tracking-card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    
+    .status-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .status-warning { background-color: #fff3cd; color: #856404; }
+    .status-info { background-color: #d1ecf1; color: #0c5460; }
+    .status-primary { background-color: #cfe2ff; color: #084298; }
+    .status-success { background-color: #d1e7dd; color: #0f5132; }
+    .status-danger { background-color: #f8d7da; color: #842029; }
+    
+    /* Timeline Styles */
+    .order-timeline {
+        position: relative;
+        padding: 1rem 0;
+    }
+    
+    .timeline-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        padding: 0 0.5rem;
+    }
+    
+    .timeline-steps::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background-color: #e9ecef;
+        z-index: 0;
+    }
+    
+    .timeline-step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .timeline-step-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #ffffff;
+        border: 2px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s;
+    }
+    
+    .timeline-step-icon i {
+        font-size: 1.2rem;
+        color: #6c757d;
+    }
+    
+    .timeline-step.completed .timeline-step-icon {
+        background-color: #198754;
+        border-color: #198754;
+    }
+    
+    .timeline-step.completed .timeline-step-icon i {
+        color: #ffffff;
+    }
+    
+    .timeline-step.active .timeline-step-icon {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        animation: pulse 2s infinite;
+    }
+    
+    .timeline-step.active .timeline-step-icon i {
+        color: #ffffff;
+    }
+    
+    @@keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    .timeline-step-label {
+        text-align: center;
+        font-size: 0.75rem;
+    }
+    
+    .timeline-step.active .timeline-step-label {
+        color: #0d6efd;
+        font-weight: 600;
+    }
+    
+    .timeline-step.completed .timeline-step-label {
+        color: #198754;
+    }
+    
+    /* Progress line animation */
+    .timeline-steps::before {
+        background: linear-gradient(to right, #198754 0%, #198754 var(--progress, 0%), #e9ecef var(--progress, 0%), #e9ecef 100%);
+        transition: background 0.5s ease;
+    }
+    
+    /* Mobile responsive */
+    @@media (max-width: 576px) {
+        .timeline-step-icon {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .timeline-step-icon i {
+            font-size: 1rem;
+        }
+        
+        .timeline-step-label {
+            font-size: 0.7rem;
+        }
+        
+        .order-tracking-card .card-body {
+            padding: 1rem;
+        }
+    }
+    
+    /* Sticky positioning */
+    .order-tracking-card.sticky {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        margin-bottom: 1rem;
+    }
+</style>
+
+<script>
+    // Order Tracking Card Functions
+    function cancelOrder(orderId) {
+        if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) return;
+        
+        fetch('/api/orders/' + orderId + '/cancel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Không thể hủy đơn hàng');
+            }
+        })
+        .catch(e => {
+            console.error('Cancel order error:', e);
+            alert('Có lỗi xảy ra khi hủy đơn hàng');
+        });
+    }
+    
+    function contactRestaurant(orderId) {
+        // Mở chat với nhà hàng
+        console.log('Contact restaurant for order:', orderId);
+        // TODO: Implement chat functionality
+    }
+    
+    function contactDriver(orderId) {
+        // Mở chat với tài xế
+        console.log('Contact driver for order:', orderId);
+        // TODO: Implement chat functionality
+    }
+    
+    function contactSupport(orderId) {
+        // Liên hệ hỗ trợ cho đơn đã hoàn tiền
+        window.location.href = '/Support?orderId=' + orderId;
+    }
+    
+    function rateOrder(orderId) {
+        // Mở modal đánh giá
+        window.location.href = '/Order/Rate/' + orderId;
+    }
+    
+    function closeTrackingCard(orderId) {
+        var card = document.getElementById('orderTrackingCard_' + orderId);
+        if (card) {
+            card.style.display = 'none';
+            // Lưu vào localStorage để không hiển thị lại
+            localStorage.setItem('tracking_card_closed_' + orderId, 'true');
+        }
+    }
+    
+    // Real-time update function (sẽ được gọi từ SignalR hoặc polling)
+    function updateOrderTracking(orderId, orderData) {
+        var card = document.getElementById('orderTrackingCard_' + orderId);
+        if (!card) return;
+        
+        // Reload card với data mới
+        fetch('/Order/GetTrackingCard/' + orderId)
+            .then(r => r.text())
+            .then(html => {
+                card.outerHTML = html;
+            })
+            .catch(e => console.error('Update tracking error:', e));
+    }
+</script>
+

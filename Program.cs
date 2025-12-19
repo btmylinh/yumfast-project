@@ -59,6 +59,7 @@ builder.Services.AddScoped<MoMoService>(); // MoMo payment service
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
 builder.Services.AddScoped<IOrderReviewService, OrderReviewService>();
+builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Product catalog (demo in-memory)

@@ -14,6 +14,25 @@
                <p>@ViewBag.AuthSignInSubtitle</p>
             </div>
 
+            <!-- Quick demo accounts -->
+            <div class="mb-4">
+               <div class="small text-muted mb-2">Đăng nhập nhanh với tài khoản demo:</div>
+               <div class="d-flex flex-wrap gap-2">
+                  <button type="button" class="btn btn-outline-secondary btn-sm"
+                          onclick="fillDemoAccount('user@gmail.com')">
+                     user@gmail.com
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm"
+                          onclick="fillDemoAccount('admin@gmail.com')">
+                     admin@gmail.com
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm"
+                          onclick="fillDemoAccount('driver@gmail.com')">
+                     driver@gmail.com
+                  </button>
+               </div>
+            </div>
+
             <form id="loginForm" class="needs-validation" novalidate>
                <div class="row g-3">
                   <div class="col-12">
@@ -54,6 +73,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script>
+// Fill quick demo accounts
+function fillDemoAccount(email) {
+  var emailInput = document.getElementById('formSigninEmail');
+  var passInput = document.getElementById('formSigninPassword');
+  if (emailInput && passInput) {
+    emailInput.value = email;
+    passInput.value = '123456';
+    emailInput.focus();
+  }
+}
+
 var pIcon = document.querySelector('.passwordToggler');
 var pInput = document.getElementById('formSigninPassword');
 if(pIcon && pInput){
@@ -93,21 +123,27 @@ document.querySelector("#loginForm").addEventListener("submit", async (e) => {
 
   if (res.ok && json && json.code === 'signin_success') {
     try {
+      // Lưu token + thông tin user vào localStorage để FE dùng
+      const roleRaw = json.role || 'user';
+      const role = String(roleRaw).toLowerCase();
       localStorage.setItem('token', json.token);
       localStorage.setItem('auth_token', json.token);
-      localStorage.setItem('current_user', JSON.stringify({ name: json.name || '', email: json.email || '', role: json.role || 'user' }));
-    } catch {}
-    
-    // Redirect theo role
-    const role = json.role || 'user';
-    if (role === 'admin') {
-      window.location.href = "/Dashboard"; // Trang quản trị admin
-    } else if (role === 'driver') {
-      window.location.href = "/Driver/Dashboard"; // Trang tài xế
-    } else {
-      window.location.href = "/"; // Trang chủ cho user
+      localStorage.setItem('current_user', JSON.stringify({ name: json.name || '', email: json.email || '', role }));
+
+      // Redirect theo role (so sánh role đã normalize lowercase)
+      if (role === 'admin') {
+        window.location.href = "/Dashboard"; // Trang quản trị admin
+      } else if (role === 'driver') {
+        window.location.href = "/Driver/Dashboard"; // Trang tài xế
+      } else {
+        window.location.href = "/"; // Trang chủ cho user
+      }
+      return;
+    } catch {
+      // Nếu có lỗi khi lưu localStorage thì vẫn cho về trang chủ
+      window.location.href = "/";
+      return;
     }
-    return;
   }
 
   const msgInvalid = '@System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode((string)ViewBag.InvalidPassword)';

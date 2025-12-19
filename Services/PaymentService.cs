@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.SignalR;
 using Npgsql;
+using WebApp.Hubs;
 
 namespace WebApp.Services
 {
@@ -12,10 +14,12 @@ namespace WebApp.Services
     public class PaymentService : IPaymentService
     {
         private readonly IConfiguration _config;
+        private readonly IHubContext<OrderHub> _hubContext;
 
-        public PaymentService(IConfiguration config)
+        public PaymentService(IConfiguration config, IHubContext<OrderHub> hubContext)
         {
             _config = config;
+            _hubContext = hubContext;
         }
 
         // ---------------------------------------------------------
@@ -94,7 +98,7 @@ namespace WebApp.Services
                 {
                     await using (var oup = new NpgsqlCommand(@"
                         UPDATE orders 
-                           SET payment_status=1, status=2, updated_at=NOW() 
+                           SET payment_status=1, status=1, updated_at=NOW() 
                          WHERE id=@id",
                         conn, (NpgsqlTransaction)tx))
                     {
@@ -105,7 +109,7 @@ namespace WebApp.Services
                     // Ghi lịch sử
                     await using (var hcmd = new NpgsqlCommand(@"
                         INSERT INTO order_status_history(order_id, status, note, created_by)
-                        VALUES (@oid, 2, 'Payment completed', NULL)",
+                        VALUES (@oid, 1, 'Payment completed - Waiting for driver', NULL)",
                         conn, (NpgsqlTransaction)tx))
                     {
                         hcmd.Parameters.AddWithValue("@oid", orderId);
@@ -114,6 +118,25 @@ namespace WebApp.Services
                 }
 
                 await tx.CommitAsync();
+                
+                // 🔔 Gửi SignalR notification đến tất cả driver khi có đơn mới (status = 1)
+                if (success)
+                {
+                    try
+                    {
+                        await _hubContext.Clients.All.SendAsync("NewOrderAvailable", new
+                        {
+                            orderId,
+                            message = "Có đơn hàng mới cần tài xế",
+                            timestamp = DateTime.UtcNow
+                        });
+                    }
+                    catch
+                    {
+                        // Log lỗi nhưng không throw (để không ảnh hưởng logic chính)
+                    }
+                }
+                
                 return new { orderId, paid = success };
             }
             catch (PostgresException ex)

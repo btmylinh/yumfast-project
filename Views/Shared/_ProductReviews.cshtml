@@ -1,0 +1,62 @@
+@model List<WebApp.Models.ProductReview>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="text-center py-5">
+        <p class="text-muted">Chưa có đánh giá nào cho sản phẩm này.</p>
+    </div>
+}
+else
+{
+    @foreach (var review in Model)
+    {
+        <div class="d-flex border-bottom pb-4 mb-4">
+            <!-- User Avatar -->
+            <div class="flex-shrink-0">
+                <div class="bg-warning bg-gradient rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" 
+                     style="width: 48px; height: 48px;">
+                    @{
+                        var userName = review.User?.Name ?? "U";
+                        var initial = userName.Length > 0 ? userName[0].ToString().ToUpper() : "U";
+                    }
+                    <span>@initial</span>
+                </div>
+            </div>
+            
+            <!-- Review Content -->
+            <div class="ms-3 flex-grow-1">
+                <h6 class="mb-1">@(review.User?.Name ?? "Người dùng")</h6>
+                <p class="small mb-2">
+                    <span class="text-muted">@review.CreatedAt.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("vi-VN"))</span>
+                    @if (review.Status == 1)
+                    {
+                        <span class="text-success ms-3 fw-bold">
+                            <i class="bi bi-check-circle me-1"></i>Đã phê duyệt
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-warning ms-3 fw-bold">
+                            <i class="bi bi-clock me-1"></i>Đang chờ phê duyệt
+                        </span>
+                    }
+                </p>
+                
+                <!-- Rating Stars -->
+                <div class="mb-2">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <i class="bi @(i <= review.Rating ? "bi-star-fill text-warning" : "bi-star text-muted")"></i>
+                    }
+                </div>
+                
+                <!-- Comment -->
+                @if (!string.IsNullOrEmpty(review.Comment))
+                {
+                    <p class="mb-0">@review.Comment</p>
+                }
+            </div>
+        </div>
+    }
+}
+

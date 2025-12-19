@@ -86,7 +86,7 @@ public class DriverService : IDriverService
     }
     
     /// <summary>
-    /// Lấy danh sách đơn hàng của tài xế (status 2,3,4: Đang lấy, Đang giao, Hoàn thành)
+    /// Lấy danh sách đơn hàng của tài xế (status 2,3: Đang lấy đồ ăn, Đang giao hàng)
     /// </summary>
     public async Task<List<DriverOrderViewModel>> GetMyOrdersAsync(long driverId)
     {
@@ -108,7 +108,7 @@ public class DriverService : IDriverService
                 o.driver_accepted_at as DriverAcceptedAt,
                 o.completed_at as CompletedAt
             FROM orders o
-            WHERE o.driver_id = @driverId AND o.status IN (2, 3, 4)
+            WHERE o.driver_id = @driverId AND o.status IN (2, 3)
             ORDER BY o.created_at DESC";
         
         try
@@ -185,6 +185,43 @@ public class DriverService : IDriverService
         
         try
         {
+            // ========== VALIDATION: Kiểm tra driver có đang busy không ==========
+            // Check 1: Kiểm tra driver status
+            var driverStatusSql = "SELECT status FROM drivers WHERE id = @driverId FOR UPDATE";
+            var driverStatus = await _connection.QueryFirstOrDefaultAsync<string>(driverStatusSql, new { driverId }, transaction);
+            
+            if (driverStatus == null)
+                return ServiceResult.Fail("Driver not found");
+            
+            if (driverStatus == "offline")
+                return ServiceResult.Fail("Bạn đang offline. Vui lòng chuyển sang trạng thái sẵn sàng để nhận đơn.");
+            
+            // Check 2: Kiểm tra số đơn đang xử lý (status 2,3: Đang lấy đồ ăn, Đang giao hàng)
+            // Đây là check chính xác nhất - kiểm tra thực tế có đơn đang xử lý không
+            var activeOrdersSql = @"
+                SELECT COUNT(*) 
+                FROM orders 
+                WHERE driver_id = @driverId AND status IN (2, 3)";
+            
+            var activeOrdersCount = await _connection.QueryFirstOrDefaultAsync<int>(activeOrdersSql, new { driverId }, transaction);
+            
+            // Nếu có đơn đang xử lý thì không cho nhận đơn mới
+            if (activeOrdersCount > 0)
+            {
+                _logger.LogWarning("Driver {DriverId} tried to accept order {OrderId} but has {Count} active orders (status 2,3)", 
+                    driverId, orderId, activeOrdersCount);
+                return ServiceResult.Fail($"Bạn đang có {activeOrdersCount} đơn hàng đang xử lý. Vui lòng hoàn thành đơn hiện tại trước khi nhận đơn mới.");
+            }
+            
+            // Nếu driver status = "busy" nhưng không có đơn active, reset về "available" (fix inconsistency)
+            if (driverStatus == "busy" && activeOrdersCount == 0)
+            {
+                _logger.LogWarning("Driver {DriverId} status is 'busy' but has no active orders. Resetting to 'available'", driverId);
+                var resetStatusSql = "UPDATE drivers SET status = 'available', updated_at = NOW() WHERE id = @driverId";
+                await _connection.ExecuteAsync(resetStatusSql, new { driverId }, transaction);
+            }
+            
+            // ========== VALIDATION: Kiểm tra order có available không ==========
             // Check order is available
             var checkSql = "SELECT status, driver_id FROM orders WHERE id = @orderId FOR UPDATE";
             var order = await _connection.QueryFirstOrDefaultAsync(checkSql, new { orderId }, transaction);
@@ -192,12 +229,14 @@ public class DriverService : IDriverService
             if (order == null)
                 return ServiceResult.Fail("Order not found");
             
+            // Validation: Order phải ở status 1 (Chờ tài xế) - theo OrderStatusHelper
             if (order.status != 1)
-                return ServiceResult.Fail("Order is not available");
+                return ServiceResult.Fail("Đơn hàng không khả dụng. Chỉ có thể nhận đơn ở trạng thái 'Chờ tài xế' (status = 1)");
             
             if (order.driver_id != null)
                 return ServiceResult.Fail("Order already assigned to another driver");
             
+            // ========== ACCEPT ORDER ==========
             // Update order
             var updateOrderSql = @"
                 UPDATE orders 
@@ -209,13 +248,15 @@ public class DriverService : IDriverService
             
             await _connection.ExecuteAsync(updateOrderSql, new { orderId, driverId }, transaction);
             
-            // Update driver status
+            // Update driver status to busy (chỉ khi nhận đơn thành công)
             var updateDriverSql = @"
                 UPDATE drivers 
                 SET status = 'busy', updated_at = NOW()
                 WHERE id = @driverId";
             
             await _connection.ExecuteAsync(updateDriverSql, new { driverId }, transaction);
+            
+            _logger.LogInformation("Driver {DriverId} status updated to 'busy' after accepting order {OrderId}", driverId, orderId);
             
             // Log status change
             await LogStatusChangeAsync(orderId, 1, 2, driverId, "driver", "Driver accepted order", transaction);
@@ -244,7 +285,8 @@ public class DriverService : IDriverService
     
     public async Task<ServiceResult> StartDeliveryAsync(long orderId, long driverId)
     {
-        return await UpdateOrderStatusAsync(orderId, driverId, 3, 4, "Started delivery");
+        // Start delivery: status 2 (Đang lấy đồ ăn) → 3 (Đang giao hàng) - theo OrderStatusHelper
+        return await UpdateOrderStatusAsync(orderId, driverId, 2, 3, "Bắt đầu giao hàng");
     }
     
     public async Task<ServiceResult> CompleteOrderAsync(long orderId, long driverId)
@@ -263,13 +305,14 @@ public class DriverService : IDriverService
             if (order.driver_id != driverId)
                 return ServiceResult.Fail("You are not assigned to this order");
             
-            if (order.status != 4)
-                return ServiceResult.Fail("Order is not in delivering status");
+            // Validation: Order phải ở status 3 (Đang giao hàng) - theo OrderStatusHelper
+            if (order.status != 3)
+                return ServiceResult.Fail("Đơn hàng không ở trạng thái 'Đang giao hàng'. Chỉ có thể hoàn thành đơn khi đang giao (status = 3)");
             
-            // Update order
+            // Update order: status 3 → 4 (Đang giao hàng → Hoàn thành) - theo OrderStatusHelper
             var updateOrderSql = @"
                 UPDATE orders 
-                SET status = 5,
+                SET status = 4,
                     completed_at = NOW(),
                     updated_at = NOW()
                 WHERE id = @orderId";
@@ -286,15 +329,15 @@ public class DriverService : IDriverService
             
             await _connection.ExecuteAsync(updateDriverSql, new { driverId }, transaction);
             
-            // Log status change
-            await LogStatusChangeAsync(orderId, 4, 5, driverId, "driver", "Order completed", transaction);
+            // Log status change: 3 → 4
+            await LogStatusChangeAsync(orderId, 3, 4, driverId, "driver", "Đơn hàng đã hoàn thành", transaction);
             
             await transaction.CommitAsync();
             
             _logger.LogInformation("Driver {DriverId} completed order {OrderId}", driverId, orderId);
             
             // 🔔 Gửi SignalR notification
-            await SendOrderStatusNotification(orderId, 5, "Đơn hàng đã hoàn thành");
+            await SendOrderStatusNotification(orderId, 4, "Đơn hàng đã hoàn thành");
             
             return ServiceResult.Ok("Order completed successfully");
         }
@@ -333,30 +376,90 @@ public class DriverService : IDriverService
     
     public async Task<DriverStatsViewModel> GetDriverStatsAsync(long driverId)
     {
-        var sql = @"
-            SELECT 
-                d.id as DriverId,
-                d.full_name as FullName,
-                d.status as Status,
-                d.rating as Rating,
-                d.total_orders as TotalOrders,
-                COUNT(CASE WHEN o.status IN (2,3,4) THEN 1 END) as PendingOrders,
-                COUNT(CASE WHEN o.status = 5 AND DATE(o.completed_at) = CURRENT_DATE THEN 1 END) as TodayOrders,
-                COUNT(CASE WHEN o.status = 5 THEN 1 END) as CompletedOrders,
-                MAX(CASE WHEN o.status = 5 THEN o.completed_at END) as LastOrderCompletedAt
-            FROM drivers d
-            LEFT JOIN orders o ON o.driver_id = d.id
-            WHERE d.id = @driverId
-            GROUP BY d.id";
+        if (_connection.State != System.Data.ConnectionState.Open)
+        {
+            await _connection.OpenAsync();
+        }
         
         try
         {
-            var stats = await _connection.QueryFirstOrDefaultAsync<DriverStatsViewModel>(sql, new { driverId });
-            return stats ?? new DriverStatsViewModel { DriverId = driverId };
+            // Bước 1: Lấy thông tin cơ bản của driver (không join với orders)
+            // Dùng lowercase alias để tránh vấn đề phân biệt hoa thường của PostgreSQL
+            // Dapper sẽ tự động map lowercase alias vào PascalCase properties của DriverStatsViewModel
+            var driverSql = @"
+                SELECT 
+                    d.id as driverid,
+                    d.full_name as fullname,
+                    d.status as status,
+                    d.rating as rating,
+                    d.total_orders as totalorders
+                FROM drivers d
+                WHERE d.id = @driverId";
+            
+            var stats = await _connection.QueryFirstOrDefaultAsync<DriverStatsViewModel>(driverSql, new { driverId });
+            
+            // Nếu không tìm thấy driver, trả về object mặc định
+            if (stats == null)
+            {
+                _logger.LogWarning("Driver {DriverId} not found", driverId);
+                return new DriverStatsViewModel { DriverId = driverId };
+            }
+            
+            // Bước 2: Tính toán stats từ orders (riêng biệt để tránh lỗi GROUP BY khi không có đơn)
+            // Dùng lowercase alias để tránh vấn đề phân biệt hoa thường của PostgreSQL
+            var ordersStatsSql = @"
+                SELECT 
+                    COUNT(CASE WHEN o.status IN (2,3) THEN 1 END) as pendingorders,
+                    COUNT(
+                        CASE 
+                            WHEN o.driver_accepted_at IS NOT NULL 
+                                AND DATE(o.driver_accepted_at) = CURRENT_DATE 
+                                AND o.status IN (2,3,4)
+                            THEN 1 
+                        END
+                    ) as todayorders,
+                    COUNT(CASE WHEN o.status = 4 THEN 1 END) as completedorders,
+                    MAX(CASE WHEN o.status = 4 THEN o.completed_at END) as lastordercompletedat
+                FROM orders o
+                WHERE o.driver_id = @driverId";
+            
+            var ordersStats = await _connection.QueryFirstOrDefaultAsync<dynamic>(ordersStatsSql, new { driverId });
+
+            // Gán stats từ orders (sẽ là 0 nếu driver chưa có đơn nào)
+            // Truy cập bằng lowercase để match với PostgreSQL alias
+            stats.PendingOrders = (int?)(ordersStats?.pendingorders ?? ordersStats?.PendingOrders) ?? 0;
+            stats.TodayOrders = (int?)(ordersStats?.todayorders ?? ordersStats?.TodayOrders) ?? 0;
+            stats.CompletedOrders = (int?)(ordersStats?.completedorders ?? ordersStats?.CompletedOrders) ?? 0;
+            stats.LastOrderCompletedAt = ordersStats?.lastordercompletedat ?? ordersStats?.LastOrderCompletedAt;
+            
+            // Bước 3: Tính toán thu nhập hôm nay (nếu có hoa hồng từ đơn hoàn thành hôm nay)
+            // Giả sử tài xế nhận 10% hoa hồng từ tổng giá trị đơn hàng
+            var todayEarningsSql = @"
+                SELECT COALESCE(SUM(o.total_price * 0.1), 0)::int as earnings
+                FROM orders o
+                WHERE o.driver_id = @driverId 
+                  AND o.status = 4 
+                  AND DATE(o.completed_at) = CURRENT_DATE";
+            
+            var todayEarningsResult = await _connection.QueryFirstOrDefaultAsync<dynamic>(todayEarningsSql, new { driverId });
+            stats.TodayEarnings = todayEarningsResult?.earnings ?? 0;
+            
+            // Bước 4: Tính toán thu nhập tháng này
+            var monthEarningsSql = @"
+                SELECT COALESCE(SUM(o.total_price * 0.1), 0)::int as earnings
+                FROM orders o
+                WHERE o.driver_id = @driverId 
+                  AND o.status = 4 
+                  AND DATE_TRUNC('month', o.completed_at) = DATE_TRUNC('month', CURRENT_DATE)";
+            
+            var monthEarningsResult = await _connection.QueryFirstOrDefaultAsync<dynamic>(monthEarningsSql, new { driverId });
+            stats.MonthEarnings = monthEarningsResult?.earnings ?? 0;
+            
+            return stats;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting driver stats");
+            _logger.LogError(ex, "Error getting driver stats for driver {DriverId}", driverId);
             return new DriverStatsViewModel { DriverId = driverId };
         }
     }
@@ -453,6 +556,7 @@ public class DriverService : IDriverService
     
     /// <summary>
     /// Ghi log thay đổi trạng thái đơn hàng vào order_status_history
+    /// Dùng trực tiếp status theo OrderStatusHelper (1-6), không map
     /// </summary>
     private async Task LogStatusChangeAsync(
         long orderId, 
@@ -463,35 +567,29 @@ public class DriverService : IDriverService
         string notes,
         NpgsqlTransaction transaction)
     {
-        // Bảng order_status_history có cấu trúc: order_id, status, note, created_at
+        // Dùng trực tiếp status theo OrderStatusHelper (1-6)
+        // order_status_history.status có thể có constraint, nhưng giả sử nó chấp nhận 1-6
         var sql = @"
             INSERT INTO order_status_history 
                 (order_id, status, note, created_at)
             VALUES 
-                (@orderId, @newStatus, @notes, NOW())";
+                (@orderId, @status, @notes, NOW())";
         
         await _connection.ExecuteAsync(sql, new 
         { 
-            orderId, 
-            newStatus, 
+            orderId,
+            status = newStatus, // Dùng trực tiếp status, không map
             notes 
         }, transaction);
     }
-    
+
+
+    /// <summary>
+    /// Lấy text hiển thị status theo OrderStatusHelper (1-6)
+    /// </summary>
     private string GetStatusText(int status)
     {
-        return status switch
-        {
-            0 => "Pending",
-            1 => "Confirmed",
-            2 => "Driver Assigned",
-            3 => "Picking Up",
-            4 => "Delivering",
-            5 => "Completed",
-            6 => "Cancelled",
-            7 => "Refunded",
-            _ => "Unknown"
-        };
+        return OrderStatusHelper.GetStatusText(status);
     }
     
     /// <summary>
