@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 					<!-- row -->
-					<div class="row mb-8">
+					<div class="row mb-8" x-data="orderDetailAdmin()" x-init="init()">
 						<div class="col-md-12">
 							<div
 								class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
@@ -13,249 +13,210 @@
 									<!-- breacrumb -->
 									<nav aria-label="breadcrumb">
 										<ol class="breadcrumb mb-0">
-											<li class="breadcrumb-item"><a href="#"
+											<li class="breadcrumb-item"><a href="/admin/Orders"
 													class="text-inherit">Dashboard</a></li>
-											<li class="breadcrumb-item active" aria-current="page">Order
-												Single</li>
+											<li class="breadcrumb-item active" aria-current="page">Chi tiết đơn hàng</li>
 										</ol>
 									</nav>
 								</div>
 								<!-- button -->
 								<div>
-									<a href="#" class="btn btn-primary">Back to all orders</a>
+									<a href="/admin/Orders" class="btn btn-primary">Quay lại danh sách</a>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- row -->
-					<div class="row">
-						<div class="col-xl-12 col-12 mb-5">
-							<!-- card -->
-							<div class="card h-100 card-lg">
-								<div class="card-body p-6">
-									<div class="d-md-flex justify-content-between">
-										<div class="d-flex align-items-center mb-2 mb-md-0">
-											<h2 class="mb-0">Order ID: #FC001</h2>
-											<span
-												class="badge bg-light-warning text-dark-warning ms-2">Pending</span>
+					<!-- Loading State -->
+					<template x-if="loading">
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-body text-center py-5">
+										<div class="spinner-border text-primary" role="status">
+											<span class="visually-hidden">Đang tải...</span>
 										</div>
-										<!-- select option -->
-										<div class="d-md-flex">
-											<div class="mb-2 mb-md-0">
-												<select class="form-select">
-													<option selected>Status</option>
-													<option value="Success">Success</option>
-													<option value="Pending">Pending</option>
-													<option value="Cancel">Cancel</option>
-												</select>
-											</div>
-											<!-- button -->
-											<div class="ms-md-3">
-												<a href="#" class="btn btn-primary">Save</a>
-												<a href="#" class="btn btn-secondary">Download Invoice</a>
-											</div>
-										</div>
-									</div>
-									<div class="mt-8">
-										<div class="row">
-											<!-- address -->
-											<div class="col-lg-4 col-md-4 col-12">
-												<div class="mb-6">
-													<h6>User Details</h6>
-													<p class="mb-1 lh-lg">
-														John Alex
-														<br />
-														anderalex@example.com
-														<br />
-														+998 99 22123456
-													</p>
-													<a href="#">View Profile</a>
-												</div>
-											</div>
-											<!-- address -->
-											<div class="col-lg-4 col-md-4 col-12">
-												<div class="mb-6">
-													<h6>Shipping Address</h6>
-													<p class="mb-1 lh-lg">
-														Gerg Harvell
-														<br />
-														568, Suite Ave.
-														<br />
-														Austrlia, 235153
-														<br />
-														Contact No. +91 99999 12345
-													</p>
-												</div>
-											</div>
-											<!-- address -->
-											<div class="col-lg-4 col-md-4 col-12">
-												<div class="mb-6">
-													<h6>Order Details</h6>
-													<p class="mb-1 lh-lg">
-														Order ID:
-														<span class="text-dark">FC001</span>
-														<br />
-														Order Date:
-														<span class="text-dark">October 22, 2023</span>
-														<br />
-														Order Total:
-														<span class="text-dark">$734.28</span>
-													</p>
-												</div>
-											</div>
-										</div>
+										<p class="mt-3">Đang tải thông tin đơn hàng...</p>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-12">
-										<div class="table-responsive">
-											<!-- Table -->
-											<table class="table mb-0 text-nowrap table-centered">
-												<!-- Table Head -->
-												<thead class="bg-light">
-													<tr>
-														<th>Products</th>
-														<th>Price</th>
-														<th>Quantity</th>
-														<th>Total</th>
-													</tr>
-												</thead>
-												<!-- tbody -->
-												<tbody>
-													<tr>
-														<td>
-															<a href="#" class="text-inherit">
-																<div class="d-flex align-items-center">
-																	<div>
-																		<img src="../assets/images/products/product-img-1.jpg" alt
-																			class="icon-shape icon-lg" />
-																	</div>
-																	<div class="ms-lg-4 mt-2 mt-lg-0">
-																		<h5 class="mb-0 h6">Haldiram's Sev Bhujia</h5>
-																	</div>
-																</div>
-															</a>
-														</td>
-														<td><span class="text-body">$18.0</span></td>
-														<td>1</td>
-														<td>$18.00</td>
-													</tr>
-													<tr>
-														<td>
-															<a href="#" class="text-inherit">
-																<div class="d-flex align-items-center">
-																	<div>
-																		<img src="../assets/images/products/product-img-2.jpg" alt
-																			class="icon-shape icon-lg" />
-																	</div>
-																	<div class="ms-lg-4 mt-2 mt-lg-0">
-																		<h5 class="mb-0 h6">NutriChoice Digestive</h5>
-																	</div>
-																</div>
-															</a>
-														</td>
-														<td><span class="text-body">$24.0</span></td>
-														<td>1</td>
-														<td>$24.00</td>
-													</tr>
-													<tr>
-														<td>
-															<a href="#" class="text-inherit">
-																<div class="d-flex align-items-center">
-																	<div>
-																		<img src="../assets/images/products/product-img-3.jpg" alt
-																			class="icon-shape icon-lg" />
-																	</div>
-																	<div class="ms-lg-4 mt-2 mt-lg-0">
-																		<h5 class="mb-0 h6">Cadbury 5 Star Chocolate</h5>
-																	</div>
-																</div>
-															</a>
-														</td>
-														<td><span class="text-body">$32.0</span></td>
-														<td>1</td>
-														<td>$32.0</td>
-													</tr>
-													<tr>
-														<td>
-															<a href="#" class="text-inherit">
-																<div class="d-flex align-items-center">
-																	<div>
-																		<img src="../assets/images/products/product-img-4.jpg" alt
-																			class="icon-shape icon-lg" />
-																	</div>
-																	<div class="ms-lg-4 mt-2 mt-lg-0">
-																		<h5 class="mb-0 h6">Onion Flavour Potato</h5>
-																	</div>
-																</div>
-															</a>
-														</td>
-														<td><span class="text-body">$3.0</span></td>
-														<td>2</td>
-														<td>$6.0</td>
-													</tr>
-													<tr>
-														<td class="border-bottom-0 pb-0"></td>
-														<td class="border-bottom-0 pb-0"></td>
-														<td colspan="1" class="fw-medium text-dark">
-															<!-- text -->
-															Sub Total :
-														</td>
-														<td class="fw-medium text-dark">
-															<!-- text -->
-															$80.00
-														</td>
-													</tr>
-													<tr>
-														<td class="border-bottom-0 pb-0"></td>
-														<td class="border-bottom-0 pb-0"></td>
-														<td colspan="1" class="fw-medium text-dark">
-															<!-- text -->
-															Shipping Cost
-														</td>
-														<td class="fw-medium text-dark">
-															<!-- text -->
-															$10.00
-														</td>
-													</tr>
-
-													<tr>
-														<td></td>
-														<td></td>
-														<td colspan="1" class="fw-semibold text-dark">
-															<!-- text -->
-															Grand Total
-														</td>
-														<td class="fw-semibold text-dark">
-															<!-- text -->
-															$90.00
-														</td>
-													</tr>
-												</tbody>
-											</table>
+							</div>
+						</div>
+					</template>
+					<!-- Error State -->
+					<template x-if="!loading && error">
+						<div class="row">
+							<div class="col-12">
+								<div class="alert alert-danger">
+									<h5>Lỗi tải dữ liệu</h5>
+									<p x-text="errorMessage"></p>
+									<a href="/admin/Orders" class="btn btn-secondary">Quay lại danh sách</a>
+								</div>
+							</div>
+						</div>
+					</template>
+					<!-- Order Content -->
+					<template x-if="!loading && !error && order">
+						<div class="row">
+							<div class="col-xl-12 col-12 mb-5">
+								<!-- card -->
+								<div class="card h-100 card-lg">
+									<div class="card-body p-6">
+										<div class="d-md-flex justify-content-between">
+											<div class="d-flex align-items-center mb-2 mb-md-0">
+												<h2 class="mb-0">Đơn hàng: <span x-text="order.code"></span></h2>
+												<span class="badge ms-2" :class="statusBadgeClass(order.status)" x-text="statusText(order.status)"></span>
+											</div>
+											<!-- select option -->
+											<div class="d-md-flex">
+												<div class="mb-2 mb-md-0">
+													<select class="form-select" x-model="newStatus" @@change="updateStatus()">
+														<option :value="order.status" selected>Cập nhật trạng thái</option>
+														<option value="0">Pending</option>
+														<option value="1">Processing</option>
+														<option value="2">Shipped</option>
+														<option value="3">Delivered</option>
+														<option value="4">Cancelled</option>
+													</select>
+												</div>
+												<!-- button -->
+												<div class="ms-md-3">
+													<button class="btn btn-secondary" @@click="downloadInvoice()">Download Invoice</button>
+												</div>
+											</div>
+										</div>
+										<div class="mt-8">
+											<div class="row">
+												<!-- User Details -->
+												<div class="col-lg-4 col-md-4 col-12">
+													<div class="mb-6">
+														<h6>Thông tin khách hàng</h6>
+														<p class="mb-1 lh-lg">
+															<span x-text="order.shipName || 'N/A'"></span>
+															<br />
+															<span x-text="order.email || 'N/A'"></span>
+															<br />
+															<span x-text="order.shipPhone || 'N/A'"></span>
+														</p>
+													</div>
+												</div>
+												<!-- Shipping Address -->
+												<div class="col-lg-4 col-md-4 col-12">
+													<div class="mb-6">
+														<h6>Địa chỉ giao hàng</h6>
+														<p class="mb-1 lh-lg" x-text="order.shipAddress || 'N/A'"></p>
+													</div>
+												</div>
+												<!-- Order Details -->
+												<div class="col-lg-4 col-md-4 col-12">
+													<div class="mb-6">
+														<h6>Thông tin đơn hàng</h6>
+														<p class="mb-1 lh-lg">
+															Mã đơn: <span class="text-dark" x-text="order.code"></span>
+															<br />
+															Ngày đặt: <span class="text-dark" x-text="formatDate(order.createdAt)"></span>
+															<br />
+															Tổng tiền: <span class="text-dark fw-bold" x-text="formatPrice(order.total)"></span>
+														</p>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="card-body p-6">
 									<div class="row">
-										<div class="col-md-6 mb-4 mb-lg-0">
-											<h6>Payment Info</h6>
-											<span>Cash on Delivery</span>
+										<div class="col-12">
+											<div class="table-responsive">
+												<!-- Table -->
+												<table class="table mb-0 text-nowrap table-centered">
+													<!-- Table Head -->
+													<thead class="bg-light">
+														<tr>
+															<th>Sản phẩm</th>
+															<th>Giá</th>
+															<th>Số lượng</th>
+															<th>Thành tiền</th>
+														</tr>
+													</thead>
+													<!-- tbody -->
+													<tbody>
+														<template x-for="item in items" :key="item.productId">
+															<tr>
+																<td>
+																	<a :href="`/product/${item.productId}`" class="text-inherit">
+																		<div class="d-flex align-items-center">
+																			<div class="ms-lg-4 mt-2 mt-lg-0">
+																				<h5 class="mb-0 h6" x-text="item.name"></h5>
+																			</div>
+																		</div>
+																	</a>
+																</td>
+																<td><span class="text-body" x-text="formatPrice(item.price)"></span></td>
+																<td x-text="item.quantity"></td>
+																<td x-text="formatPrice(item.total)"></td>
+															</tr>
+														</template>
+														<tr>
+															<td class="border-bottom-0 pb-0"></td>
+															<td class="border-bottom-0 pb-0"></td>
+															<td colspan="1" class="fw-medium text-dark">
+																Tạm tính:
+															</td>
+															<td class="fw-medium text-dark" x-text="formatPrice(order.subtotal)"></td>
+														</tr>
+														<tr>
+															<td class="border-bottom-0 pb-0"></td>
+															<td class="border-bottom-0 pb-0"></td>
+															<td colspan="1" class="fw-medium text-dark">
+																Giảm giá:
+															</td>
+															<td class="fw-medium text-dark" x-text="formatPrice(order.discount)"></td>
+														</tr>
+														<tr>
+															<td class="border-bottom-0 pb-0"></td>
+															<td class="border-bottom-0 pb-0"></td>
+															<td colspan="1" class="fw-medium text-dark">
+																Phí vận chuyển:
+															</td>
+															<td class="fw-medium text-dark" x-text="formatPrice(order.shippingFee)"></td>
+														</tr>
+														<tr>
+															<td></td>
+															<td></td>
+															<td colspan="1" class="fw-semibold text-dark">
+																Tổng cộng:
+															</td>
+															<td class="fw-semibold text-dark" x-text="formatPrice(order.total)"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
-										<div class="col-md-6">
-											<h5>Notes</h5>
-											<textarea class="form-control mb-3" rows="3"
-												placeholder="Write note for order"></textarea>
-											<a href="#" class="btn btn-primary">Save Notes</a>
+									</div>
+									<div class="card-body p-6">
+										<div class="row">
+											<div class="col-md-6 mb-4 mb-lg-0">
+												<h6>Thông tin thanh toán</h6>
+												<span x-text="paymentText(order.paymentStatus)"></span>
+											</div>
+											<div class="col-md-6">
+												<h6>Lịch sử trạng thái</h6>
+												<div class="mt-3">
+													<template x-for="(h, index) in history" :key="index">
+														<div class="mb-2">
+															<small class="text-muted" x-text="formatDate(h.createdAt)"></small>
+															<span class="badge ms-2" :class="statusBadgeClass(h.status)" x-text="statusText(h.status)"></span>
+															<span x-show="h.note" class="ms-2" x-text="h.note"></span>
+														</div>
+													</template>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</template>
 
 					<!-- Review Section -->
-					<div class="row mt-5" x-data="orderReviewApp()" x-init="init()">
+					<div class="row mt-5" x-data="orderReviewApp()" x-init="init()" x-show="!loading && !error">
 						<div class="col-xl-12 col-12">
 							<div class="card">
 								<div class="card-header">
@@ -402,6 +363,163 @@
 
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script>
+	function orderDetailAdmin() {
+		return {
+			loading: false,
+			error: false,
+			errorMessage: '',
+			order: null,
+			items: [],
+			history: [],
+			orderId: null,
+			newStatus: null,
+
+			async init() {
+				const urlParams = new URLSearchParams(window.location.search);
+				this.orderId = urlParams.get('id');
+				if (this.orderId) {
+					await this.loadOrder();
+				} else {
+					this.error = true;
+					this.errorMessage = 'Không tìm thấy ID đơn hàng';
+				}
+			},
+
+			async loadOrder() {
+				this.loading = true;
+				this.error = false;
+				try {
+					const token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+					const response = await fetch(`/api/orders/${this.orderId}`, {
+						headers: {
+							'Authorization': `Bearer ${token}`
+						}
+					});
+
+					if (!response.ok) {
+						if (response.status === 404) {
+							this.error = true;
+							this.errorMessage = 'Không tìm thấy đơn hàng';
+						} else if (response.status === 403) {
+							this.error = true;
+							this.errorMessage = 'Bạn không có quyền xem đơn hàng này';
+						} else {
+							this.error = true;
+							this.errorMessage = 'Lỗi khi tải dữ liệu đơn hàng';
+						}
+						return;
+					}
+
+					const result = await response.json();
+					if (result.data) {
+						this.order = result.data.order;
+						this.items = result.data.items || [];
+						this.history = result.data.history || [];
+						this.newStatus = this.order.status;
+					}
+				} catch (e) {
+					this.error = true;
+					this.errorMessage = 'Lỗi kết nối máy chủ: ' + e.message;
+					console.error('Load order error:', e);
+				} finally {
+					this.loading = false;
+				}
+			},
+
+			async updateStatus() {
+				if (!this.newStatus || this.newStatus == this.order.status) return;
+				
+				const note = prompt('Ghi chú (tuỳ chọn):', '');
+				try {
+					const token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+					const response = await fetch(`/api/orders/${this.orderId}/status`, {
+						method: 'PATCH',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${token}`
+						},
+						body: JSON.stringify({ 
+							status: parseInt(this.newStatus), 
+							note: note || null 
+						})
+					});
+
+					if (response.ok) {
+						await this.loadOrder(); // Reload để lấy dữ liệu mới
+						alert('Cập nhật trạng thái thành công');
+					} else {
+						const result = await response.json().catch(() => ({}));
+						alert(result.message || 'Cập nhật trạng thái thất bại');
+					}
+				} catch (e) {
+					alert('Lỗi kết nối máy chủ');
+					console.error('Update status error:', e);
+				}
+			},
+
+			formatPrice(v) {
+				try {
+					return new Intl.NumberFormat('vi-VN', {
+						style: 'currency',
+						currency: 'VND'
+					}).format(v);
+				} catch {
+					return String(v);
+				}
+			},
+
+			formatDate(dateStr) {
+				if (!dateStr) return '';
+				try {
+					const date = new Date(dateStr);
+					return date.toLocaleString('vi-VN', {
+						year: 'numeric',
+						month: '2-digit',
+						day: '2-digit',
+						hour: '2-digit',
+						minute: '2-digit'
+					});
+				} catch {
+					return String(dateStr);
+				}
+			},
+
+			statusText(st) {
+				switch(parseInt(st)) {
+					case 0: return 'Pending';
+					case 1: return 'Processing';
+					case 2: return 'Shipped';
+					case 3: return 'Delivered';
+					case 4: return 'Cancelled';
+					default: return String(st);
+				}
+			},
+
+			statusBadgeClass(st) {
+				switch(parseInt(st)) {
+					case 0: return 'bg-light-warning text-dark-warning';
+					case 1: return 'bg-light-primary text-dark-primary';
+					case 2: return 'bg-light-info text-dark-info';
+					case 3: return 'bg-light-success text-dark-success';
+					case 4: return 'bg-light-danger text-dark-danger';
+					default: return 'bg-light-secondary text-dark';
+				}
+			},
+
+			paymentText(p) {
+				switch(parseInt(p)) {
+					case 1: return 'Đã thanh toán';
+					case 2: return 'Đã hoàn tiền';
+					default: return 'Chưa thanh toán';
+				}
+			},
+
+			downloadInvoice() {
+				alert('Tính năng xuất hóa đơn đang được phát triển');
+			}
+		};
+	}
+
 	function orderReviewApp() {
 		return {
 			loading: false,

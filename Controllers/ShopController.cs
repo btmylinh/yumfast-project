@@ -15,13 +15,13 @@ public class ShopController : BaseController
         _catalog = catalog;
     }
 
-    public IActionResult Index(string? category, decimal? min, decimal? max, string? sort)
+    public IActionResult Index(string? category, decimal? min, decimal? max, string? sort, string? q)
     {
-        return RedirectToAction("Category", new { category, min, max, sort });
+        return RedirectToAction("Category", new { category, min, max, sort, q });
     }
 
     // GET: /shop/category
-    public IActionResult Category(string? category, decimal? min, decimal? max, string? sort)
+    public IActionResult Category(string? category, decimal? min, decimal? max, string? sort, string? q)
     {
         var products = _catalog.Filter(category, min, max, sort);
         var vm = new ShopCategoryViewModel

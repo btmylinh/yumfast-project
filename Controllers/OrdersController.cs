@@ -34,16 +34,74 @@ namespace WebApp.Controllers
 
         // GET /api/orders - Admin only (tất cả orders)
         [HttpGet]
-        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
+        [Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = "Cookies," + Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
         public IActionResult Get(
             [FromQuery] string? search,
             [FromQuery] int? status,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20,
             [FromQuery] string? sortBy = "created_at",
-            [FromQuery] string? sortDirection = "desc")
+            [FromQuery] string? sortDirection = "desc",
+            [FromQuery] string? paymentMethod = null,
+            [FromQuery] string? fromDate = null,
+            [FromQuery] string? toDate = null,
+            [FromQuery] int? minPrice = null,
+            [FromQuery] int? maxPrice = null)
         {
-            return Ok(_orders.GetOrders(search, status, page, pageSize, sortBy, sortDirection));
+            DateTime? fromDateParsed = null;
+            DateTime? toDateParsed = null;
+
+            if (!string.IsNullOrWhiteSpace(fromDate) && DateTime.TryParse(fromDate, out var fd))
+                fromDateParsed = fd;
+
+            if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out var td))
+                toDateParsed = td;
+
+            return Ok(_orders.GetOrders(search, status, page, pageSize, sortBy, sortDirection,
+                paymentMethod, fromDateParsed, toDateParsed, minPrice, maxPrice));
+        }
+
+        /// <summary>
+        /// GET /api/orders/statistics - Lấy thống kê đơn hàng
+        /// </summary>
+        [HttpGet("statistics")]
+        [Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = "Cookies," + Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        public IActionResult GetStatistics()
+        {
+            return Ok(_orders.GetStatistics());
+        }
+
+        /// <summary>
+        /// GET /api/orders/export - Xuất danh sách đơn hàng ra file Excel/CSV
+        /// </summary>
+        [HttpGet("export")]
+        [Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = "Cookies," + Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "admin")]
+        public IActionResult Export(
+            [FromQuery] string? search,
+            [FromQuery] int? status,
+            [FromQuery] string? paymentMethod = null,
+            [FromQuery] string? fromDate = null,
+            [FromQuery] string? toDate = null,
+            [FromQuery] int? minPrice = null,
+            [FromQuery] int? maxPrice = null,
+            [FromQuery] string format = "excel")
+        {
+            DateTime? fromDateParsed = null;
+            DateTime? toDateParsed = null;
+
+            if (!string.IsNullOrWhiteSpace(fromDate) && DateTime.TryParse(fromDate, out var fd))
+                fromDateParsed = fd;
+
+            if (!string.IsNullOrWhiteSpace(toDate) && DateTime.TryParse(toDate, out var td))
+                toDateParsed = td;
+
+            var fileBytes = _orders.ExportOrders(search, status, paymentMethod, fromDateParsed, toDateParsed, minPrice, maxPrice, format);
+
+            // For now, both formats return CSV (Excel can be enabled after EPPlus setup)
+            var fileName = $"orders_export_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+            var contentType = "text/csv";
+
+            return File(fileBytes, contentType, fileName);
         }
 
         /// <summary>
@@ -344,6 +402,7 @@ namespace WebApp.Controllers
         public class UpdateStatusRequest { public short Status { get; set; } public string? Note { get; set; } }
 
         [HttpPatch("{id:long}/status")]
+        [Microsoft.AspNetCore.Authorization.Authorize(AuthenticationSchemes = "Cookies," + Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> UpdateStatus(long id, [FromBody] UpdateStatusRequest req)
         {
             using var conn = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));

@@ -1,7 +1,10 @@
 @model List<WebApp.Models.Banner>
 @{
     ViewData["Title"] = "Trang chủ";
-      Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Description"] = "YumFast - Đặt đồ ăn nhanh online, giao hàng trong 30 phút. Burger, pizza, gà rán, thức ăn nhanh chất lượng cao với giá tốt nhất.";
+    ViewData["Keywords"] = "đặt đồ ăn online, giao đồ ăn nhanh, burger, pizza, gà rán, thức ăn nhanh, food delivery, YumFast";
+    ViewData["OgImage"] = "/assets/images/logo/freshcart-logo.svg";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
   /* Padding cho item danh mục */
@@ -24,22 +27,21 @@
             {
                 @foreach (var banner in Model)
                 {
-                    <div style="background: url(@banner.Image) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
+                    <div style="background: url(@banner.Image) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center" role="img" aria-label="@banner.Name">
                         <div class="ps-lg-12 py-lg-16 col-xxl-5 col-lg-7 col-md-8 py-14 px-8 text-xs-center">
                             <h1 class="text-white display-5 fw-bold mt-4">@banner.Name</h1>
-                            <p class="lead text-white">Khám phá những món ăn ngon nhất với YumFast!</p>
                             @if (!string.IsNullOrEmpty(banner.Link))
                             {
-                                <a href="@banner.Link" class="btn btn-dark mt-3">
+                                <a href="@banner.Link" class="btn btn-dark mt-3" aria-label="Mua ngay @banner.Name">
                                     @ViewBag.ShopNow
-                                    <i class="feather-icon icon-arrow-right ms-1"></i>
+                                    <i class="feather-icon icon-arrow-right ms-1" aria-hidden="true"></i>
                                 </a>
                             }
                             else
                             {
-                                <a href="#!" class="btn btn-dark mt-3">
+                                <a href="/shop" class="btn btn-dark mt-3" aria-label="Mua ngay @banner.Name">
                                     @ViewBag.ShopNow
-                                    <i class="feather-icon icon-arrow-right ms-1"></i>
+                                    <i class="feather-icon icon-arrow-right ms-1" aria-hidden="true"></i>
                                 </a>
                             }
                         </div>
@@ -49,13 +51,13 @@
             else
             {
                 <!-- Fallback banner nếu không có banner nào trong database -->
-                <div style="background: url(../assets/images/slider/hero-img-slider-1.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center">
+                <div style="background: url(../assets/images/slider/hero-img-slider-1.jpg) no-repeat; background-size: cover; border-radius: 0.5rem; background-position: center" role="img" aria-label="YumFast - Đồ Ăn Nhanh Ngon Nhất">
                     <div class="ps-lg-12 py-lg-16 col-xxl-5 col-lg-7 col-md-8 py-14 px-8 text-xs-center">
                         <h1 class="text-white display-5 fw-bold mt-4">YumFast - Đồ Ăn Nhanh Ngon Nhất</h1>
                         <p class="lead text-white">Giao hàng đồ ăn nhanh nóng hổi trong 30 phút với chất lượng tuyệt vời.</p>
-                        <a href="#!" class="btn btn-dark mt-3">
+                        <a href="/shop" class="btn btn-dark mt-3" aria-label="Mua ngay tại YumFast">
                             Shop Now
-                            <i class="feather-icon icon-arrow-right ms-1"></i>
+                            <i class="feather-icon icon-arrow-right ms-1" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -63,7 +65,7 @@
          </div>
      </div>
   </section>
-  <script>
+  <script defer>
   document.addEventListener('DOMContentLoaded', async () => {
     const ul = document.getElementById('categoryCollapseMenu');
     if (!ul) return;
@@ -79,6 +81,7 @@
         a.href = '/shop/category?category=' + encodeURIComponent(c.name);
         a.className = 'nav-link';
         a.textContent = c.name;
+        a.setAttribute('aria-label', 'Xem danh mục ' + c.name);
         li.appendChild(a);
         ul.appendChild(li);
       }
@@ -235,24 +238,24 @@
                   <div class="product productModal" id="productModal">
                      <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-1.jpg)">
                         <!-- img -->
-                        <img src="../assets/images/products/product-single-img-1.jpg" alt="" />
+                        <img src="../assets/images/products/product-single-img-1.jpg" alt="Sản phẩm YumFast" loading="lazy" width="600" height="600" />
                      </div>
                      <div>
                         <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-2.jpg)">
                            <!-- img -->
-                           <img src="../assets/images/products/product-single-img-2.jpg" alt="" />
+                           <img src="../assets/images/products/product-single-img-2.jpg" alt="Sản phẩm YumFast" loading="lazy" width="600" height="600" />
                         </div>
                      </div>
                      <div>
                         <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-3.jpg)">
                            <!-- img -->
-                           <img src="../assets/images/products/product-single-img-3.jpg" alt="" />
+                           <img src="../assets/images/products/product-single-img-3.jpg" alt="Sản phẩm YumFast" loading="lazy" width="600" height="600" />
                         </div>
                      </div>
                      <div>
                         <div class="zoom" onmousemove="zoom(event)" style="background-image: url(../assets/images/products/product-single-img-4.jpg)">
                            <!-- img -->
-                           <img src="../assets/images/products/product-single-img-4.jpg" alt="" />
+                           <img src="../assets/images/products/product-single-img-4.jpg" alt="Sản phẩm YumFast" loading="lazy" width="600" height="600" />
                         </div>
                      </div>
                   </div>
@@ -262,25 +265,25 @@
                         <div class="col-3" class="tns-nav-active">
                            <div class="thumbnails-img">
                               <!-- img -->
-                              <img src="../assets/images/products/product-single-img-1.jpg" alt="" />
+                              <img src="../assets/images/products/product-single-img-1.jpg" alt="Thumbnail sản phẩm" loading="lazy" width="150" height="150" />
                            </div>
                         </div>
                         <div class="col-3">
                            <div class="thumbnails-img">
                               <!-- img -->
-                              <img src="../assets/images/products/product-single-img-2.jpg" alt="" />
+                              <img src="../assets/images/products/product-single-img-2.jpg" alt="Thumbnail sản phẩm" loading="lazy" width="150" height="150" />
                            </div>
                         </div>
                         <div class="col-3">
                            <div class="thumbnails-img">
                               <!-- img -->
-                              <img src="../assets/images/products/product-single-img-3.jpg" alt="" />
+                              <img src="../assets/images/products/product-single-img-3.jpg" alt="Thumbnail sản phẩm" loading="lazy" width="150" height="150" />
                            </div>
                         </div>
                         <div class="col-3">
                            <div class="thumbnails-img">
                               <!-- img -->
-                              <img src="../assets/images/products/product-single-img-4.jpg" alt="" />
+                              <img src="../assets/images/products/product-single-img-4.jpg" alt="Thumbnail sản phẩm" loading="lazy" width="150" height="150" />
                            </div>
                         </div>
                      </div>
@@ -379,22 +382,22 @@
          <div class="modal-body p-0">
             <div class="d-flex align-items-center">
                <div class="d-none d-lg-block">
-                  <img src="../assets/images/banner/modal_img.jpg" alt="" class="img-fluid rounded-start" />
+                  <img src="../assets/images/banner/007575f42666444c4f4de233909c3fac.jpg" alt="Banner khuyến mãi YumFast" class="img-fluid rounded-start" loading="lazy" width="300" height="200" />
                </div>
                <div class="px-8 py-8 py-lg-0">
                   <div class="position-absolute end-0 top-0 m-6">
                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <span class="bg-light-danger text-danger badge rounded-pill mb-4 px-4 py-2">7 Day Super Sale</span>
+                  <span class="bg-light-danger text-danger badge rounded-pill mb-4 px-4 py-2">7 Ngày Siêu Sale</span>
                   <h2 class="display-6 fw-bold">
-                     Discount up to
+                     Giảm đến 
                      <br />
                      <span class="text-primary">50%</span>
                   </h2>
-                  <p class="lead mb-5">Seven day of grate deals - what could be better?</p>
+                  <p class="lead mb-5">7 ngày siêu sale - còn gì tuyệt vời hơn?</p>
 
                   <div class="d-grid">
-                     <a href="#" class="btn btn-primary" data-bs-dismiss="modal">Start Show Now</a>
+                     <a href="#" class="btn btn-primary" data-bs-dismiss="modal">Bắt đầu xem ngay</a>
                   </div>
                </div>
             </div>

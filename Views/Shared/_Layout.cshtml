@@ -5,42 +5,95 @@
     var currentLanguageText = isVietnamese ? ViewBag.Vietnamese : ViewBag.English;
 }
 <!DOCTYPE html>
-<html lang="en">
-   
-<!-- Mirrored from freshcart.codescandy.com/pages/index-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Nov 2024 06:08:30 GMT -->
+<html lang="@(isVietnamese ? "vi" : "en")">
 <head>
       <!-- Required meta tags -->
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      <meta content="YumFast" name="author" />
-      <meta name="description" content="YumFast - Cửa hàng đồ ăn nhanh ngon nhất với giao hàng nhanh chóng" />
-      <meta name="keywords" content="đồ ăn nhanh, burger, pizza, gà rán, thức ăn nhanh, giao hàng" />
+      <meta name="author" content="YumFast" />
+      <meta name="description" content="@(ViewData["Description"] as string ?? "YumFast - Cửa hàng đồ ăn nhanh ngon nhất với giao hàng nhanh chóng trong 30 phút. Đặt món yêu thích: burger, pizza, gà rán, thức ăn nhanh chất lượng cao.")" />
+      <meta name="keywords" content="@(ViewData["Keywords"] as string ?? "đồ ăn nhanh, burger, pizza, gà rán, thức ăn nhanh, giao hàng, food delivery, fast food, YumFast")" />
+      <meta name="robots" content="index, follow" />
+      <meta name="theme-color" content="#198754" />
+      
+      <!-- Canonical URL -->
+      <link rel="canonical" href="@($"https://yumfast.com{Context.Request.Path}{Context.Request.QueryString}")" />
+      
+      <!-- Open Graph / Facebook -->
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="@($"https://yumfast.com{Context.Request.Path}")" />
+      <meta property="og:title" content="@($"{ViewData["Title"]} - YumFast")" />
+      <meta property="og:description" content="@(ViewData["Description"] as string ?? "YumFast - Cửa hàng đồ ăn nhanh ngon nhất với giao hàng nhanh chóng")" />
+      <meta property="og:image" content="@($"https://yumfast.com{ViewData["OgImage"] as string ?? "/assets/images/logo/freshcart-logo.svg"}")" />
+      <meta property="og:site_name" content="YumFast" />
+      <meta property="og:locale" content="@(isVietnamese ? "vi_VN" : "en_US")" />
+      
+      <!-- Twitter Card -->
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content="@($"https://yumfast.com{Context.Request.Path}")" />
+      <meta name="twitter:title" content="@($"{ViewData["Title"]} - YumFast")" />
+      <meta name="twitter:description" content="@(ViewData["Description"] as string ?? "YumFast - Cửa hàng đồ ăn nhanh ngon nhất với giao hàng nhanh chóng")" />
+      <meta name="twitter:image" content="@($"https://yumfast.com{ViewData["OgImage"] as string ?? "/assets/images/logo/freshcart-logo.svg"}")" />
+      
       <title>@ViewData["Title"] - YumFast</title>
-   <link href="~/assets/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
-   <link href="~/assets/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
-   <link href="~/assets/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
+      
+      <!-- Preconnect to external domains for performance -->
+      <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+      <link rel="preconnect" href="https://www.clarity.ms" crossorigin />
+      <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+      <link rel="dns-prefetch" href="https://www.clarity.ms" />
+      
+      <!-- Preload critical resources -->
+      <link rel="preload" href="~/assets/css/theme.min.css" as="style" />
+      <link rel="preload" href="~/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" as="style" />
       <!-- Favicon icon-->
-   <link rel="shortcut icon" type="image/x-icon" href="~/assets/images/favicon/favicon.ico" />
+      <link rel="shortcut icon" type="image/x-icon" href="~/assets/images/favicon/favicon.ico" />
+      <link rel="apple-touch-icon" href="~/assets/images/favicon/favicon.ico" />
 
       <!-- Libs CSS -->
-   <link href="~/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
-   <link href="~/assets/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet" />
-   <link href="~/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+      <link href="~/assets/libs/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+      <link href="~/assets/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet" />
+      <link href="~/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+      <link href="~/assets/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet" />
+      <link href="~/assets/libs/slick-carousel/slick/slick.css" rel="stylesheet" />
+      <link href="~/assets/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet" />
 
       <!-- Theme CSS -->
-   <link rel="stylesheet" href="~/assets/css/theme.min.css" />
+      <link rel="stylesheet" href="~/assets/css/theme.min.css" />
       @RenderSection("Styles", required: false)
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
+      
+      <!-- Structured Data (JSON-LD) -->
+      <script type="application/ld+json">
+      {
+        "@@context": "https://schema.org",
+        "@@type": "Restaurant",
+        "name": "YumFast",
+        "description": "Cửa hàng đồ ăn nhanh ngon nhất với giao hàng nhanh chóng trong 30 phút",
+        "url": "https://yumfast.com",
+        "logo": "https://yumfast.com/assets/images/logo/freshcart-logo.svg",
+        "image": "https://yumfast.com/assets/images/logo/freshcart-logo.svg",
+        "address": {
+          "@@type": "PostalAddress",
+          "addressCountry": "VN"
+        },
+        "servesCuisine": ["Fast Food", "Vietnamese Food"],
+        "priceRange": "$$",
+        "telephone": "1900-1234",
+        "openingHours": "Mo-Su 08:00-22:00"
+      }
+      </script>
+      
+      <!-- Analytics - Defer loading for better performance -->
+      <script defer src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
       <script>
          window.dataLayer = window.dataLayer || [];
          function gtag() {
             dataLayer.push(arguments);
          }
          gtag("js", new Date());
-
          gtag("config", "G-M8S4MT3EYG");
       </script>
-      <script type="text/javascript">
+      <script defer type="text/javascript">
          (function (c, l, a, r, i, t, y) {
             c[a] =
                c[a] ||
@@ -109,14 +162,87 @@
                </div>
 
                <!-- Search Bar - Full width trên mobile -->
-               <div class="col-12 col-md-6 col-lg-6 col-xl-5 order-3 order-md-2 mb-3 mb-md-0">
-                  <form action="#">
-                     <div class="input-group">
-                        <input class="form-control" type="search" placeholder="@ViewBag.SearchForProducts" aria-label="@ViewBag.SearchForProducts" aria-describedby="button-addon2" />
-                        <button class="btn btn-primary" type="button" id="button-addon2">
+               <div class="col-12 col-md-6 col-lg-6 col-xl-5 order-3 order-md-2 mb-3 mb-md-0" x-data="advancedSearch()" x-init="init()">
+                  <form @@submit.prevent="performSearch()">
+                     <div class="input-group position-relative">
+                        <input 
+                           class="form-control" 
+                           type="search" 
+                           placeholder="@ViewBag.SearchForProducts" 
+                           aria-label="@ViewBag.SearchForProducts" 
+                           aria-describedby="button-addon2"
+                           x-model="query"
+                           @@input.debounce.300ms="loadSuggestions()"
+                           @@focus="showSuggestions = true"
+                           @@blur="setTimeout(() => showSuggestions = false, 200)"
+                           @@keydown.arrow-down.prevent="navigateSuggestions(1)"
+                           @@keydown.arrow-up.prevent="navigateSuggestions(-1)"
+                           @@keydown.enter.prevent="selectSuggestion(suggestions[selectedIndex])"
+                           autocomplete="off" />
+                        <button class="btn btn-primary" type="submit" id="button-addon2">
                            <span class="d-none d-sm-inline">@ViewBag.Search</span>
                            <i class="bi bi-search d-sm-none"></i>
                         </button>
+                        
+                        <!-- Autocomplete Dropdown -->
+                        <div 
+                           class="position-absolute top-100 start-0 w-100 bg-white border rounded shadow-lg mt-1 z-1000"
+                           x-show="showSuggestions && (suggestions.length > 0 || popularSearches.length > 0)"
+                           x-transition
+                           style="max-height: 400px; overflow-y: auto; display: none; z-index: 1050;">
+                           <!-- Suggestions -->
+                           <template x-if="suggestions.length > 0">
+                              <div>
+                                 <div class="px-3 py-2 bg-light border-bottom">
+                                    <small class="text-muted fw-bold">Gợi ý</small>
+                                 </div>
+                                 <template x-for="(item, index) in suggestions" :key="item.id">
+                                    <a 
+                                       href="#" 
+                                       class="d-block px-3 py-2 text-decoration-none text-dark"
+                                       :class="{ 'bg-light': index === selectedIndex }"
+                                       @@mouseenter="selectedIndex = index"
+                                       @@click.prevent="selectSuggestion(item)">
+                                       <div class="d-flex align-items-center">
+                                          <img :src="item.image" alt="" class="me-2" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;" />
+                                          <div class="flex-grow-1">
+                                             <div class="fw-medium" x-text="item.name"></div>
+                                             <small class="text-muted" x-text="item.category"></small>
+                                          </div>
+                                          <div class="text-end">
+                                             <div class="fw-bold text-primary" x-text="formatPrice(item.price)"></div>
+                                          </div>
+                                       </div>
+                                    </a>
+                                 </template>
+                              </div>
+                           </template>
+                           
+                           <!-- Popular Searches -->
+                           <template x-if="suggestions.length === 0 && popularSearches.length > 0 && query.length === 0">
+                              <div>
+                                 <div class="px-3 py-2 bg-light border-bottom">
+                                    <small class="text-muted fw-bold">Tìm kiếm phổ biến</small>
+                                 </div>
+                                 <template x-for="(term, index) in popularSearches" :key="index">
+                                    <a 
+                                       href="#" 
+                                       class="d-block px-3 py-2 text-decoration-none text-dark"
+                                       @@click.prevent="query = term; performSearch()">
+                                       <i class="bi bi-clock-history me-2 text-muted"></i>
+                                       <span x-text="term"></span>
+                                    </a>
+                                 </template>
+                              </div>
+                           </template>
+                           
+                           <!-- No Results -->
+                           <template x-if="suggestions.length === 0 && query.length >= 2">
+                              <div class="px-3 py-3 text-center text-muted">
+                                 <small>Không tìm thấy kết quả</small>
+                              </div>
+                           </template>
+                        </div>
                      </div>
                   </form>
                </div>
@@ -661,19 +787,19 @@
    <script src="~/assets/libs/simplebar/dist/simplebar.min.js"></script>
 
       <!-- Theme JS -->
-   <script src="~/assets/js/theme.min.js"></script>
+   <script defer src="~/assets/js/theme.min.js"></script>
 
-   <script src="~/assets/js/vendors/jquery.min.js"></script>
-   <script src="~/assets/libs/slick-carousel/slick/slick.min.js"></script>
-   <script src="~/assets/js/vendors/slick-slider.js"></script>
-   <script src="~/assets/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-   <script src="~/assets/js/vendors/tns-slider.js"></script>
-   <script src="~/assets/js/vendors/zoom.js"></script>
+   <script defer src="~/assets/js/vendors/jquery.min.js"></script>
+   <script defer src="~/assets/libs/slick-carousel/slick/slick.min.js"></script>
+   <script defer src="~/assets/js/vendors/slick-slider.js"></script>
+   <script defer src="~/assets/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+   <script defer src="~/assets/js/vendors/tns-slider.js"></script>
+   <script defer src="~/assets/js/vendors/zoom.js"></script>
 
-      <script src="~/assets/js/vendors/countdown.js"></script>
-      <script src="~/assets/libs/sticky-sidebar/dist/sticky-sidebar.min.js"></script>
-         <script src="~/assets/js/vendors/sticky.js"></script>
-         <script src="~/assets/js/vendors/modal.js"></script>
+      <script defer src="~/assets/js/vendors/countdown.js"></script>
+      <script defer src="~/assets/libs/sticky-sidebar/dist/sticky-sidebar.min.js"></script>
+         <script defer src="~/assets/js/vendors/sticky.js"></script>
+         <script defer src="~/assets/js/vendors/modal.js"></script>
 
          <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -1778,6 +1904,95 @@
         })();
       </script>
       <script>
+        function advancedSearch(){
+          return {
+            query: '',
+            suggestions: [],
+            popularSearches: [],
+            showSuggestions: false,
+            selectedIndex: -1,
+            loading: false,
+            
+            init(){
+              this.loadPopularSearches();
+            },
+            
+            formatPrice(v){
+              try{
+                return new Intl.NumberFormat('vi-VN', {style:'currency', currency:'VND'}).format(v);
+              }catch{
+                return String(v);
+              }
+            },
+            
+            async loadSuggestions(){
+              if(this.query.length < 2){
+                this.suggestions = [];
+                return;
+              }
+              
+              this.loading = true;
+              try{
+                const r = await fetch(`/api/products/autocomplete?q=${encodeURIComponent(this.query)}&limit=8`);
+                if(r.ok){
+                  const j = await r.json();
+                  this.suggestions = j.suggestions || [];
+                  this.selectedIndex = -1;
+                }
+              }catch(e){
+                console.error('Load suggestions error:', e);
+                this.suggestions = [];
+              }finally{
+                this.loading = false;
+              }
+            },
+            
+            async loadPopularSearches(){
+              // Load từ localStorage hoặc API
+              try{
+                const stored = localStorage.getItem('popular_searches');
+                if(stored){
+                  this.popularSearches = JSON.parse(stored).slice(0, 5);
+                }
+              }catch{
+                this.popularSearches = ['burger', 'gà rán', 'pizza', 'nước ngọt', 'khoai tây chiên'];
+              }
+            },
+            
+            navigateSuggestions(direction){
+              if(this.suggestions.length === 0) return;
+              this.selectedIndex += direction;
+              if(this.selectedIndex < 0) this.selectedIndex = this.suggestions.length - 1;
+              if(this.selectedIndex >= this.suggestions.length) this.selectedIndex = 0;
+            },
+            
+            selectSuggestion(item){
+              if(!item) return;
+              this.query = item.name;
+              this.showSuggestions = false;
+              this.performSearch();
+            },
+            
+            performSearch(){
+              if(!this.query.trim()) return;
+              
+              // Save to popular searches
+              try{
+                const stored = JSON.parse(localStorage.getItem('popular_searches') || '[]');
+                if(!stored.includes(this.query.trim())){
+                  stored.unshift(this.query.trim());
+                  if(stored.length > 10) stored.pop();
+                  localStorage.setItem('popular_searches', JSON.stringify(stored));
+                }
+              }catch{}
+              
+              // Redirect to search results
+              const searchUrl = `/shop?q=${encodeURIComponent(this.query.trim())}`;
+              window.location.href = searchUrl;
+            }
+          }
+        }
+        
         function chatWidget(){
           return { open:false, input:'', msgs:[], welcome:'@Html.Raw((string.Equals(ViewBag.ChatWelcome as string, "chat_welcome") || string.IsNullOrWhiteSpace(ViewBag.ChatWelcome as string)) ? "<span class=\"text-muted\">Hỏi: tên sản phẩm, mã giảm, khoảng giá...</span>" : ViewBag.ChatWelcome)', isHubReady:false, connection:null, formatPrice(v){ try{ return new Intl.NumberFormat('vi-VN').format(v); }catch{ return v; } }, async init(){ try{ if(window.signalR){ this.connection = new signalR.HubConnectionBuilder().withUrl('/chatHub').withAutomaticReconnect().build(); this.connection.on('ReceiveMessage', (reply, items, coupons) => { this.msgs.push({ role:'bot', text: reply, items: items||[], coupons: coupons||[] }); }); await this.connection.start(); this.isHubReady = true; } }catch(e){ this.isHubReady=false; } }, async send(){ const t=this.input.trim(); if(!t) return; this.msgs.push({role:'user', text:t}); this.input=''; if(this.isHubReady && this.connection){ try{ await this.connection.invoke('SendQuestion', t); return; }catch(e){ } } try{ const r=await fetch('/api/chat',{ method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ text:t }) }); const j=await r.json(); this.msgs.push({ role:'bot', text:j.reply, items:j.items||[], coupons:j.coupons||[] }); } catch(_){ this.msgs.push({ role:'bot', text:'@((string.Equals(ViewBag.ChatConnectionError as string, "chat_connection_error") || string.IsNullOrWhiteSpace(ViewBag.ChatConnectionError as string)) ? "Lỗi kết nối máy chủ, vui lòng thử lại." : ViewBag.ChatConnectionError)' }); } } }
         }
